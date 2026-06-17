@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGameStore, type Language } from "../store/gameStore";
+import { useGameStore } from "../store/gameStore";
 import { useTranslation } from "../utils/i18n";
 
 export default function StartMenu() {

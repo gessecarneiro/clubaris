@@ -17,7 +17,7 @@ import {
 } from '@dnd-kit/sortable';"@dnd-kit/sortable";
 
 export default function EscalacaoTatica() {
-  const { squad, startingXI, autoPick, updateStartingXI } = useGameStore();
+  const { startingXI, autoPick, updateStartingXI } = useGameStore();
 
   const sensors = useSensors(
     useSensor(PointerSensor),
