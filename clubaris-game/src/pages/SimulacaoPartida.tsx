@@ -62,7 +62,6 @@ export default function SimulacaoPartida() {
         setMatchTime((prev) => {
           const newTime = prev + 1;
           
-          const homeStrength = getHomeStrength();
           const totalStrength = homeStrength + awayStrength;
           const homeAdvantage = homeStrength / totalStrength; // ~0.5
 

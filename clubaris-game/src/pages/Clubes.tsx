@@ -1,12 +1,10 @@
 import { useState } from "react";
 import teamsData from "../data/teams.json";
-import { useTranslation } from "../utils/i18n";
 import { useGameStore } from "../store/gameStore";
 import BottomNav from "../components/BottomNav";
 
 export default function Clubes() {
   const { language } = useGameStore();
-  const t = useTranslation();
   
   const [selectedLeague, setSelectedLeague] = useState<string>("brazil_a");
   const [selectedTeam, setSelectedTeam] = useState<string | null>(null);

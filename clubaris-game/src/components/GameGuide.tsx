@@ -1,13 +1,11 @@
 import { useGameStore } from "../store/gameStore";
 import { Joyride, STATUS } from "react-joyride";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from "../utils/i18n";
-import { useEffect, useState } from "react";
 
 export default function GameGuide() {
   const { isTourRunning, stopTour, language } = useGameStore();
   const t = useTranslation();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const handleJoyrideCallback = (data: any) => {
@@ -40,16 +38,16 @@ export default function GameGuide() {
 
   if (!isTourRunning) return null;
 
+  const JoyrideComponent: any = Joyride;
+
   return (
-    <Joyride
+    <JoyrideComponent
       steps={steps}
       run={isTourRunning && location.pathname === '/dashboard'}
       continuous
       scrollToFirstStep
-      showProgress
-      showSkipButton
       callback={handleJoyrideCallback}
-      styles={{
+      styles={({
         options: {
           zIndex: 10000,
           primaryColor: "#000000",
@@ -77,7 +75,7 @@ export default function GameGuide() {
           border: "2px solid #000",
           boxShadow: "4px 4px 0 0 #000",
         }
-      }}
+      }) as any}
     />
   );
 }

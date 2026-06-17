@@ -1,5 +1,6 @@
 import teamsData from "../data/teams.json";
-import { generateRoundRobinSchedule, initializeLeagueTable, Fixture, LeagueTableEntry } from "./TournamentEngine";
+import { generateRoundRobinSchedule, initializeLeagueTable } from "./TournamentEngine";
+import type { Fixture, LeagueTableEntry } from "./TournamentEngine";
 
 export type SeasonData = {
   tournaments: Record<string, { id: string, name: string, table: LeagueTableEntry[], fixtures: Fixture[], currentRound: number }>;

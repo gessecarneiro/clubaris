@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import teamsData from "../data/teams.json";
-import { Fixture, LeagueTableEntry, simulateAIMatch, updateLeagueTable } from "../engine/TournamentEngine";
+import { simulateAIMatch, updateLeagueTable } from "../engine/TournamentEngine";
+import type { Fixture, LeagueTableEntry } from "../engine/TournamentEngine";
 import { startNewSeason } from "../engine/SeasonGenerator";
 
 export type Language = "pt" | "en";

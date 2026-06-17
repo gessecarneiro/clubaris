@@ -1,10 +1,8 @@
 import { useGameStore } from "../store/gameStore";
-import { useTranslation } from "../utils/i18n";
 import BottomNav from "../components/BottomNav";
 
 export default function SalaTrofeus() {
   const { language, trophies, teamName, badgeUrl } = useGameStore();
-  const t = useTranslation();
 
   return (
     <>
