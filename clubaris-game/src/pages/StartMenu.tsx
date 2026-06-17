@@ -1,19 +1,25 @@
 import { useState } from "react";
 import { useGameStore } from "../store/gameStore";
 import { useTranslation } from "../utils/i18n";
+import leaguesData from "../data/leagues.json";
+import teamsData from "../data/teams.json";
 
 export default function StartMenu() {
   const [managerName, setManagerName] = useState("");
-  const [teamName, setTeamName] = useState("");
+  const [selectedLeagueId, setSelectedLeagueId] = useState(leaguesData[0].id);
+  const [selectedTeamId, setSelectedTeamId] = useState("");
   const { setSetup, language, setLanguage } = useGameStore();
   const t = useTranslation();
 
   const handleStart = (e: React.FormEvent) => {
     e.preventDefault();
-    if (managerName && teamName) {
-      setSetup(managerName, teamName);
+    if (managerName && selectedTeamId) {
+      setSetup(managerName, selectedTeamId);
     }
   };
+
+  const availableTeams = teamsData.filter(team => team.leagueId === selectedLeagueId);
+  const selectedTeamData = teamsData.find(team => team.id === selectedTeamId);
 
   const toggleLanguage = () => {
     setLanguage(language === "pt" ? "en" : "pt");
@@ -80,19 +86,49 @@ export default function StartMenu() {
 
           <div className="flex flex-col gap-2">
             <label className="text-[10px] font-bold tracking-[1px] text-on-surface-variant">
-              {t("club_name", language)}
+              {t('select_league', language)}
             </label>
-            <input
-              type="text"
-              value={teamName}
-              onChange={(e) => setTeamName(e.target.value)}
-              className="bg-surface-container-lowest border-2 border-on-background p-3 text-[14px] font-bold focus:outline-none focus:border-primary"
-              placeholder={
-                language === "pt" ? "ex. Clube Lendário" : "e.g. Legendary FC"
-              }
-              required
-            />
+            <select
+              value={selectedLeagueId}
+              onChange={(e) => {
+                setSelectedLeagueId(e.target.value);
+                setSelectedTeamId("");
+              }}
+              className="bg-surface-container-lowest border-2 border-on-background p-3 text-[14px] font-bold focus:outline-none focus:border-primary appearance-none cursor-pointer"
+            >
+              {leaguesData.map((league) => (
+                <option key={league.id} value={league.id}>
+                  {league.name} ({league.country})
+                </option>
+              ))}
+            </select>
           </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] font-bold tracking-[1px] text-on-surface-variant">
+              {t('select_club', language)}
+            </label>
+            <select
+              value={selectedTeamId}
+              onChange={(e) => setSelectedTeamId(e.target.value)}
+              className="bg-surface-container-lowest border-2 border-on-background p-3 text-[14px] font-bold focus:outline-none focus:border-primary appearance-none cursor-pointer"
+              required
+            >
+              <option value="" disabled>{t('choose_club', language)}</option>
+              {availableTeams.map((team) => (
+                <option key={team.id} value={team.id}>
+                  {team.name} (Rating: {team.rating})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {selectedTeamData && (
+            <div className="flex flex-col items-center justify-center bg-surface-container-lowest border-2 border-on-background p-4 gap-2">
+              <img src={selectedTeamData.badgeUrl} alt={selectedTeamData.name} className="w-20 h-20 object-contain [image-rendering:pixelated]" />
+              <span className="text-[14px] font-bold uppercase text-primary">{selectedTeamData.name}</span>
+            </div>
+          )}
 
           <button
             type="submit"

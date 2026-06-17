@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import teamsData from "../data/teams.json";
 
 export type Language = "pt" | "en";
 
@@ -14,46 +15,65 @@ export interface Player {
 
 interface GameState {
   managerName: string;
+  teamId: string;
   teamName: string;
+  badgeUrl: string;
   balance: number;
   morale: number;
   fitness: number;
   squad: Player[];
   startingXI: Player[];
   language: Language;
+  hasSeenTutorial: boolean;
+  isTourRunning: boolean;
 
   // Actions
-  setSetup: (managerName: string, teamName: string) => void;
+  setSetup: (managerName: string, teamId: string) => void;
   updateStartingXI: (newXI: Player[]) => void;
   autoPick: () => void;
   setLanguage: (lang: Language) => void;
+  finishMatch: (result: "win" | "draw" | "loss") => void;
+  updatePlayerStatus: (id: string, status?: string) => void;
+  completeTutorial: () => void;
+  startTour: () => void;
+  stopTour: () => void;
 }
-
-const defaultSquad: Player[] = [
-  { id: "1", name: "MARTINEZ", position: "GK", number: 1, rating: 85 },
-  { id: "2", name: "WALKER", position: "RB", number: 2, rating: 83 },
-  { id: "3", name: "SHAW", position: "LB", number: 3, rating: 81 },
-  { id: "4", name: "STONES", position: "CB", number: 5, rating: 84 },
-  { id: "5", name: "MAGUIRE", position: "CB", number: 6, rating: 80 },
-  { id: "6", name: "RICE", position: "CM", number: 4, rating: 86 },
-  { id: "7", name: "BELLINGHAM", position: "CM", number: 8, rating: 89 },
-  { id: "8", name: "SAKA", position: "RM", number: 7, rating: 87 },
-  { id: "9", name: "GREALISH", position: "LM", number: 11, rating: 84 },
-  { id: "10", name: "KANE", position: "ST", number: 9, rating: 91 },
-  { id: "11", name: "FODEN", position: "ST", number: 10, rating: 86 },
-];
 
 export const useGameStore = create<GameState>((set) => ({
   managerName: "",
+  teamId: "",
   teamName: "",
+  badgeUrl: "",
   balance: 50000000,
   morale: 85,
-  fitness: 72,
-  squad: defaultSquad,
-  startingXI: defaultSquad,
+  fitness: 100,
+  squad: [],
+  startingXI: [],
   language: "pt", // Default to Portuguese
+  hasSeenTutorial: false,
+  isTourRunning: false,
 
-  setSetup: (managerName, teamName) => set({ managerName, teamName }),
+  completeTutorial: () => set({ hasSeenTutorial: true }),
+  startTour: () => set({ isTourRunning: true, hasSeenTutorial: true }),
+  stopTour: () => set({ isTourRunning: false }),
+
+  setSetup: (managerName, teamId) => {
+    const team = teamsData.find((t) => t.id === teamId);
+    if (team) {
+      const squad = team.squad;
+      set({
+        managerName,
+        teamId,
+        teamName: team.name,
+        badgeUrl: team.badgeUrl,
+        squad: squad,
+        startingXI: [...squad].sort((a, b) => b.rating - a.rating).slice(0, 11),
+        balance: 50000000,
+        morale: 100,
+        fitness: 100,
+      });
+    }
+  },
 
   updateStartingXI: (newXI) => set({ startingXI: newXI }),
 
@@ -65,4 +85,39 @@ export const useGameStore = create<GameState>((set) => ({
     })),
 
   setLanguage: (language) => set({ language }),
+
+  finishMatch: (result) =>
+    set((state) => {
+      let moraleChange = 0;
+      let balanceChange = 100000; // ticket sales
+
+      if (result === "win") {
+        moraleChange = 5;
+        balanceChange += 500000; // win bonus
+      } else if (result === "draw") {
+        moraleChange = 0;
+        balanceChange += 100000;
+      } else {
+        moraleChange = -5;
+      }
+
+      const newMorale = Math.max(0, Math.min(100, state.morale + moraleChange));
+      const newFitness = Math.max(0, state.fitness - 15); // Players get tired
+
+      return {
+        morale: newMorale,
+        balance: state.balance + balanceChange,
+        fitness: newFitness,
+      };
+    }),
+
+  updatePlayerStatus: (id, status) =>
+    set((state) => {
+      const updateList = (list: Player[]) =>
+        list.map((p) => (p.id === id ? { ...p, status } : p));
+      return {
+        squad: updateList(state.squad),
+        startingXI: updateList(state.startingXI),
+      };
+    }),
 }));

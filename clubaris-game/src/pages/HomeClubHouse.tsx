@@ -3,7 +3,7 @@ import { useGameStore } from "../store/gameStore";
 import { useTranslation } from "../utils/i18n";
 
 export default function HomeClubHouse() {
-  const { teamName, morale, fitness, language } = useGameStore();
+  const { teamName, badgeUrl, morale, fitness, language } = useGameStore();
   const t = useTranslation();
 
   return (
@@ -26,8 +26,8 @@ export default function HomeClubHouse() {
               <div className="w-16 h-16 bg-surface-container-high border-2 border-on-background flex items-center justify-center p-2">
                 <img
                   alt="Home Team Logo"
-                  className="w-full h-full [image-rendering:pixelated]"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnim_q40K5jSCAiVOAriSjhV6Lj_s6y11BZM9LDoKfjOqGVrnxoHGCiJPUrKb6mA_So-t3Jr9t3j3VB7a68Z_ps0zfTnc1Grx-ulKpOEKOUd--hwePfJ_xHGEWzNQp2iiMIfqCjWrsGbds9VtsV33G_JBXdYdTADrlbedEFFV-QnGZCZKm8L3AYNtge8PN4htM3jwXQoHLCUqnSY4jBVUqdz1hNaFrNRbKPTghmpJvWMRVwB09Utjs3oxgKZ-WSOG-sT0zOolesn0U"
+                  className="w-full h-full object-contain [image-rendering:pixelated]"
+                  src={badgeUrl || "https://lh3.googleusercontent.com/aida-public/AB6AXuCnim_q40K5jSCAiVOAriSjhV6Lj_s6y11BZM9LDoKfjOqGVrnxoHGCiJPUrKb6mA_So-t3Jr9t3j3VB7a68Z_ps0zfTnc1Grx-ulKpOEKOUd--hwePfJ_xHGEWzNQp2iiMIfqCjWrsGbds9VtsV33G_JBXdYdTADrlbedEFFV-QnGZCZKm8L3AYNtge8PN4htM3jwXQoHLCUqnSY4jBVUqdz1hNaFrNRbKPTghmpJvWMRVwB09Utjs3oxgKZ-WSOG-sT0zOolesn0U"}
                 />
               </div>
               <span className="text-[10px] font-bold tracking-[1px] text-center leading-tight uppercase">
@@ -37,11 +37,11 @@ export default function HomeClubHouse() {
             {/* VS Divider */}
             <div className="flex flex-col items-center gap-1">
               <span className="text-[24px] font-bold text-secondary-container italic">
-                VS
+                {t('vs', language)}
               </span>
               <div className="px-2 py-0.5 bg-error-container border border-on-background">
                 <span className="text-[10px] font-bold tracking-[1px] text-on-error-container">
-                  AWAY
+                  {t('away', language)}
                 </span>
               </div>
             </div>
@@ -59,12 +59,20 @@ export default function HomeClubHouse() {
               </span>
             </div>
           </div>
-          <Link
-            to="/escalacao"
-            className="block text-center w-full mt-4 bg-secondary-container text-on-secondary text-[12px] font-bold tracking-[1px] py-2 border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)] active-press"
-          >
-            {t('manage_squad', language)}
-          </Link>
+          <div className="flex gap-2 mt-4">
+            <Link
+              to="/escalacao"
+              className="flex-1 text-center bg-surface-container-highest text-on-surface text-[12px] font-bold tracking-[1px] py-2 border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)] active-press"
+            >
+              {t('manage_squad', language)}
+            </Link>
+            <Link
+              to="/partida"
+              className="flex-1 text-center bg-primary text-on-primary text-[12px] font-bold tracking-[1px] py-2 border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)] active-press"
+            >
+              {t('play_match', language)}
+            </Link>
+          </div>
         </div>
       </section>
 

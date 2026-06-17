@@ -8,6 +8,7 @@ import SimulacaoPartida from './pages/SimulacaoPartida';
 import StartMenu from './pages/StartMenu';
 import TopBar from './components/TopBar';
 import BottomNav from './components/BottomNav';
+import GameGuide from './components/GameGuide';
 import { useGameStore } from './store/gameStore';
 
 function AppContent() {
@@ -20,6 +21,7 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-background text-on-background font-sans pb-24 overflow-x-hidden">
       <TopBar title={teamName} />
+      <GameGuide />
       <Routes>
         <Route path="/" element={<HomeClubHouse />} />
         <Route path="/dashboard" element={<DashboardClubHouse />} />

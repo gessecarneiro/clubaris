@@ -31,7 +31,7 @@ export default function BottomNav() {
 
       <Link
         to="/escalacao"
-        className={`flex flex-col items-center justify-center p-1 ${
+        className={`tour-step-nav-tactics flex flex-col items-center justify-center p-1 ${
           path === "/escalacao" || path === "/tatico"
             ? "bg-primary-container text-on-primary-container border-2 border-on-background active-press"
             : "text-on-surface-variant hover:bg-surface-container-highest transition-all"

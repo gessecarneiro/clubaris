@@ -1,0 +1,9 @@
+[
+  { "id": "brazil", "name": "Brasileirão Série A", "country": "Brazil" },
+  { "id": "england", "name": "Premier League", "country": "England" },
+  { "id": "spain", "name": "La Liga", "country": "Spain" },
+  { "id": "italy", "name": "Serie A", "country": "Italy" },
+  { "id": "france", "name": "Ligue 1", "country": "France" },
+  { "id": "germany", "name": "Bundesliga", "country": "Germany" },
+  { "id": "brazil_b", "name": "Brasileirão Série B", "country": "Brazil" }
+]

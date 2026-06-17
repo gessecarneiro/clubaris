@@ -1,5 +1,9 @@
 import { useGameStore } from '../store/gameStore';
 import { SortablePlayerRow } from '../components/SortablePlayerRow';
+import { useTranslation } from '../utils/i18n';
+import { Link } from 'react-router-dom';
+import AssistantTip from '../components/AssistantTip';
+import HelpTooltip from '../components/HelpTooltip';
 import {
   DndContext,
   closestCenter,
@@ -17,7 +21,8 @@ import {
 } from '@dnd-kit/sortable';"@dnd-kit/sortable";
 
 export default function EscalacaoTatica() {
-  const { startingXI, autoPick, updateStartingXI } = useGameStore();
+  const { startingXI, autoPick, updateStartingXI, language } = useGameStore();
+  const t = useTranslation();
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -53,8 +58,11 @@ export default function EscalacaoTatica() {
     { top: "5rem", left: "66%", transform: "translateX(-50%)" }, // ST (10)
   ];
 
+  const hasInvalidStartingXI = startingXI.slice(0, 11).some(p => p.status === 'injured' || p.status === 'red_card');
+
   return (
     <main className="mt-20 px-4 flex flex-col gap-4 max-w-lg mx-auto pb-8">
+      <AssistantTip tipKey="tip_rest_players" />
       {/* Pitch Container */}
       <section className="relative w-full aspect-[3/4] bg-primary-container border-2 border-on-background overflow-hidden pixel-shadow">
         {/* Pixel Art Pitch Lines */}
@@ -100,21 +108,35 @@ export default function EscalacaoTatica() {
           onClick={autoPick}
           className="flex-1 bg-surface-container border-2 border-on-background py-3 text-[12px] font-bold tracking-[1px] text-on-surface hover:bg-surface-container-highest active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all pixel-shadow"
         >
-          AUTO-PICK
+          {t('auto_pick', language)}
         </button>
         <button className="flex-1 bg-secondary-container border-2 border-on-background py-3 text-[12px] font-bold tracking-[1px] text-on-secondary hover:brightness-110 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all pixel-shadow">
-          SAVE TACTICS
+          {t('save_tactics', language)}
         </button>
       </div>
+
+      {hasInvalidStartingXI ? (
+        <div className="w-full text-center bg-error-container text-on-error-container py-3 text-[12px] font-bold tracking-[1px] border-2 border-error shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] block mt-2 mb-2">
+          {t('cant_play_injured', language)}
+        </div>
+      ) : (
+        <Link
+          to="/partida"
+          className="w-full text-center bg-primary text-on-primary py-3 text-[14px] font-bold tracking-[1px] border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all block mt-2 mb-2"
+        >
+          {t('play_match', language)}
+        </Link>
+      )}
 
       {/* Starting XI List (Drag and Drop) */}
       <section className="flex flex-col gap-1">
         <div className="flex justify-between items-end">
-          <h2 className="bg-primary-container text-on-primary-container px-2 py-1 text-[12px] font-bold tracking-[1px] border-2 border-on-background inline-block">
-            SQUAD LIST
+          <h2 className="bg-primary-container text-on-primary-container px-2 py-1 text-[12px] font-bold tracking-[1px] border-2 border-on-background inline-flex items-center">
+            {t('squad_list', language)}
+            <HelpTooltip textKey="tooltip_drag" />
           </h2>
           <span className="text-[10px] text-on-surface-variant font-bold tracking-[1px]">
-            DRAG TO REORDER
+            {t('drag_reorder', language)}
           </span>
         </div>
 

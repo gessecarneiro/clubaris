@@ -1,0 +1,5702 @@
+[
+  {
+    "id": "real_madrid",
+    "name": "Real Madrid",
+    "leagueId": "spain",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg",
+    "rating": 86,
+    "squad": [
+      {
+        "id": "t_courtois",
+        "name": "Thibaut Courtois",
+        "position": "GK",
+        "rating": 89,
+        "number": 1
+      },
+      {
+        "id": "d_carvajal",
+        "name": "Dani Carvajal",
+        "position": "RB",
+        "rating": 86,
+        "number": 2
+      },
+      {
+        "id": "a_rudiger",
+        "name": "Antonio Rüdiger",
+        "position": "CB",
+        "rating": 88,
+        "number": 22
+      },
+      {
+        "id": "e_militao",
+        "name": "Éder Militão",
+        "position": "CB",
+        "rating": 85,
+        "number": 3
+      },
+      {
+        "id": "f_mendy",
+        "name": "Ferland Mendy",
+        "position": "LB",
+        "rating": 84,
+        "number": 23
+      },
+      {
+        "id": "a_tchouameni",
+        "name": "Aurélien Tchouaméni",
+        "position": "CDM",
+        "rating": 85,
+        "number": 14
+      },
+      {
+        "id": "f_valverde",
+        "name": "Federico Valverde",
+        "position": "CM",
+        "rating": 88,
+        "number": 15
+      },
+      {
+        "id": "j_bellingham",
+        "name": "Jude Bellingham",
+        "position": "CAM",
+        "rating": 90,
+        "number": 5
+      },
+      {
+        "id": "rodrygo",
+        "name": "Rodrygo",
+        "position": "RW",
+        "rating": 86,
+        "number": 11
+      },
+      {
+        "id": "k_mbappe",
+        "name": "Kylian Mbappé",
+        "position": "ST",
+        "rating": 91,
+        "number": 9
+      },
+      {
+        "id": "vinicius_jr",
+        "name": "Vinícius Júnior",
+        "position": "LW",
+        "rating": 90,
+        "number": 7
+      },
+      {
+        "id": "e_camavinga",
+        "name": "Eduardo Camavinga",
+        "position": "CM",
+        "rating": 83,
+        "number": 12
+      },
+      {
+        "id": "l_modric",
+        "name": "Luka Modrić",
+        "position": "CM",
+        "rating": 86,
+        "number": 10
+      },
+      {
+        "id": "d_alaba",
+        "name": "David Alaba",
+        "position": "CB",
+        "rating": 85,
+        "number": 4
+      },
+      {
+        "id": "a_guler",
+        "name": "Arda Güler",
+        "position": "CAM",
+        "rating": 81,
+        "number": 15
+      }
+    ]
+  },
+  {
+    "id": "barcelona",
+    "name": "Barcelona",
+    "leagueId": "spain",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg",
+    "rating": 84,
+    "squad": [
+      {
+        "id": "m_ter_stegen",
+        "name": "Marc-André ter Stegen",
+        "position": "GK",
+        "rating": 88,
+        "number": 1
+      },
+      {
+        "id": "j_kounde",
+        "name": "Jules Koundé",
+        "position": "RB",
+        "rating": 84,
+        "number": 23
+      },
+      {
+        "id": "r_araujo",
+        "name": "Ronald Araújo",
+        "position": "CB",
+        "rating": 86,
+        "number": 4
+      },
+      {
+        "id": "p_cubarsi",
+        "name": "Pau Cubarsí",
+        "position": "CB",
+        "rating": 81,
+        "number": 2
+      },
+      {
+        "id": "a_balde",
+        "name": "Alejandro Balde",
+        "position": "LB",
+        "rating": 81,
+        "number": 3
+      },
+      {
+        "id": "f_de_jong",
+        "name": "Frenkie de Jong",
+        "position": "CM",
+        "rating": 86,
+        "number": 21
+      },
+      {
+        "id": "pedri",
+        "name": "Pedri",
+        "position": "CM",
+        "rating": 85,
+        "number": 8
+      },
+      {
+        "id": "d_olmo",
+        "name": "Dani Olmo",
+        "position": "CAM",
+        "rating": 85,
+        "number": 20
+      },
+      {
+        "id": "l_yamal",
+        "name": "Lamine Yamal",
+        "position": "RW",
+        "rating": 83,
+        "number": 19
+      },
+      {
+        "id": "r_lewandowski",
+        "name": "Robert Lewandowski",
+        "position": "ST",
+        "rating": 88,
+        "number": 9
+      },
+      {
+        "id": "raphinha",
+        "name": "Raphinha",
+        "position": "LW",
+        "rating": 85,
+        "number": 11
+      },
+      {
+        "id": "gavi",
+        "name": "Gavi",
+        "position": "CM",
+        "rating": 83,
+        "number": 6
+      },
+      {
+        "id": "a_christensen",
+        "name": "Andreas Christensen",
+        "position": "CB",
+        "rating": 84,
+        "number": 15
+      },
+      {
+        "id": "f_lopez",
+        "name": "Fermín López",
+        "position": "CM",
+        "rating": 80,
+        "number": 16
+      },
+      {
+        "id": "f_torres",
+        "name": "Ferran Torres",
+        "position": "LW",
+        "rating": 82,
+        "number": 7
+      }
+    ]
+  },
+  {
+    "id": "manchester_city",
+    "name": "Manchester City",
+    "leagueId": "england",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
+    "rating": 87,
+    "squad": [
+      {
+        "id": "ederson",
+        "name": "Ederson",
+        "position": "GK",
+        "rating": 88,
+        "number": 31
+      },
+      {
+        "id": "k_walker",
+        "name": "Kyle Walker",
+        "position": "RB",
+        "rating": 84,
+        "number": 2
+      },
+      {
+        "id": "r_dias",
+        "name": "Rúben Dias",
+        "position": "CB",
+        "rating": 88,
+        "number": 3
+      },
+      {
+        "id": "m_akanji",
+        "name": "Manuel Akanji",
+        "position": "CB",
+        "rating": 84,
+        "number": 25
+      },
+      {
+        "id": "j_gvardiol",
+        "name": "Joško Gvardiol",
+        "position": "LB",
+        "rating": 84,
+        "number": 24
+      },
+      {
+        "id": "rodri",
+        "name": "Rodri",
+        "position": "CDM",
+        "rating": 91,
+        "number": 16
+      },
+      {
+        "id": "k_de_bruyne",
+        "name": "Kevin De Bruyne",
+        "position": "CM",
+        "rating": 90,
+        "number": 17
+      },
+      {
+        "id": "b_silva",
+        "name": "Bernardo Silva",
+        "position": "CM",
+        "rating": 88,
+        "number": 20
+      },
+      {
+        "id": "p_foden",
+        "name": "Phil Foden",
+        "position": "RW",
+        "rating": 88,
+        "number": 47
+      },
+      {
+        "id": "e_haaland",
+        "name": "Erling Haaland",
+        "position": "ST",
+        "rating": 91,
+        "number": 9
+      },
+      {
+        "id": "j_doku",
+        "name": "Jérémy Doku",
+        "position": "LW",
+        "rating": 84,
+        "number": 11
+      },
+      {
+        "id": "i_gundogan",
+        "name": "İlkay Gündoğan",
+        "position": "CM",
+        "rating": 87,
+        "number": 8
+      },
+      {
+        "id": "j_stones",
+        "name": "John Stones",
+        "position": "CB",
+        "rating": 85,
+        "number": 5
+      },
+      {
+        "id": "j_grealish",
+        "name": "Jack Grealish",
+        "position": "LW",
+        "rating": 84,
+        "number": 10
+      },
+      {
+        "id": "n_ake",
+        "name": "Nathan Aké",
+        "position": "CB",
+        "rating": 84,
+        "number": 6
+      }
+    ]
+  },
+  {
+    "id": "arsenal",
+    "name": "Arsenal",
+    "leagueId": "england",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg",
+    "rating": 84,
+    "squad": [
+      {
+        "id": "d_raya",
+        "name": "David Raya",
+        "position": "GK",
+        "rating": 83,
+        "number": 22
+      },
+      {
+        "id": "b_white",
+        "name": "Ben White",
+        "position": "RB",
+        "rating": 84,
+        "number": 4
+      },
+      {
+        "id": "w_saliba",
+        "name": "William Saliba",
+        "position": "CB",
+        "rating": 87,
+        "number": 2
+      },
+      {
+        "id": "gabriel",
+        "name": "Gabriel Magalhães",
+        "position": "CB",
+        "rating": 86,
+        "number": 6
+      },
+      {
+        "id": "j_timber",
+        "name": "Jurriën Timber",
+        "position": "LB",
+        "rating": 82,
+        "number": 12
+      },
+      {
+        "id": "d_rice",
+        "name": "Declan Rice",
+        "position": "CDM",
+        "rating": 87,
+        "number": 41
+      },
+      {
+        "id": "m_merino",
+        "name": "Mikel Merino",
+        "position": "CM",
+        "rating": 85,
+        "number": 23
+      },
+      {
+        "id": "m_odegaard",
+        "name": "Martin Ødegaard",
+        "position": "CAM",
+        "rating": 89,
+        "number": 8
+      },
+      {
+        "id": "b_saka",
+        "name": "Bukayo Saka",
+        "position": "RW",
+        "rating": 87,
+        "number": 7
+      },
+      {
+        "id": "k_havertz",
+        "name": "Kai Havertz",
+        "position": "ST",
+        "rating": 83,
+        "number": 29
+      },
+      {
+        "id": "g_martinelli",
+        "name": "Gabriel Martinelli",
+        "position": "LW",
+        "rating": 83,
+        "number": 11
+      },
+      {
+        "id": "l_trossard",
+        "name": "Leandro Trossard",
+        "position": "LW",
+        "rating": 83,
+        "number": 19
+      },
+      {
+        "id": "r_calafiori",
+        "name": "Riccardo Calafiori",
+        "position": "CB",
+        "rating": 81,
+        "number": 33
+      },
+      {
+        "id": "t_partey",
+        "name": "Thomas Partey",
+        "position": "CDM",
+        "rating": 83,
+        "number": 5
+      },
+      {
+        "id": "g_jesus",
+        "name": "Gabriel Jesus",
+        "position": "ST",
+        "rating": 82,
+        "number": 9
+      }
+    ]
+  },
+  {
+    "id": "liverpool",
+    "name": "Liverpool",
+    "leagueId": "england",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg",
+    "rating": 84,
+    "squad": [
+      {
+        "id": "alisson",
+        "name": "Alisson Becker",
+        "position": "GK",
+        "rating": 89,
+        "number": 1
+      },
+      {
+        "id": "t_alexander_arnold",
+        "name": "Trent Alexander-Arnold",
+        "position": "RB",
+        "rating": 86,
+        "number": 66
+      },
+      {
+        "id": "i_konate",
+        "name": "Ibrahima Konaté",
+        "position": "CB",
+        "rating": 83,
+        "number": 5
+      },
+      {
+        "id": "v_van_dijk",
+        "name": "Virgil van Dijk",
+        "position": "CB",
+        "rating": 89,
+        "number": 4
+      },
+      {
+        "id": "a_robertson",
+        "name": "Andrew Robertson",
+        "position": "LB",
+        "rating": 85,
+        "number": 26
+      },
+      {
+        "id": "r_gravenberch",
+        "name": "Ryan Gravenberch",
+        "position": "CDM",
+        "rating": 82,
+        "number": 38
+      },
+      {
+        "id": "a_mac_allister",
+        "name": "Alexis Mac Allister",
+        "position": "CM",
+        "rating": 86,
+        "number": 10
+      },
+      {
+        "id": "d_szoboszlai",
+        "name": "Dominik Szoboszlai",
+        "position": "CAM",
+        "rating": 84,
+        "number": 8
+      },
+      {
+        "id": "m_salah",
+        "name": "Mohamed Salah",
+        "position": "RW",
+        "rating": 89,
+        "number": 11
+      },
+      {
+        "id": "d_jota",
+        "name": "Diogo Jota",
+        "position": "ST",
+        "rating": 85,
+        "number": 20
+      },
+      {
+        "id": "l_diaz",
+        "name": "Luis Díaz",
+        "position": "LW",
+        "rating": 84,
+        "number": 7
+      },
+      {
+        "id": "d_nunez",
+        "name": "Darwin Núñez",
+        "position": "ST",
+        "rating": 82,
+        "number": 9
+      },
+      {
+        "id": "c_gakpo",
+        "name": "Cody Gakpo",
+        "position": "LW",
+        "rating": 83,
+        "number": 18
+      },
+      {
+        "id": "h_elliott",
+        "name": "Harvey Elliott",
+        "position": "CAM",
+        "rating": 80,
+        "number": 19
+      },
+      {
+        "id": "c_bradley",
+        "name": "Conor Bradley",
+        "position": "RB",
+        "rating": 79,
+        "number": 84
+      }
+    ]
+  },
+  {
+    "id": "bayern_munich",
+    "name": "Bayern Munich",
+    "leagueId": "germany",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg",
+    "rating": 85,
+    "squad": [
+      {
+        "id": "m_neuer",
+        "name": "Manuel Neuer",
+        "position": "GK",
+        "rating": 86,
+        "number": 1
+      },
+      {
+        "id": "j_kimmich",
+        "name": "Joshua Kimmich",
+        "position": "RB",
+        "rating": 86,
+        "number": 6
+      },
+      {
+        "id": "d_upamecano",
+        "name": "Dayot Upamecano",
+        "position": "CB",
+        "rating": 82,
+        "number": 2
+      },
+      {
+        "id": "m_kim",
+        "name": "Kim Min-jae",
+        "position": "CB",
+        "rating": 83,
+        "number": 3
+      },
+      {
+        "id": "a_davies",
+        "name": "Alphonso Davies",
+        "position": "LB",
+        "rating": 84,
+        "number": 19
+      },
+      {
+        "id": "j_palhinha",
+        "name": "João Palhinha",
+        "position": "CDM",
+        "rating": 85,
+        "number": 16
+      },
+      {
+        "id": "a_pavlovic",
+        "name": "Aleksandar Pavlović",
+        "position": "CM",
+        "rating": 80,
+        "number": 45
+      },
+      {
+        "id": "j_musiala",
+        "name": "Jamal Musiala",
+        "position": "CAM",
+        "rating": 87,
+        "number": 42
+      },
+      {
+        "id": "m_olise",
+        "name": "Michael Olise",
+        "position": "RW",
+        "rating": 84,
+        "number": 17
+      },
+      {
+        "id": "h_kane",
+        "name": "Harry Kane",
+        "position": "ST",
+        "rating": 90,
+        "number": 9
+      },
+      {
+        "id": "s_gnabry",
+        "name": "Serge Gnabry",
+        "position": "LW",
+        "rating": 83,
+        "number": 7
+      },
+      {
+        "id": "l_sane",
+        "name": "Leroy Sané",
+        "position": "RW",
+        "rating": 85,
+        "number": 10
+      },
+      {
+        "id": "k_coman",
+        "name": "Kingsley Coman",
+        "position": "LW",
+        "rating": 84,
+        "number": 11
+      },
+      {
+        "id": "k_laimer",
+        "name": "Konrad Laimer",
+        "position": "CDM",
+        "rating": 83,
+        "number": 27
+      },
+      {
+        "id": "t_muller",
+        "name": "Thomas Müller",
+        "position": "CAM",
+        "rating": 83,
+        "number": 25
+      }
+    ]
+  },
+  {
+    "id": "inter_milan",
+    "name": "Inter Milan",
+    "leagueId": "italy",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/0/05/FC_Internazionale_Milano_2021.svg",
+    "rating": 85,
+    "squad": [
+      {
+        "id": "y_sommer",
+        "name": "Yann Sommer",
+        "position": "GK",
+        "rating": 87,
+        "number": 1
+      },
+      {
+        "id": "b_pavard",
+        "name": "Benjamin Pavard",
+        "position": "CB",
+        "rating": 84,
+        "number": 28
+      },
+      {
+        "id": "f_acerbi",
+        "name": "Francesco Acerbi",
+        "position": "CB",
+        "rating": 84,
+        "number": 15
+      },
+      {
+        "id": "a_bastoni",
+        "name": "Alessandro Bastoni",
+        "position": "CB",
+        "rating": 87,
+        "number": 95
+      },
+      {
+        "id": "d_dumfries",
+        "name": "Denzel Dumfries",
+        "position": "RWB",
+        "rating": 82,
+        "number": 2
+      },
+      {
+        "id": "n_barella",
+        "name": "Nicolò Barella",
+        "position": "CM",
+        "rating": 87,
+        "number": 23
+      },
+      {
+        "id": "h_calhanoglu",
+        "name": "Hakan Çalhanoğlu",
+        "position": "CDM",
+        "rating": 86,
+        "number": 20
+      },
+      {
+        "id": "h_mkhitaryan",
+        "name": "Henrikh Mkhitaryan",
+        "position": "CM",
+        "rating": 83,
+        "number": 22
+      },
+      {
+        "id": "f_dimarco",
+        "name": "Federico Dimarco",
+        "position": "LWB",
+        "rating": 84,
+        "number": 32
+      },
+      {
+        "id": "m_thuram",
+        "name": "Marcus Thuram",
+        "position": "ST",
+        "rating": 85,
+        "number": 9
+      },
+      {
+        "id": "l_martinez",
+        "name": "Lautaro Martínez",
+        "position": "ST",
+        "rating": 89,
+        "number": 10
+      },
+      {
+        "id": "d_frattesi",
+        "name": "Davide Frattesi",
+        "position": "CM",
+        "rating": 82,
+        "number": 16
+      },
+      {
+        "id": "p_zielinski",
+        "name": "Piotr Zieliński",
+        "position": "CM",
+        "rating": 84,
+        "number": 7
+      },
+      {
+        "id": "m_taremi",
+        "name": "Mehdi Taremi",
+        "position": "ST",
+        "rating": 82,
+        "number": 99
+      },
+      {
+        "id": "m_darmian",
+        "name": "Matteo Darmian",
+        "position": "RWB",
+        "rating": 80,
+        "number": 36
+      }
+    ]
+  },
+  {
+    "id": "psg",
+    "name": "Paris Saint-Germain",
+    "leagueId": "france",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg",
+    "rating": 84,
+    "squad": [
+      {
+        "id": "g_donnarumma",
+        "name": "Gianluigi Donnarumma",
+        "position": "GK",
+        "rating": 89,
+        "number": 99
+      },
+      {
+        "id": "a_hakimi",
+        "name": "Achraf Hakimi",
+        "position": "RB",
+        "rating": 84,
+        "number": 2
+      },
+      {
+        "id": "marquinhos",
+        "name": "Marquinhos",
+        "position": "CB",
+        "rating": 87,
+        "number": 5
+      },
+      {
+        "id": "w_pacho",
+        "name": "Willian Pacho",
+        "position": "CB",
+        "rating": 80,
+        "number": 51
+      },
+      {
+        "id": "n_mendes",
+        "name": "Nuno Mendes",
+        "position": "LB",
+        "rating": 83,
+        "number": 25
+      },
+      {
+        "id": "vitinha",
+        "name": "Vitinha",
+        "position": "CM",
+        "rating": 85,
+        "number": 17
+      },
+      {
+        "id": "j_neves",
+        "name": "João Neves",
+        "position": "CM",
+        "rating": 82,
+        "number": 87
+      },
+      {
+        "id": "w_zaire_emery",
+        "name": "Warren Zaïre-Emery",
+        "position": "CM",
+        "rating": 82,
+        "number": 33
+      },
+      {
+        "id": "o_dembele",
+        "name": "Ousmane Dembélé",
+        "position": "RW",
+        "rating": 86,
+        "number": 10
+      },
+      {
+        "id": "r_kolo_muani",
+        "name": "Randal Kolo Muani",
+        "position": "ST",
+        "rating": 82,
+        "number": 23
+      },
+      {
+        "id": "b_barcola",
+        "name": "Bradley Barcola",
+        "position": "LW",
+        "rating": 82,
+        "number": 29
+      },
+      {
+        "id": "f_ruiz",
+        "name": "Fabián Ruiz",
+        "position": "CM",
+        "rating": 82,
+        "number": 8
+      },
+      {
+        "id": "l_hernandez",
+        "name": "Lucas Hernandez",
+        "position": "CB",
+        "rating": 83,
+        "number": 21
+      },
+      {
+        "id": "g_ramos",
+        "name": "Gonçalo Ramos",
+        "position": "ST",
+        "rating": 82,
+        "number": 9
+      },
+      {
+        "id": "m_asensio",
+        "name": "Marco Asensio",
+        "position": "RW",
+        "rating": 81,
+        "number": 11
+      }
+    ]
+  },
+  {
+    "id": "flamengo",
+    "name": "Flamengo",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Flamengo_braz_logo.svg",
+    "rating": 78,
+    "squad": [
+      {
+        "id": "a_rossi",
+        "name": "Agustín Rossi",
+        "position": "GK",
+        "rating": 79,
+        "number": 1
+      },
+      {
+        "id": "g_varela",
+        "name": "Guillermo Varela",
+        "position": "RB",
+        "rating": 75,
+        "number": 2
+      },
+      {
+        "id": "f_bruno",
+        "name": "Fabrício Bruno",
+        "position": "CB",
+        "rating": 78,
+        "number": 15
+      },
+      {
+        "id": "l_ortiz",
+        "name": "Léo Ortiz",
+        "position": "CB",
+        "rating": 77,
+        "number": 3
+      },
+      {
+        "id": "a_lucas",
+        "name": "Ayrton Lucas",
+        "position": "LB",
+        "rating": 78,
+        "number": 6
+      },
+      {
+        "id": "e_pulgar",
+        "name": "Erick Pulgar",
+        "position": "CDM",
+        "rating": 79,
+        "number": 5
+      },
+      {
+        "id": "d_cruz",
+        "name": "Nicolás de la Cruz",
+        "position": "CM",
+        "rating": 81,
+        "number": 18
+      },
+      {
+        "id": "g_arrascaeta",
+        "name": "Giorgian de Arrascaeta",
+        "position": "CAM",
+        "rating": 82,
+        "number": 14
+      },
+      {
+        "id": "g_erson",
+        "name": "Gerson",
+        "position": "CM",
+        "rating": 80,
+        "number": 8
+      },
+      {
+        "id": "p_edro",
+        "name": "Pedro",
+        "position": "ST",
+        "rating": 81,
+        "number": 9
+      },
+      {
+        "id": "e_cebolinha",
+        "name": "Everton Cebolinha",
+        "position": "LW",
+        "rating": 79,
+        "number": 11
+      },
+      {
+        "id": "b_henrique",
+        "name": "Bruno Henrique",
+        "position": "LW",
+        "rating": 78,
+        "number": 27
+      },
+      {
+        "id": "g_barbosa",
+        "name": "Gabriel Barbosa",
+        "position": "ST",
+        "rating": 79,
+        "number": 10
+      },
+      {
+        "id": "l_pereira",
+        "name": "Léo Pereira",
+        "position": "CB",
+        "rating": 78,
+        "number": 4
+      },
+      {
+        "id": "a_sandro",
+        "name": "Alex Sandro",
+        "position": "LB",
+        "rating": 78,
+        "number": 26
+      }
+    ]
+  },
+  {
+    "id": "palmeiras",
+    "name": "Palmeiras",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Palmeiras_logo.svg",
+    "rating": 78,
+    "squad": [
+      {
+        "id": "weverton",
+        "name": "Weverton",
+        "position": "GK",
+        "rating": 80,
+        "number": 21
+      },
+      {
+        "id": "mayke",
+        "name": "Mayke",
+        "position": "RB",
+        "rating": 76,
+        "number": 12
+      },
+      {
+        "id": "g_gomez",
+        "name": "Gustavo Gómez",
+        "position": "CB",
+        "rating": 80,
+        "number": 15
+      },
+      {
+        "id": "murilo",
+        "name": "Murilo",
+        "position": "CB",
+        "rating": 78,
+        "number": 26
+      },
+      {
+        "id": "p_piquerez",
+        "name": "Joaquín Piquerez",
+        "position": "LB",
+        "rating": 79,
+        "number": 22
+      },
+      {
+        "id": "a_moreno",
+        "name": "Aníbal Moreno",
+        "position": "CDM",
+        "rating": 78,
+        "number": 5
+      },
+      {
+        "id": "z_rafael",
+        "name": "Zé Rafael",
+        "position": "CM",
+        "rating": 78,
+        "number": 8
+      },
+      {
+        "id": "r_veiga",
+        "name": "Raphael Veiga",
+        "position": "CAM",
+        "rating": 81,
+        "number": 23
+      },
+      {
+        "id": "estevao",
+        "name": "Estêvão",
+        "position": "RW",
+        "rating": 76,
+        "number": 41
+      },
+      {
+        "id": "j_lopez",
+        "name": "Flaco López",
+        "position": "ST",
+        "rating": 77,
+        "number": 42
+      },
+      {
+        "id": "f_anderson",
+        "name": "Felipe Anderson",
+        "position": "LW",
+        "rating": 79,
+        "number": 9
+      },
+      {
+        "id": "dudu",
+        "name": "Dudu",
+        "position": "LW",
+        "rating": 78,
+        "number": 7
+      },
+      {
+        "id": "m_rocha",
+        "name": "Marcos Rocha",
+        "position": "RB",
+        "rating": 75,
+        "number": 2
+      },
+      {
+        "id": "r_rios",
+        "name": "Richard Ríos",
+        "position": "CM",
+        "rating": 77,
+        "number": 27
+      },
+      {
+        "id": "rony",
+        "name": "Rony",
+        "position": "ST",
+        "rating": 76,
+        "number": 10
+      }
+    ]
+  },
+  {
+    "id": "sao_paulo",
+    "name": "São Paulo",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4b/S%C3%A3o_Paulo_Futebol_Clube.png",
+    "rating": 77,
+    "squad": [
+      {
+        "id": "rafael",
+        "name": "Rafael",
+        "position": "GK",
+        "rating": 78,
+        "number": 23
+      },
+      {
+        "id": "rafinha",
+        "name": "Rafinha",
+        "position": "RB",
+        "rating": 75,
+        "number": 13
+      },
+      {
+        "id": "arboleda",
+        "name": "Robert Arboleda",
+        "position": "CB",
+        "rating": 78,
+        "number": 5
+      },
+      {
+        "id": "a_franco",
+        "name": "Alan Franco",
+        "position": "CB",
+        "rating": 76,
+        "number": 28
+      },
+      {
+        "id": "welington",
+        "name": "Welington",
+        "position": "LB",
+        "rating": 75,
+        "number": 6
+      },
+      {
+        "id": "p_maia",
+        "name": "Pablo Maia",
+        "position": "CDM",
+        "rating": 77,
+        "number": 29
+      },
+      {
+        "id": "alisson_sp",
+        "name": "Alisson",
+        "position": "CM",
+        "rating": 76,
+        "number": 25
+      },
+      {
+        "id": "l_moura",
+        "name": "Lucas Moura",
+        "position": "CAM",
+        "rating": 80,
+        "number": 7
+      },
+      {
+        "id": "w_rato",
+        "name": "Wellington Rato",
+        "position": "RW",
+        "rating": 75,
+        "number": 27
+      },
+      {
+        "id": "calleri",
+        "name": "Jonathan Calleri",
+        "position": "ST",
+        "rating": 79,
+        "number": 9
+      },
+      {
+        "id": "ferreirinha",
+        "name": "Ferreirinha",
+        "position": "LW",
+        "rating": 76,
+        "number": 47
+      },
+      {
+        "id": "luciano",
+        "name": "Luciano",
+        "position": "ST",
+        "rating": 77,
+        "number": 10
+      },
+      {
+        "id": "l_gustavo",
+        "name": "Luiz Gustavo",
+        "position": "CDM",
+        "rating": 76,
+        "number": 16
+      },
+      {
+        "id": "i_vinicius",
+        "name": "Igor Vinícius",
+        "position": "RB",
+        "rating": 74,
+        "number": 2
+      },
+      {
+        "id": "nestor",
+        "name": "Rodrigo Nestor",
+        "position": "CM",
+        "rating": 75,
+        "number": 11
+      }
+    ]
+  },
+  {
+    "id": "botafogo",
+    "name": "Botafogo",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Botafogo_de_Futebol_e_Regatas_logo.svg",
+    "rating": 77,
+    "squad": [
+      {
+        "id": "j_john",
+        "name": "John Victor",
+        "position": "GK",
+        "rating": 76,
+        "number": 12
+      },
+      {
+        "id": "m_ponte",
+        "name": "Mateo Ponte",
+        "position": "RB",
+        "rating": 74,
+        "number": 4
+      },
+      {
+        "id": "b_bastos",
+        "name": "Bastos",
+        "position": "CB",
+        "rating": 76,
+        "number": 15
+      },
+      {
+        "id": "a_barboza",
+        "name": "Alexander Barboza",
+        "position": "CB",
+        "rating": 76,
+        "number": 20
+      },
+      {
+        "id": "c_borges",
+        "name": "Cuiabano",
+        "position": "LB",
+        "rating": 75,
+        "number": 66
+      },
+      {
+        "id": "g_freitas",
+        "name": "Gregore",
+        "position": "CDM",
+        "rating": 76,
+        "number": 26
+      },
+      {
+        "id": "m_freitas",
+        "name": "Marlon Freitas",
+        "position": "CM",
+        "rating": 77,
+        "number": 17
+      },
+      {
+        "id": "t_almada",
+        "name": "Thiago Almada",
+        "position": "CAM",
+        "rating": 79,
+        "number": 23
+      },
+      {
+        "id": "l_henrique",
+        "name": "Luiz Henrique",
+        "position": "RW",
+        "rating": 78,
+        "number": 7
+      },
+      {
+        "id": "i_jesus",
+        "name": "Igor Jesus",
+        "position": "ST",
+        "rating": 76,
+        "number": 99
+      },
+      {
+        "id": "j_santos",
+        "name": "Júnior Santos",
+        "position": "LW",
+        "rating": 77,
+        "number": 11
+      },
+      {
+        "id": "savarino",
+        "name": "Jefferson Savarino",
+        "position": "LW",
+        "rating": 76,
+        "number": 10
+      },
+      {
+        "id": "tiquinho",
+        "name": "Tiquinho Soares",
+        "position": "ST",
+        "rating": 77,
+        "number": 9
+      },
+      {
+        "id": "tchitche",
+        "name": "Tchê Tchê",
+        "position": "CM",
+        "rating": 75,
+        "number": 6
+      },
+      {
+        "id": "halteres",
+        "name": "Lucas Halter",
+        "position": "CB",
+        "rating": 73,
+        "number": 3
+      }
+    ]
+  },
+  {
+    "id": "corinthians",
+    "name": "Corinthians",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/5/5a/Sport_Club_Corinthians_Paulista_crest.svg",
+    "rating": 76,
+    "squad": [
+      {
+        "id": "cassio",
+        "name": "Cássio",
+        "position": "GK",
+        "rating": 78,
+        "number": 12
+      },
+      {
+        "id": "fagner",
+        "name": "Fagner",
+        "position": "RB",
+        "rating": 76,
+        "number": 23
+      },
+      {
+        "id": "f_torres",
+        "name": "Félix Torres",
+        "position": "CB",
+        "rating": 76,
+        "number": 3
+      },
+      {
+        "id": "g_henrique",
+        "name": "Gustavo Henrique",
+        "position": "CB",
+        "rating": 74,
+        "number": 4
+      },
+      {
+        "id": "h_palacios",
+        "name": "Hugo",
+        "position": "LB",
+        "rating": 73,
+        "number": 46
+      },
+      {
+        "id": "raniele",
+        "name": "Raniele",
+        "position": "CDM",
+        "rating": 76,
+        "number": 14
+      },
+      {
+        "id": "b_bidon",
+        "name": "Breno Bidon",
+        "position": "CM",
+        "rating": 73,
+        "number": 27
+      },
+      {
+        "id": "r_garro",
+        "name": "Rodrigo Garro",
+        "position": "CAM",
+        "rating": 79,
+        "number": 10
+      },
+      {
+        "id": "y_alberto",
+        "name": "Yuri Alberto",
+        "position": "ST",
+        "rating": 76,
+        "number": 9
+      },
+      {
+        "id": "w_esley",
+        "name": "Wesley",
+        "position": "LW",
+        "rating": 75,
+        "number": 36
+      },
+      {
+        "id": "a_romero",
+        "name": "Ángel Romero",
+        "position": "RW",
+        "rating": 76,
+        "number": 11
+      },
+      {
+        "id": "i_coronado",
+        "name": "Igor Coronado",
+        "position": "CAM",
+        "rating": 77,
+        "number": 77
+      },
+      {
+        "id": "p_raul",
+        "name": "Pedro Raul",
+        "position": "ST",
+        "rating": 74,
+        "number": 20
+      },
+      {
+        "id": "fausto_v",
+        "name": "Fausto Vera",
+        "position": "CDM",
+        "rating": 75,
+        "number": 5
+      },
+      {
+        "id": "c_miguel",
+        "name": "Carlos Miguel",
+        "position": "GK",
+        "rating": 75,
+        "number": 22
+      }
+    ]
+  },
+  {
+    "id": "gremio",
+    "name": "Grêmio",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Gremio_Logo.svg",
+    "rating": 76,
+    "squad": [
+      {
+        "id": "marchesin",
+        "name": "Agustín Marchesín",
+        "position": "GK",
+        "rating": 77,
+        "number": 1
+      },
+      {
+        "id": "j_pedro",
+        "name": "João Pedro",
+        "position": "RB",
+        "rating": 75,
+        "number": 18
+      },
+      {
+        "id": "geromel",
+        "name": "Pedro Geromel",
+        "position": "CB",
+        "rating": 77,
+        "number": 3
+      },
+      {
+        "id": "kannemann",
+        "name": "Walter Kannemann",
+        "position": "CB",
+        "rating": 76,
+        "number": 4
+      },
+      {
+        "id": "reinaldo",
+        "name": "Reinaldo",
+        "position": "LB",
+        "rating": 75,
+        "number": 6
+      },
+      {
+        "id": "villasanti",
+        "name": "Mathías Villasanti",
+        "position": "CDM",
+        "rating": 79,
+        "number": 20
+      },
+      {
+        "id": "pepe",
+        "name": "Pepê",
+        "position": "CM",
+        "rating": 76,
+        "number": 23
+      },
+      {
+        "id": "cristaldo",
+        "name": "Franco Cristaldo",
+        "position": "CAM",
+        "rating": 78,
+        "number": 10
+      },
+      {
+        "id": "pavon",
+        "name": "Cristian Pavón",
+        "position": "RW",
+        "rating": 77,
+        "number": 21
+      },
+      {
+        "id": "soteldo",
+        "name": "Yeferson Soteldo",
+        "position": "LW",
+        "rating": 78,
+        "number": 7
+      },
+      {
+        "id": "d_costa",
+        "name": "Diego Costa",
+        "position": "ST",
+        "rating": 78,
+        "number": 19
+      },
+      {
+        "id": "jp_galvao",
+        "name": "João Pedro Galvão",
+        "position": "ST",
+        "rating": 74,
+        "number": 11
+      },
+      {
+        "id": "d_queiroz",
+        "name": "Du Queiroz",
+        "position": "CM",
+        "rating": 74,
+        "number": 37
+      },
+      {
+        "id": "ely",
+        "name": "Rodrigo Ely",
+        "position": "CB",
+        "rating": 74,
+        "number": 5
+      },
+      {
+        "id": "nathan",
+        "name": "Nathan Fernandes",
+        "position": "LW",
+        "rating": 73,
+        "number": 32
+      }
+    ]
+  },
+  {
+    "id": "cruzeiro",
+    "name": "Cruzeiro",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/9/90/Cruzeiro_Esporte_Clube_%28logo%29.svg",
+    "rating": 75,
+    "squad": [
+      {
+        "id": "rafael_c",
+        "name": "Rafael Cabral",
+        "position": "GK",
+        "rating": 75,
+        "number": 1
+      },
+      {
+        "id": "william",
+        "name": "William",
+        "position": "RB",
+        "rating": 76,
+        "number": 12
+      },
+      {
+        "id": "ze_ivaldo",
+        "name": "Zé Ivaldo",
+        "position": "CB",
+        "rating": 75,
+        "number": 5
+      },
+      {
+        "id": "neris",
+        "name": "Neris",
+        "position": "CB",
+        "rating": 74,
+        "number": 27
+      },
+      {
+        "id": "marlon",
+        "name": "Marlon",
+        "position": "LB",
+        "rating": 77,
+        "number": 3
+      },
+      {
+        "id": "l_romero",
+        "name": "Lucas Romero",
+        "position": "CDM",
+        "rating": 76,
+        "number": 29
+      },
+      {
+        "id": "l_silva",
+        "name": "Lucas Silva",
+        "position": "CM",
+        "rating": 75,
+        "number": 16
+      },
+      {
+        "id": "m_pereira",
+        "name": "Matheus Pereira",
+        "position": "CAM",
+        "rating": 79,
+        "number": 10
+      },
+      {
+        "id": "arthur_g",
+        "name": "Arthur Gomes",
+        "position": "LW",
+        "rating": 75,
+        "number": 11
+      },
+      {
+        "id": "dinenno",
+        "name": "Juan Dinenno",
+        "position": "ST",
+        "rating": 76,
+        "number": 9
+      },
+      {
+        "id": "r_papagaio",
+        "name": "Rafael Elias",
+        "position": "ST",
+        "rating": 73,
+        "number": 19
+      },
+      {
+        "id": "barreal",
+        "name": "Álvaro Barreal",
+        "position": "LW",
+        "rating": 75,
+        "number": 21
+      },
+      {
+        "id": "ramiro",
+        "name": "Ramiro",
+        "position": "CM",
+        "rating": 74,
+        "number": 17
+      },
+      {
+        "id": "m_vital",
+        "name": "Mateus Vital",
+        "position": "CAM",
+        "rating": 74,
+        "number": 7
+      },
+      {
+        "id": "j_marcelo",
+        "name": "João Marcelo",
+        "position": "CB",
+        "rating": 73,
+        "number": 43
+      }
+    ]
+  },
+  {
+    "id": "vasco",
+    "name": "Vasco da Gama",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/1/1a/Club_de_Regatas_Vasco_da_Gama_crest.svg",
+    "rating": 74,
+    "squad": [
+      {
+        "id": "leo_jardim",
+        "name": "Léo Jardim",
+        "position": "GK",
+        "rating": 77,
+        "number": 1
+      },
+      {
+        "id": "p_rodriguez",
+        "name": "Puma Rodríguez",
+        "position": "RB",
+        "rating": 74,
+        "number": 2
+      },
+      {
+        "id": "medél",
+        "name": "Gary Medel",
+        "position": "CB",
+        "rating": 76,
+        "number": 17
+      },
+      {
+        "id": "leo",
+        "name": "Léo",
+        "position": "CB",
+        "rating": 74,
+        "number": 3
+      },
+      {
+        "id": "l_piton",
+        "name": "Lucas Piton",
+        "position": "LB",
+        "rating": 76,
+        "number": 6
+      },
+      {
+        "id": "ze_gabriel",
+        "name": "Zé Gabriel",
+        "position": "CDM",
+        "rating": 73,
+        "number": 23
+      },
+      {
+        "id": "sforza",
+        "name": "Juan Sforza",
+        "position": "CM",
+        "rating": 74,
+        "number": 20
+      },
+      {
+        "id": "payet",
+        "name": "Dimitri Payet",
+        "position": "CAM",
+        "rating": 79,
+        "number": 10
+      },
+      {
+        "id": "adson",
+        "name": "Adson",
+        "position": "RW",
+        "rating": 75,
+        "number": 28
+      },
+      {
+        "id": "vegetti",
+        "name": "Pablo Vegetti",
+        "position": "ST",
+        "rating": 77,
+        "number": 99
+      },
+      {
+        "id": "d_david",
+        "name": "David",
+        "position": "LW",
+        "rating": 74,
+        "number": 7
+      },
+      {
+        "id": "p_garcia",
+        "name": "Pablo Galdames",
+        "position": "CM",
+        "rating": 74,
+        "number": 27
+      },
+      {
+        "id": "maicon",
+        "name": "Maicon",
+        "position": "CB",
+        "rating": 73,
+        "number": 4
+      },
+      {
+        "id": "j_victor",
+        "name": "João Victor",
+        "position": "CB",
+        "rating": 74,
+        "number": 38
+      },
+      {
+        "id": "rayan",
+        "name": "Rayan",
+        "position": "ST",
+        "rating": 72,
+        "number": 77
+      }
+    ]
+  },
+  {
+    "id": "santos",
+    "name": "Santos",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/1/15/Santos_Logo.png",
+    "rating": 74,
+    "squad": [
+      {
+        "id": "j_paulo",
+        "name": "João Paulo",
+        "position": "GK",
+        "rating": 77,
+        "number": 1
+      },
+      {
+        "id": "aderlan",
+        "name": "Aderlan",
+        "position": "RB",
+        "rating": 74,
+        "number": 4
+      },
+      {
+        "id": "gil",
+        "name": "Gil",
+        "position": "CB",
+        "rating": 75,
+        "number": 2
+      },
+      {
+        "id": "j_basso",
+        "name": "Joaquim",
+        "position": "CB",
+        "rating": 76,
+        "number": 6
+      },
+      {
+        "id": "escobar",
+        "name": "Gonzalo Escobar",
+        "position": "LB",
+        "rating": 73,
+        "number": 31
+      },
+      {
+        "id": "j_schmidt",
+        "name": "João Schmidt",
+        "position": "CDM",
+        "rating": 75,
+        "number": 5
+      },
+      {
+        "id": "pituca",
+        "name": "Diego Pituca",
+        "position": "CM",
+        "rating": 75,
+        "number": 21
+      },
+      {
+        "id": "giuliano",
+        "name": "Giuliano",
+        "position": "CAM",
+        "rating": 76,
+        "number": 10
+      },
+      {
+        "id": "otero",
+        "name": "Rómulo Otero",
+        "position": "RW",
+        "rating": 75,
+        "number": 22
+      },
+      {
+        "id": "furch",
+        "name": "Julio Furch",
+        "position": "ST",
+        "rating": 75,
+        "number": 9
+      },
+      {
+        "id": "guilherme",
+        "name": "Guilherme",
+        "position": "LW",
+        "rating": 76,
+        "number": 11
+      },
+      {
+        "id": "bigode",
+        "name": "Willian Bigode",
+        "position": "ST",
+        "rating": 73,
+        "number": 27
+      },
+      {
+        "id": "rincon",
+        "name": "Tomás Rincón",
+        "position": "CDM",
+        "rating": 74,
+        "number": 8
+      },
+      {
+        "id": "pedrinho",
+        "name": "Pedrinho",
+        "position": "LW",
+        "rating": 72,
+        "number": 7
+      },
+      {
+        "id": "messias",
+        "name": "Messias",
+        "position": "CB",
+        "rating": 72,
+        "number": 3
+      }
+    ]
+  },
+  {
+    "id": "sport_recife",
+    "name": "Sport Recife",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/pt/2/22/Sport_Club_do_Recife.png",
+    "rating": 72,
+    "squad": [
+      {
+        "id": "caique_f",
+        "name": "Caíque França",
+        "position": "GK",
+        "rating": 71,
+        "number": 1
+      },
+      {
+        "id": "p_lima",
+        "name": "Pedro Lima",
+        "position": "RB",
+        "rating": 72,
+        "number": 2
+      },
+      {
+        "id": "rafael_t",
+        "name": "Rafael Thyere",
+        "position": "CB",
+        "rating": 73,
+        "number": 15
+      },
+      {
+        "id": "luciano_c",
+        "name": "Luciano Castán",
+        "position": "CB",
+        "rating": 72,
+        "number": 4
+      },
+      {
+        "id": "felipinho",
+        "name": "Felipinho",
+        "position": "LB",
+        "rating": 71,
+        "number": 16
+      },
+      {
+        "id": "felipe",
+        "name": "Felipe",
+        "position": "CDM",
+        "rating": 71,
+        "number": 5
+      },
+      {
+        "id": "fabricio_d",
+        "name": "Fabrício Domínguez",
+        "position": "CM",
+        "rating": 70,
+        "number": 8
+      },
+      {
+        "id": "lucas_l",
+        "name": "Lucas Lima",
+        "position": "CAM",
+        "rating": 74,
+        "number": 19
+      },
+      {
+        "id": "barletta",
+        "name": "Chrystian Barletta",
+        "position": "RW",
+        "rating": 72,
+        "number": 30
+      },
+      {
+        "id": "gustavo_c",
+        "name": "Gustavo Coutinho",
+        "position": "ST",
+        "rating": 73,
+        "number": 9
+      },
+      {
+        "id": "romarinho",
+        "name": "Romarinho",
+        "position": "LW",
+        "rating": 72,
+        "number": 11
+      },
+      {
+        "id": "alan_r",
+        "name": "Alan Ruiz",
+        "position": "CAM",
+        "rating": 72,
+        "number": 10
+      },
+      {
+        "id": "ze_roberto",
+        "name": "Zé Roberto",
+        "position": "ST",
+        "rating": 70,
+        "number": 99
+      },
+      {
+        "id": "r_cruz",
+        "name": "Roberto Rosales",
+        "position": "RB",
+        "rating": 71,
+        "number": 18
+      },
+      {
+        "id": "allyson",
+        "name": "Alisson Cassiano",
+        "position": "CB",
+        "rating": 69,
+        "number": 33
+      }
+    ]
+  },
+  {
+    "id": "ceara",
+    "name": "Ceará",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Cear%C3%A1_Sporting_Club_logo.svg",
+    "rating": 71,
+    "squad": [
+      {
+        "id": "richard",
+        "name": "Richard",
+        "position": "GK",
+        "rating": 72,
+        "number": 1
+      },
+      {
+        "id": "rai_ramos",
+        "name": "Raí Ramos",
+        "position": "RB",
+        "rating": 70,
+        "number": 2
+      },
+      {
+        "id": "m_victor",
+        "name": "Matheus Felipe",
+        "position": "CB",
+        "rating": 70,
+        "number": 3
+      },
+      {
+        "id": "d_menezes",
+        "name": "David Ricardo",
+        "position": "CB",
+        "rating": 69,
+        "number": 4
+      },
+      {
+        "id": "matheus_b",
+        "name": "Matheus Bahia",
+        "position": "LB",
+        "rating": 71,
+        "number": 6
+      },
+      {
+        "id": "richard_c",
+        "name": "Richardson",
+        "position": "CDM",
+        "rating": 72,
+        "number": 7
+      },
+      {
+        "id": "l_mugni",
+        "name": "Lucas Mugni",
+        "position": "CM",
+        "rating": 72,
+        "number": 10
+      },
+      {
+        "id": "castilho",
+        "name": "Guilherme Castilho",
+        "position": "CAM",
+        "rating": 73,
+        "number": 99
+      },
+      {
+        "id": "erick_p",
+        "name": "Erick Pulga",
+        "position": "LW",
+        "rating": 74,
+        "number": 16
+      },
+      {
+        "id": "saulo_m",
+        "name": "Saulo Mineiro",
+        "position": "ST",
+        "rating": 71,
+        "number": 73
+      },
+      {
+        "id": "facundo",
+        "name": "Facundo Barceló",
+        "position": "ST",
+        "rating": 71,
+        "number": 31
+      },
+      {
+        "id": "jean_i",
+        "name": "Jean Irmer",
+        "position": "CDM",
+        "rating": 70,
+        "number": 5
+      },
+      {
+        "id": "b_araujo",
+        "name": "Bruninho",
+        "position": "CAM",
+        "rating": 70,
+        "number": 27
+      },
+      {
+        "id": "j_receba",
+        "name": "Janderson",
+        "position": "RW",
+        "rating": 70,
+        "number": 11
+      },
+      {
+        "id": "jonathan",
+        "name": "Jonathan",
+        "position": "CB",
+        "rating": 68,
+        "number": 13
+      }
+    ]
+  },
+  {
+    "id": "atletico_madrid",
+    "name": "Atlético Madrid",
+    "leagueId": "spain",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/f/f4/Atletico_Madrid_2017_logo.svg",
+    "rating": 84,
+    "squad": [
+      {
+        "id": "j_oblak",
+        "name": "Jan Oblak",
+        "position": "GK",
+        "rating": 88,
+        "number": 13
+      },
+      {
+        "id": "n_molina",
+        "name": "Nahuel Molina",
+        "position": "RWB",
+        "rating": 82,
+        "number": 16
+      },
+      {
+        "id": "j_gimenez",
+        "name": "José Giménez",
+        "position": "CB",
+        "rating": 83,
+        "number": 2
+      },
+      {
+        "id": "m_hermoso",
+        "name": "Mario Hermoso",
+        "position": "CB",
+        "rating": 82,
+        "number": 22
+      },
+      {
+        "id": "s_savic",
+        "name": "Stefan Savić",
+        "position": "CB",
+        "rating": 82,
+        "number": 15
+      },
+      {
+        "id": "s_lino",
+        "name": "Samuel Lino",
+        "position": "LWB",
+        "rating": 81,
+        "number": 12
+      },
+      {
+        "id": "koke",
+        "name": "Koke",
+        "position": "CM",
+        "rating": 84,
+        "number": 6
+      },
+      {
+        "id": "r_depaul",
+        "name": "Rodrigo De Paul",
+        "position": "CM",
+        "rating": 84,
+        "number": 5
+      },
+      {
+        "id": "m_llorente",
+        "name": "Marcos Llorente",
+        "position": "RM",
+        "rating": 84,
+        "number": 14
+      },
+      {
+        "id": "a_griezmann",
+        "name": "Antoine Griezmann",
+        "position": "CF",
+        "rating": 88,
+        "number": 7
+      },
+      {
+        "id": "a_morata",
+        "name": "Álvaro Morata",
+        "position": "ST",
+        "rating": 83,
+        "number": 19
+      },
+      {
+        "id": "a_correa",
+        "name": "Ángel Correa",
+        "position": "ST",
+        "rating": 82,
+        "number": 10
+      },
+      {
+        "id": "r_riquelme",
+        "name": "Rodrigo Riquelme",
+        "position": "LM",
+        "rating": 80,
+        "number": 17
+      },
+      {
+        "id": "p_barrios",
+        "name": "Pablo Barrios",
+        "position": "CM",
+        "rating": 79,
+        "number": 24
+      },
+      {
+        "id": "w_witsel",
+        "name": "Axel Witsel",
+        "position": "CB",
+        "rating": 81,
+        "number": 20
+      }
+    ]
+  },
+  {
+    "id": "athletic_bilbao",
+    "name": "Athletic Bilbao",
+    "leagueId": "spain",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/9/9a/Athletic_Club_logo.svg",
+    "rating": 81,
+    "squad": [
+      {
+        "id": "u_simon",
+        "name": "Unai Simón",
+        "position": "GK",
+        "rating": 84,
+        "number": 1
+      },
+      {
+        "id": "o_demarcos",
+        "name": "Óscar de Marcos",
+        "position": "RB",
+        "rating": 79,
+        "number": 18
+      },
+      {
+        "id": "d_vivian",
+        "name": "Dani Vivian",
+        "position": "CB",
+        "rating": 80,
+        "number": 3
+      },
+      {
+        "id": "a_paredes",
+        "name": "Aitor Paredes",
+        "position": "CB",
+        "rating": 78,
+        "number": 4
+      },
+      {
+        "id": "y_berchiche",
+        "name": "Yuri Berchiche",
+        "position": "LB",
+        "rating": 80,
+        "number": 17
+      },
+      {
+        "id": "m_vesga",
+        "name": "Mikel Vesga",
+        "position": "CDM",
+        "rating": 79,
+        "number": 6
+      },
+      {
+        "id": "i_ruiz",
+        "name": "Iñigo Ruiz de Galarreta",
+        "position": "CM",
+        "rating": 80,
+        "number": 16
+      },
+      {
+        "id": "o_sancet",
+        "name": "Oihan Sancet",
+        "position": "CAM",
+        "rating": 81,
+        "number": 8
+      },
+      {
+        "id": "i_williams",
+        "name": "Iñaki Williams",
+        "position": "RW",
+        "rating": 82,
+        "number": 9
+      },
+      {
+        "id": "g_guruzeta",
+        "name": "Gorka Guruzeta",
+        "position": "ST",
+        "rating": 79,
+        "number": 12
+      },
+      {
+        "id": "n_williams",
+        "name": "Nico Williams",
+        "position": "LW",
+        "rating": 83,
+        "number": 11
+      },
+      {
+        "id": "a_berenguer",
+        "name": "Álex Berenguer",
+        "position": "LW",
+        "rating": 79,
+        "number": 7
+      },
+      {
+        "id": "a_herrera",
+        "name": "Ander Herrera",
+        "position": "CM",
+        "rating": 78,
+        "number": 21
+      },
+      {
+        "id": "i_muniain",
+        "name": "Iker Muniain",
+        "position": "CAM",
+        "rating": 79,
+        "number": 10
+      },
+      {
+        "id": "y_alvarez",
+        "name": "Yeray Álvarez",
+        "position": "CB",
+        "rating": 80,
+        "number": 5
+      }
+    ]
+  },
+  {
+    "id": "fluminense",
+    "name": "Fluminense",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fluminense_FC_escudo.png",
+    "rating": 77,
+    "squad": [
+      {
+        "id": "p_6i074m43n",
+        "name": "Fábio",
+        "position": "GK",
+        "rating": 78,
+        "number": 1
+      },
+      {
+        "id": "p_d9jrqe8i4",
+        "name": "Samuel Xavier",
+        "position": "RB",
+        "rating": 75,
+        "number": 2
+      },
+      {
+        "id": "p_g6funzpbm",
+        "name": "Thiago Silva",
+        "position": "CB",
+        "rating": 80,
+        "number": 3
+      },
+      {
+        "id": "p_r1i1c7whq",
+        "name": "Felipe Melo",
+        "position": "CB",
+        "rating": 75,
+        "number": 4
+      },
+      {
+        "id": "p_5tvkz9idb",
+        "name": "Marcelo",
+        "position": "LB",
+        "rating": 78,
+        "number": 5
+      },
+      {
+        "id": "p_qe4pecjxd",
+        "name": "André",
+        "position": "CDM",
+        "rating": 80,
+        "number": 6
+      },
+      {
+        "id": "p_y3ednx8kr",
+        "name": "Martinelli",
+        "position": "CM",
+        "rating": 76,
+        "number": 7
+      },
+      {
+        "id": "p_e5cqm53lp",
+        "name": "Ganso",
+        "position": "CAM",
+        "rating": 78,
+        "number": 8
+      },
+      {
+        "id": "p_mz27tpl42",
+        "name": "Jhon Arias",
+        "position": "RW",
+        "rating": 80,
+        "number": 9
+      },
+      {
+        "id": "p_372by12n7",
+        "name": "Germán Cano",
+        "position": "ST",
+        "rating": 79,
+        "number": 10
+      },
+      {
+        "id": "p_pkf3ge3gp",
+        "name": "Keno",
+        "position": "LW",
+        "rating": 76,
+        "number": 11
+      },
+      {
+        "id": "p_6x1yz2p1z",
+        "name": "Gabriel Gomes",
+        "position": "ST",
+        "rating": 77,
+        "number": 12
+      },
+      {
+        "id": "p_0prgq5isa",
+        "name": "Leonardo Lima",
+        "position": "CM",
+        "rating": 77,
+        "number": 13
+      },
+      {
+        "id": "p_8l02s80xm",
+        "name": "Victor Oliveira",
+        "position": "CB",
+        "rating": 78,
+        "number": 14
+      },
+      {
+        "id": "p_e68956qcw",
+        "name": "Pedro Almeida",
+        "position": "GK",
+        "rating": 76,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "internacional",
+    "name": "Internacional",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f1/Escudo_do_Sport_Club_Internacional.svg",
+    "rating": 77,
+    "squad": [
+      {
+        "id": "p_h0zynrx1e",
+        "name": "Rochet",
+        "position": "GK",
+        "rating": 79,
+        "number": 1
+      },
+      {
+        "id": "p_8fdb02z7e",
+        "name": "Bustos",
+        "position": "RB",
+        "rating": 76,
+        "number": 2
+      },
+      {
+        "id": "p_f25dhnshw",
+        "name": "Vitão",
+        "position": "CB",
+        "rating": 77,
+        "number": 3
+      },
+      {
+        "id": "p_g4fqj2oem",
+        "name": "Mercado",
+        "position": "CB",
+        "rating": 76,
+        "number": 4
+      },
+      {
+        "id": "p_vw7rdp79y",
+        "name": "Renê",
+        "position": "LB",
+        "rating": 75,
+        "number": 5
+      },
+      {
+        "id": "p_8bksg5nso",
+        "name": "Thiago Maia",
+        "position": "CDM",
+        "rating": 77,
+        "number": 6
+      },
+      {
+        "id": "p_0ctu4rd53",
+        "name": "Aránguiz",
+        "position": "CM",
+        "rating": 78,
+        "number": 7
+      },
+      {
+        "id": "p_gzzwmm9i0",
+        "name": "Alan Patrick",
+        "position": "CAM",
+        "rating": 80,
+        "number": 8
+      },
+      {
+        "id": "p_n1156lydt",
+        "name": "Wanderson",
+        "position": "LW",
+        "rating": 77,
+        "number": 9
+      },
+      {
+        "id": "p_ec8u9wth4",
+        "name": "Enner Valencia",
+        "position": "ST",
+        "rating": 80,
+        "number": 10
+      },
+      {
+        "id": "p_bd03b5ty8",
+        "name": "Borré",
+        "position": "ST",
+        "rating": 78,
+        "number": 11
+      },
+      {
+        "id": "p_t540axg5i",
+        "name": "Lucas Santos",
+        "position": "ST",
+        "rating": 78,
+        "number": 12
+      },
+      {
+        "id": "p_13xk2lqur",
+        "name": "Eduardo Ferreira",
+        "position": "CM",
+        "rating": 77,
+        "number": 13
+      },
+      {
+        "id": "p_w7t6dpvg2",
+        "name": "Marcos Rodrigues",
+        "position": "CB",
+        "rating": 79,
+        "number": 14
+      },
+      {
+        "id": "p_k44lsrphu",
+        "name": "Felipe Rodrigues",
+        "position": "GK",
+        "rating": 76,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "atletico_mg",
+    "name": "Atlético Mineiro",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/2/27/Clube_Atl%C3%A9tico_Mineiro_logo.svg",
+    "rating": 78,
+    "squad": [
+      {
+        "id": "p_18a9zgbml",
+        "name": "Everson",
+        "position": "GK",
+        "rating": 78,
+        "number": 1
+      },
+      {
+        "id": "p_hurxgclcq",
+        "name": "Saravia",
+        "position": "RB",
+        "rating": 75,
+        "number": 2
+      },
+      {
+        "id": "p_1cnuyipwn",
+        "name": "Jemerson",
+        "position": "CB",
+        "rating": 76,
+        "number": 3
+      },
+      {
+        "id": "p_s72ryxrn5",
+        "name": "Bruno Fuchs",
+        "position": "CB",
+        "rating": 75,
+        "number": 4
+      },
+      {
+        "id": "p_vlusxerj3",
+        "name": "Guilherme Arana",
+        "position": "LB",
+        "rating": 79,
+        "number": 5
+      },
+      {
+        "id": "p_u0ob24n4s",
+        "name": "Battaglia",
+        "position": "CDM",
+        "rating": 77,
+        "number": 6
+      },
+      {
+        "id": "p_nxi8odi37",
+        "name": "Zaracho",
+        "position": "CM",
+        "rating": 78,
+        "number": 7
+      },
+      {
+        "id": "p_41kp4zlmx",
+        "name": "Gustavo Scarpa",
+        "position": "CAM",
+        "rating": 79,
+        "number": 8
+      },
+      {
+        "id": "p_ma2z11hf4",
+        "name": "Paulinho",
+        "position": "LW",
+        "rating": 80,
+        "number": 9
+      },
+      {
+        "id": "p_dmpr4to8d",
+        "name": "Hulk",
+        "position": "ST",
+        "rating": 81,
+        "number": 10
+      },
+      {
+        "id": "p_yt4qjbs9q",
+        "name": "Vargas",
+        "position": "ST",
+        "rating": 76,
+        "number": 11
+      },
+      {
+        "id": "p_4b96kb7xb",
+        "name": "Thiago Lima",
+        "position": "ST",
+        "rating": 76,
+        "number": 12
+      },
+      {
+        "id": "p_4nc06xj2r",
+        "name": "Marcos Oliveira",
+        "position": "CM",
+        "rating": 77,
+        "number": 13
+      },
+      {
+        "id": "p_fdrreqs8a",
+        "name": "Leonardo Silva",
+        "position": "CB",
+        "rating": 78,
+        "number": 14
+      },
+      {
+        "id": "p_6t0e079rt",
+        "name": "Felipe Silva",
+        "position": "GK",
+        "rating": 78,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "athletico_pr",
+    "name": "Athletico Paranaense",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b3/CA_Athletico_Paranaense.svg",
+    "rating": 76,
+    "squad": [
+      {
+        "id": "p_9bveaewow",
+        "name": "Bento",
+        "position": "GK",
+        "rating": 80,
+        "number": 1
+      },
+      {
+        "id": "p_r8wfepov2",
+        "name": "Madson",
+        "position": "RB",
+        "rating": 74,
+        "number": 2
+      },
+      {
+        "id": "p_lanm8pal9",
+        "name": "Thiago Heleno",
+        "position": "CB",
+        "rating": 76,
+        "number": 3
+      },
+      {
+        "id": "p_b8tz0dvw4",
+        "name": "Gamarra",
+        "position": "CB",
+        "rating": 74,
+        "number": 4
+      },
+      {
+        "id": "p_c8387jbl2",
+        "name": "Esquivel",
+        "position": "LB",
+        "rating": 75,
+        "number": 5
+      },
+      {
+        "id": "p_dnj08ixs6",
+        "name": "Fernandinho",
+        "position": "CDM",
+        "rating": 79,
+        "number": 6
+      },
+      {
+        "id": "p_6xg79yx9y",
+        "name": "Erick",
+        "position": "CM",
+        "rating": 76,
+        "number": 7
+      },
+      {
+        "id": "p_u0a3ri97j",
+        "name": "Zapelli",
+        "position": "CAM",
+        "rating": 75,
+        "number": 8
+      },
+      {
+        "id": "p_c81e4fong",
+        "name": "Canobbio",
+        "position": "RW",
+        "rating": 76,
+        "number": 9
+      },
+      {
+        "id": "p_c696aoz8s",
+        "name": "Mastriani",
+        "position": "ST",
+        "rating": 77,
+        "number": 10
+      },
+      {
+        "id": "p_q0auw09r2",
+        "name": "Cuello",
+        "position": "LW",
+        "rating": 74,
+        "number": 11
+      },
+      {
+        "id": "p_5o7h2hc14",
+        "name": "Pedro Ribeiro",
+        "position": "ST",
+        "rating": 75,
+        "number": 12
+      },
+      {
+        "id": "p_dl8zhqlwc",
+        "name": "Victor Alves",
+        "position": "CM",
+        "rating": 75,
+        "number": 13
+      },
+      {
+        "id": "p_bzkukjxw5",
+        "name": "Eduardo Santos",
+        "position": "CB",
+        "rating": 77,
+        "number": 14
+      },
+      {
+        "id": "p_3jtbvmrgw",
+        "name": "Marcos Almeida",
+        "position": "GK",
+        "rating": 74,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "bahia",
+    "name": "Bahia",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/2/2c/Esporte_Clube_Bahia_logo.svg",
+    "rating": 75,
+    "squad": [
+      {
+        "id": "p_ymv24jznd",
+        "name": "Marcos Felipe",
+        "position": "GK",
+        "rating": 75,
+        "number": 1
+      },
+      {
+        "id": "p_v6p12ptxu",
+        "name": "Arias",
+        "position": "RB",
+        "rating": 76,
+        "number": 2
+      },
+      {
+        "id": "p_j248dz1nr",
+        "name": "Kanu",
+        "position": "CB",
+        "rating": 75,
+        "number": 3
+      },
+      {
+        "id": "p_awfk7cu25",
+        "name": "Víctor Cuesta",
+        "position": "CB",
+        "rating": 74,
+        "number": 4
+      },
+      {
+        "id": "p_2h4r8miyn",
+        "name": "Luciano Juba",
+        "position": "LB",
+        "rating": 75,
+        "number": 5
+      },
+      {
+        "id": "p_jq6cs88a6",
+        "name": "Jean Lucas",
+        "position": "CM",
+        "rating": 76,
+        "number": 6
+      },
+      {
+        "id": "p_sq45v0kd6",
+        "name": "Caio Alexandre",
+        "position": "CDM",
+        "rating": 77,
+        "number": 7
+      },
+      {
+        "id": "p_jmcuiesgk",
+        "name": "Everton Ribeiro",
+        "position": "CAM",
+        "rating": 79,
+        "number": 8
+      },
+      {
+        "id": "p_qzngmfad1",
+        "name": "Cauly",
+        "position": "CAM",
+        "rating": 78,
+        "number": 9
+      },
+      {
+        "id": "p_ci1z75dem",
+        "name": "Thaciano",
+        "position": "ST",
+        "rating": 75,
+        "number": 10
+      },
+      {
+        "id": "p_dkvb22b89",
+        "name": "Everaldo",
+        "position": "ST",
+        "rating": 74,
+        "number": 11
+      },
+      {
+        "id": "p_137ne1478",
+        "name": "João Silva",
+        "position": "ST",
+        "rating": 73,
+        "number": 12
+      },
+      {
+        "id": "p_amh41nkcm",
+        "name": "Thiago Silva",
+        "position": "CM",
+        "rating": 73,
+        "number": 13
+      },
+      {
+        "id": "p_osksm1mxu",
+        "name": "Pedro Pereira",
+        "position": "CB",
+        "rating": 75,
+        "number": 14
+      },
+      {
+        "id": "p_cy4oyct3h",
+        "name": "Eduardo Alves",
+        "position": "GK",
+        "rating": 77,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "fortaleza",
+    "name": "Fortaleza",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Escudo_do_Fortaleza_Esporte_Clube.svg",
+    "rating": 75,
+    "squad": [
+      {
+        "id": "p_tlcwldfmk",
+        "name": "João Ricardo",
+        "position": "GK",
+        "rating": 76,
+        "number": 1
+      },
+      {
+        "id": "p_y3e5c5ule",
+        "name": "Tinga",
+        "position": "RB",
+        "rating": 75,
+        "number": 2
+      },
+      {
+        "id": "p_ns8k779wp",
+        "name": "Brítez",
+        "position": "CB",
+        "rating": 75,
+        "number": 3
+      },
+      {
+        "id": "p_e0419g524",
+        "name": "Titi",
+        "position": "CB",
+        "rating": 74,
+        "number": 4
+      },
+      {
+        "id": "p_6i7vnkye7",
+        "name": "Bruno Pacheco",
+        "position": "LB",
+        "rating": 74,
+        "number": 5
+      },
+      {
+        "id": "p_vqq2asiwj",
+        "name": "Hércules",
+        "position": "CM",
+        "rating": 75,
+        "number": 6
+      },
+      {
+        "id": "p_aohiu96vf",
+        "name": "Zé Welison",
+        "position": "CDM",
+        "rating": 75,
+        "number": 7
+      },
+      {
+        "id": "p_33cbygdii",
+        "name": "Pochettino",
+        "position": "CAM",
+        "rating": 76,
+        "number": 8
+      },
+      {
+        "id": "p_4we8kqwll",
+        "name": "Yago Pikachu",
+        "position": "RW",
+        "rating": 76,
+        "number": 9
+      },
+      {
+        "id": "p_epdxq5iw0",
+        "name": "Moisés",
+        "position": "LW",
+        "rating": 75,
+        "number": 10
+      },
+      {
+        "id": "p_c322l8a2b",
+        "name": "Lucero",
+        "position": "ST",
+        "rating": 77,
+        "number": 11
+      },
+      {
+        "id": "p_uonv79tfd",
+        "name": "Leonardo Alves",
+        "position": "ST",
+        "rating": 76,
+        "number": 12
+      },
+      {
+        "id": "p_r1loyjpqe",
+        "name": "Leonardo Santos",
+        "position": "CM",
+        "rating": 74,
+        "number": 13
+      },
+      {
+        "id": "p_vu9wbb1fs",
+        "name": "Victor Gomes",
+        "position": "CB",
+        "rating": 75,
+        "number": 14
+      },
+      {
+        "id": "p_1yly39r76",
+        "name": "Felipe Souza",
+        "position": "GK",
+        "rating": 73,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "bragantino",
+    "name": "Red Bull Bragantino",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/pt/9/9e/RedBullBragantino.png",
+    "rating": 75,
+    "squad": [
+      {
+        "id": "p_ao058xp1y",
+        "name": "Cleiton",
+        "position": "GK",
+        "rating": 76,
+        "number": 1
+      },
+      {
+        "id": "p_sa06ze57i",
+        "name": "Nathan",
+        "position": "RB",
+        "rating": 73,
+        "number": 2
+      },
+      {
+        "id": "p_2kemyivrl",
+        "name": "Pedro Henrique",
+        "position": "CB",
+        "rating": 74,
+        "number": 3
+      },
+      {
+        "id": "p_nw8e2ify0",
+        "name": "Luan Cândido",
+        "position": "CB",
+        "rating": 75,
+        "number": 4
+      },
+      {
+        "id": "p_k027ocec8",
+        "name": "Juninho Capixaba",
+        "position": "LB",
+        "rating": 76,
+        "number": 5
+      },
+      {
+        "id": "p_76zmz1o6l",
+        "name": "Jadsom",
+        "position": "CDM",
+        "rating": 75,
+        "number": 6
+      },
+      {
+        "id": "p_s7d6i1uh2",
+        "name": "Lucas Evangelista",
+        "position": "CM",
+        "rating": 76,
+        "number": 7
+      },
+      {
+        "id": "p_hctbtnulj",
+        "name": "Lincoln",
+        "position": "CAM",
+        "rating": 75,
+        "number": 8
+      },
+      {
+        "id": "p_n4dul58za",
+        "name": "Helinho",
+        "position": "RW",
+        "rating": 76,
+        "number": 9
+      },
+      {
+        "id": "p_9rhfvwuc0",
+        "name": "Eduardo Sasha",
+        "position": "ST",
+        "rating": 75,
+        "number": 10
+      },
+      {
+        "id": "p_hym2ut22j",
+        "name": "Thiago Borbas",
+        "position": "ST",
+        "rating": 74,
+        "number": 11
+      },
+      {
+        "id": "p_l5f2gzjnk",
+        "name": "Victor Ferreira",
+        "position": "ST",
+        "rating": 75,
+        "number": 12
+      },
+      {
+        "id": "p_e9rtbzqsu",
+        "name": "Guilherme Gomes",
+        "position": "CM",
+        "rating": 76,
+        "number": 13
+      },
+      {
+        "id": "p_337ac8xxf",
+        "name": "Lucas Almeida",
+        "position": "CB",
+        "rating": 77,
+        "number": 14
+      },
+      {
+        "id": "p_1jvunnawq",
+        "name": "Victor Souza",
+        "position": "GK",
+        "rating": 75,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "vitoria",
+    "name": "Vitória",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/0/07/Esporte_Clube_Vit%C3%B3ria_logo.svg",
+    "rating": 71,
+    "squad": [
+      {
+        "id": "p_7e857cv9v",
+        "name": "Lucas Arcanjo",
+        "position": "GK",
+        "rating": 72,
+        "number": 1
+      },
+      {
+        "id": "p_xwy1vj395",
+        "name": "Zeca",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_4k0h6pfs4",
+        "name": "Camutanga",
+        "position": "CB",
+        "rating": 71,
+        "number": 3
+      },
+      {
+        "id": "p_au3olnggg",
+        "name": "Wagner Leonardo",
+        "position": "CB",
+        "rating": 72,
+        "number": 4
+      },
+      {
+        "id": "p_l81w4gzpi",
+        "name": "Patric Calmon",
+        "position": "LB",
+        "rating": 70,
+        "number": 5
+      },
+      {
+        "id": "p_c9acxe9iz",
+        "name": "Dudu",
+        "position": "CDM",
+        "rating": 71,
+        "number": 6
+      },
+      {
+        "id": "p_cv87edyrm",
+        "name": "Willian Oliveira",
+        "position": "CM",
+        "rating": 71,
+        "number": 7
+      },
+      {
+        "id": "p_txg5j0o64",
+        "name": "Matheuzinho",
+        "position": "CAM",
+        "rating": 72,
+        "number": 8
+      },
+      {
+        "id": "p_zzxqwu6l0",
+        "name": "Osvaldo",
+        "position": "RW",
+        "rating": 71,
+        "number": 9
+      },
+      {
+        "id": "p_rxolgpkuh",
+        "name": "Mateus Gonçalves",
+        "position": "LW",
+        "rating": 70,
+        "number": 10
+      },
+      {
+        "id": "p_wknq0qn6b",
+        "name": "Alerrandro",
+        "position": "ST",
+        "rating": 71,
+        "number": 11
+      },
+      {
+        "id": "p_cwocn8qqs",
+        "name": "Eduardo Lima",
+        "position": "ST",
+        "rating": 69,
+        "number": 12
+      },
+      {
+        "id": "p_ztdkt6e5s",
+        "name": "Lucas Gomes",
+        "position": "CM",
+        "rating": 72,
+        "number": 13
+      },
+      {
+        "id": "p_gdgctq5qg",
+        "name": "Thiago Carvalho",
+        "position": "CB",
+        "rating": 73,
+        "number": 14
+      },
+      {
+        "id": "p_bn0lwfa32",
+        "name": "João Silva",
+        "position": "GK",
+        "rating": 73,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "juventude",
+    "name": "Juventude",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/a/af/Esporte_Clube_Juventude_logo.svg",
+    "rating": 71,
+    "squad": [
+      {
+        "id": "p_zsxn79yvv",
+        "name": "Gabriel",
+        "position": "GK",
+        "rating": 72,
+        "number": 1
+      },
+      {
+        "id": "p_2zlcm0p8u",
+        "name": "João Lucas",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_e6xk69pi6",
+        "name": "Zé Marcos",
+        "position": "CB",
+        "rating": 71,
+        "number": 3
+      },
+      {
+        "id": "p_wqji93y4m",
+        "name": "Danilo Boza",
+        "position": "CB",
+        "rating": 70,
+        "number": 4
+      },
+      {
+        "id": "p_g8gl6c30h",
+        "name": "Alan Ruschel",
+        "position": "LB",
+        "rating": 71,
+        "number": 5
+      },
+      {
+        "id": "p_bju6cb408",
+        "name": "Caíque",
+        "position": "CDM",
+        "rating": 70,
+        "number": 6
+      },
+      {
+        "id": "p_a69izismw",
+        "name": "Jadson",
+        "position": "CM",
+        "rating": 71,
+        "number": 7
+      },
+      {
+        "id": "p_1xi1gammn",
+        "name": "Jean Carlos",
+        "position": "CAM",
+        "rating": 72,
+        "number": 8
+      },
+      {
+        "id": "p_ie0kv7rb5",
+        "name": "Lucas Barbosa",
+        "position": "RW",
+        "rating": 71,
+        "number": 9
+      },
+      {
+        "id": "p_mw3mb69fh",
+        "name": "Erick Farias",
+        "position": "LW",
+        "rating": 70,
+        "number": 10
+      },
+      {
+        "id": "p_hhdk2xmdy",
+        "name": "Gilberto",
+        "position": "ST",
+        "rating": 72,
+        "number": 11
+      },
+      {
+        "id": "p_66k9hz1bd",
+        "name": "Bruno Ferreira",
+        "position": "ST",
+        "rating": 69,
+        "number": 12
+      },
+      {
+        "id": "p_rqi2dtcs2",
+        "name": "Pedro Ribeiro",
+        "position": "CM",
+        "rating": 73,
+        "number": 13
+      },
+      {
+        "id": "p_shdd7xv5n",
+        "name": "Lucas Martins",
+        "position": "CB",
+        "rating": 70,
+        "number": 14
+      },
+      {
+        "id": "p_rxs1871k8",
+        "name": "Lucas Lima",
+        "position": "GK",
+        "rating": 70,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "criciuma",
+    "name": "Criciúma",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/7/77/Crici%C3%BAma.svg",
+    "rating": 71,
+    "squad": [
+      {
+        "id": "p_wxwl2y756",
+        "name": "Gustavo",
+        "position": "GK",
+        "rating": 71,
+        "number": 1
+      },
+      {
+        "id": "p_6qpyn4rbv",
+        "name": "Claudinho",
+        "position": "RB",
+        "rating": 70,
+        "number": 2
+      },
+      {
+        "id": "p_6tf9wgfaa",
+        "name": "Rodrigo",
+        "position": "CB",
+        "rating": 71,
+        "number": 3
+      },
+      {
+        "id": "p_e5kxqgl3t",
+        "name": "Wilker Ángel",
+        "position": "CB",
+        "rating": 71,
+        "number": 4
+      },
+      {
+        "id": "p_2rjpzwihl",
+        "name": "Marcelo Hermes",
+        "position": "LB",
+        "rating": 71,
+        "number": 5
+      },
+      {
+        "id": "p_2jo9affo0",
+        "name": "Barreto",
+        "position": "CDM",
+        "rating": 70,
+        "number": 6
+      },
+      {
+        "id": "p_ezecqc8ts",
+        "name": "Fellipe Mateus",
+        "position": "CM",
+        "rating": 71,
+        "number": 7
+      },
+      {
+        "id": "p_mty7qs63k",
+        "name": "Marquinhos Gabriel",
+        "position": "CAM",
+        "rating": 72,
+        "number": 8
+      },
+      {
+        "id": "p_7dpji0w8t",
+        "name": "Éder",
+        "position": "ST",
+        "rating": 72,
+        "number": 9
+      },
+      {
+        "id": "p_kmlufeaqs",
+        "name": "Renato Kayzer",
+        "position": "ST",
+        "rating": 71,
+        "number": 10
+      },
+      {
+        "id": "p_uot0liel9",
+        "name": "Arthur Caíke",
+        "position": "LW",
+        "rating": 70,
+        "number": 11
+      },
+      {
+        "id": "p_ivxqszjif",
+        "name": "Bruno Gomes",
+        "position": "ST",
+        "rating": 72,
+        "number": 12
+      },
+      {
+        "id": "p_c8gtpbs36",
+        "name": "Rodrigo Carvalho",
+        "position": "CM",
+        "rating": 71,
+        "number": 13
+      },
+      {
+        "id": "p_w8esnk8kt",
+        "name": "Eduardo Silva",
+        "position": "CB",
+        "rating": 69,
+        "number": 14
+      },
+      {
+        "id": "p_mhhhb0koz",
+        "name": "João Gomes",
+        "position": "GK",
+        "rating": 69,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "atletico_go",
+    "name": "Atlético Goianiense",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/8/87/Drag%C3%A3o.png",
+    "rating": 71,
+    "squad": [
+      {
+        "id": "p_c41gw5lxq",
+        "name": "Ronaldo",
+        "position": "GK",
+        "rating": 72,
+        "number": 1
+      },
+      {
+        "id": "p_tyjx3o5pj",
+        "name": "Bruno Tubarão",
+        "position": "RB",
+        "rating": 70,
+        "number": 2
+      },
+      {
+        "id": "p_e6uklgobg",
+        "name": "Adriano Martins",
+        "position": "CB",
+        "rating": 70,
+        "number": 3
+      },
+      {
+        "id": "p_fo9f3cw1a",
+        "name": "Alix Vinícius",
+        "position": "CB",
+        "rating": 71,
+        "number": 4
+      },
+      {
+        "id": "p_jctzo4sjq",
+        "name": "Guilherme Romão",
+        "position": "LB",
+        "rating": 71,
+        "number": 5
+      },
+      {
+        "id": "p_x2kpoh0gj",
+        "name": "Gabriel Baralhas",
+        "position": "CDM",
+        "rating": 71,
+        "number": 6
+      },
+      {
+        "id": "p_p76uv1yfe",
+        "name": "Rhaldney",
+        "position": "CM",
+        "rating": 70,
+        "number": 7
+      },
+      {
+        "id": "p_t02tx8f1c",
+        "name": "Shaylon",
+        "position": "CAM",
+        "rating": 73,
+        "number": 8
+      },
+      {
+        "id": "p_tyav683x1",
+        "name": "Alejo Cruz",
+        "position": "LW",
+        "rating": 71,
+        "number": 9
+      },
+      {
+        "id": "p_6anf64wrt",
+        "name": "Luiz Fernando",
+        "position": "RW",
+        "rating": 72,
+        "number": 10
+      },
+      {
+        "id": "p_zgsh5kqd1",
+        "name": "Emiliano Rodríguez",
+        "position": "ST",
+        "rating": 70,
+        "number": 11
+      },
+      {
+        "id": "p_a6ki0zwe3",
+        "name": "Gabriel Ferreira",
+        "position": "ST",
+        "rating": 69,
+        "number": 12
+      },
+      {
+        "id": "p_krjnmmm3l",
+        "name": "Rafael Pereira",
+        "position": "CM",
+        "rating": 70,
+        "number": 13
+      },
+      {
+        "id": "p_zmt445d24",
+        "name": "Eduardo Martins",
+        "position": "CB",
+        "rating": 71,
+        "number": 14
+      },
+      {
+        "id": "p_bvdjibmi9",
+        "name": "João Santos",
+        "position": "GK",
+        "rating": 72,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "cuiaba",
+    "name": "Cuiabá",
+    "leagueId": "brazil",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/en/9/9b/Cuiab%C3%A1_Esporte_Clube_logo.svg",
+    "rating": 72,
+    "squad": [
+      {
+        "id": "p_u23tmfa4b",
+        "name": "Walter",
+        "position": "GK",
+        "rating": 74,
+        "number": 1
+      },
+      {
+        "id": "p_nt3uzjv58",
+        "name": "Matheus Alexandre",
+        "position": "RB",
+        "rating": 72,
+        "number": 2
+      },
+      {
+        "id": "p_wfxzj5z0j",
+        "name": "Marllon",
+        "position": "CB",
+        "rating": 72,
+        "number": 3
+      },
+      {
+        "id": "p_kqk5jy9h1",
+        "name": "Alan Empereur",
+        "position": "CB",
+        "rating": 73,
+        "number": 4
+      },
+      {
+        "id": "p_catrn7mt8",
+        "name": "Ramon",
+        "position": "LB",
+        "rating": 71,
+        "number": 5
+      },
+      {
+        "id": "p_ez6zewm67",
+        "name": "Lucas Mineiro",
+        "position": "CDM",
+        "rating": 71,
+        "number": 6
+      },
+      {
+        "id": "p_2yvrf3tkz",
+        "name": "Fernando Sobral",
+        "position": "CM",
+        "rating": 72,
+        "number": 7
+      },
+      {
+        "id": "p_twsvtp04f",
+        "name": "Max",
+        "position": "CAM",
+        "rating": 71,
+        "number": 8
+      },
+      {
+        "id": "p_nfo2yif6w",
+        "name": "Clayson",
+        "position": "LW",
+        "rating": 73,
+        "number": 9
+      },
+      {
+        "id": "p_2l9x0rnar",
+        "name": "Derik Lacerda",
+        "position": "RW",
+        "rating": 71,
+        "number": 10
+      },
+      {
+        "id": "p_inb9iabif",
+        "name": "Isidro Pitta",
+        "position": "ST",
+        "rating": 73,
+        "number": 11
+      },
+      {
+        "id": "p_seh4ae91g",
+        "name": "João Silva",
+        "position": "ST",
+        "rating": 73,
+        "number": 12
+      },
+      {
+        "id": "p_tj353zif5",
+        "name": "Rodrigo Almeida",
+        "position": "CM",
+        "rating": 72,
+        "number": 13
+      },
+      {
+        "id": "p_t9109fech",
+        "name": "Eduardo Santos",
+        "position": "CB",
+        "rating": 72,
+        "number": 14
+      },
+      {
+        "id": "p_zzktei0gj",
+        "name": "João Costa",
+        "position": "GK",
+        "rating": 70,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "goias",
+    "name": "Goiás",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Goi%C3%A1s_Esporte_Clube_logo.svg",
+    "rating": 71,
+    "squad": [
+      {
+        "id": "p_tu737jypi",
+        "name": "Thiago Pereira",
+        "position": "GK",
+        "rating": 72,
+        "number": 1
+      },
+      {
+        "id": "p_u1amm9gfx",
+        "name": "Bruno Oliveira",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_547tk16mm",
+        "name": "Rodrigo Ribeiro",
+        "position": "CB",
+        "rating": 69,
+        "number": 3
+      },
+      {
+        "id": "p_8jumid80j",
+        "name": "Rafael Martins",
+        "position": "CB",
+        "rating": 73,
+        "number": 4
+      },
+      {
+        "id": "p_rztyjueva",
+        "name": "Guilherme Pereira",
+        "position": "LB",
+        "rating": 72,
+        "number": 5
+      },
+      {
+        "id": "p_mpblvrr2t",
+        "name": "Bruno Almeida",
+        "position": "CDM",
+        "rating": 70,
+        "number": 6
+      },
+      {
+        "id": "p_od4ykipod",
+        "name": "Rafael Silva",
+        "position": "CM",
+        "rating": 73,
+        "number": 7
+      },
+      {
+        "id": "p_y5kafskou",
+        "name": "Lucas Oliveira",
+        "position": "CAM",
+        "rating": 71,
+        "number": 8
+      },
+      {
+        "id": "p_8qqtvosv2",
+        "name": "Eduardo Almeida",
+        "position": "RW",
+        "rating": 71,
+        "number": 9
+      },
+      {
+        "id": "p_3vr46k4bg",
+        "name": "Lucas Costa",
+        "position": "ST",
+        "rating": 69,
+        "number": 10
+      },
+      {
+        "id": "p_vwqsg7fqs",
+        "name": "Felipe Ribeiro",
+        "position": "LW",
+        "rating": 73,
+        "number": 11
+      },
+      {
+        "id": "p_1nxlghv0x",
+        "name": "Lucas Ferreira",
+        "position": "ST",
+        "rating": 70,
+        "number": 12
+      },
+      {
+        "id": "p_k7crk7ux4",
+        "name": "Felipe Silva",
+        "position": "CM",
+        "rating": 70,
+        "number": 13
+      },
+      {
+        "id": "p_gcn0uangk",
+        "name": "Felipe Santos",
+        "position": "CB",
+        "rating": 71,
+        "number": 14
+      },
+      {
+        "id": "p_as4cwww7s",
+        "name": "Bruno Santos",
+        "position": "GK",
+        "rating": 69,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "coritiba",
+    "name": "Coritiba",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Coritiba_FBC_logo.svg",
+    "rating": 71,
+    "squad": [
+      {
+        "id": "p_8j49mioq7",
+        "name": "Felipe Carvalho",
+        "position": "GK",
+        "rating": 70,
+        "number": 1
+      },
+      {
+        "id": "p_w9gdjkele",
+        "name": "Felipe Lima",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_fdjvn2nlb",
+        "name": "Felipe Rodrigues",
+        "position": "CB",
+        "rating": 70,
+        "number": 3
+      },
+      {
+        "id": "p_o57173s6t",
+        "name": "Eduardo Oliveira",
+        "position": "CB",
+        "rating": 73,
+        "number": 4
+      },
+      {
+        "id": "p_g2nk7v3be",
+        "name": "Rodrigo Alves",
+        "position": "LB",
+        "rating": 71,
+        "number": 5
+      },
+      {
+        "id": "p_wpj158len",
+        "name": "Gabriel Pereira",
+        "position": "CDM",
+        "rating": 70,
+        "number": 6
+      },
+      {
+        "id": "p_6pm2lsvva",
+        "name": "Bruno Ribeiro",
+        "position": "CM",
+        "rating": 73,
+        "number": 7
+      },
+      {
+        "id": "p_tp3pjz5jd",
+        "name": "Gabriel Ribeiro",
+        "position": "CAM",
+        "rating": 71,
+        "number": 8
+      },
+      {
+        "id": "p_9gln5zt9r",
+        "name": "Rafael Rodrigues",
+        "position": "RW",
+        "rating": 69,
+        "number": 9
+      },
+      {
+        "id": "p_91gumott2",
+        "name": "Eduardo Almeida",
+        "position": "ST",
+        "rating": 73,
+        "number": 10
+      },
+      {
+        "id": "p_1t1xdajm5",
+        "name": "Bruno Martins",
+        "position": "LW",
+        "rating": 71,
+        "number": 11
+      },
+      {
+        "id": "p_5259mdr54",
+        "name": "Thiago Alves",
+        "position": "ST",
+        "rating": 71,
+        "number": 12
+      },
+      {
+        "id": "p_vch200ov8",
+        "name": "Gabriel Costa",
+        "position": "CM",
+        "rating": 73,
+        "number": 13
+      },
+      {
+        "id": "p_iuxjkimca",
+        "name": "Guilherme Souza",
+        "position": "CB",
+        "rating": 69,
+        "number": 14
+      },
+      {
+        "id": "p_gkqfryzv0",
+        "name": "Thiago Pereira",
+        "position": "GK",
+        "rating": 72,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "america_mg",
+    "name": "América Mineiro",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Am%C3%A9rica_Futebol_Clube_%28MG%29_logo.svg",
+    "rating": 71,
+    "squad": [
+      {
+        "id": "p_0xbruhz0e",
+        "name": "João Carvalho",
+        "position": "GK",
+        "rating": 69,
+        "number": 1
+      },
+      {
+        "id": "p_xzgaagmfn",
+        "name": "Eduardo Lima",
+        "position": "RB",
+        "rating": 69,
+        "number": 2
+      },
+      {
+        "id": "p_7bjvgaxti",
+        "name": "Felipe Ferreira",
+        "position": "CB",
+        "rating": 70,
+        "number": 3
+      },
+      {
+        "id": "p_83tl66kqq",
+        "name": "Marcos Martins",
+        "position": "CB",
+        "rating": 69,
+        "number": 4
+      },
+      {
+        "id": "p_c3reqto4k",
+        "name": "Marcos Ferreira",
+        "position": "LB",
+        "rating": 69,
+        "number": 5
+      },
+      {
+        "id": "p_ffark9nw5",
+        "name": "Leonardo Almeida",
+        "position": "CDM",
+        "rating": 73,
+        "number": 6
+      },
+      {
+        "id": "p_xu8wn1pxs",
+        "name": "Lucas Lima",
+        "position": "CM",
+        "rating": 69,
+        "number": 7
+      },
+      {
+        "id": "p_crz6j1cpm",
+        "name": "Matheus Gomes",
+        "position": "CAM",
+        "rating": 72,
+        "number": 8
+      },
+      {
+        "id": "p_boi2nxsib",
+        "name": "Eduardo Pereira",
+        "position": "RW",
+        "rating": 72,
+        "number": 9
+      },
+      {
+        "id": "p_pdznv84dw",
+        "name": "Leonardo Rodrigues",
+        "position": "ST",
+        "rating": 70,
+        "number": 10
+      },
+      {
+        "id": "p_091wf8dyi",
+        "name": "Leonardo Souza",
+        "position": "LW",
+        "rating": 70,
+        "number": 11
+      },
+      {
+        "id": "p_we31fu2fr",
+        "name": "Rodrigo Ribeiro",
+        "position": "ST",
+        "rating": 70,
+        "number": 12
+      },
+      {
+        "id": "p_67ecywxd7",
+        "name": "Lucas Oliveira",
+        "position": "CM",
+        "rating": 73,
+        "number": 13
+      },
+      {
+        "id": "p_11q6ba9tt",
+        "name": "Rafael Ferreira",
+        "position": "CB",
+        "rating": 69,
+        "number": 14
+      },
+      {
+        "id": "p_ofubmqzf3",
+        "name": "Rafael Ferreira",
+        "position": "GK",
+        "rating": 72,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "vila_nova",
+    "name": "Vila Nova",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Escudo_do_Vila_Nova_Futebol_Clube.svg",
+    "rating": 70,
+    "squad": [
+      {
+        "id": "p_tvn0xbiv6",
+        "name": "Bruno Rodrigues",
+        "position": "GK",
+        "rating": 70,
+        "number": 1
+      },
+      {
+        "id": "p_mn2ir6qvh",
+        "name": "Rodrigo Almeida",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_px5r4abmh",
+        "name": "Bruno Pereira",
+        "position": "CB",
+        "rating": 70,
+        "number": 3
+      },
+      {
+        "id": "p_tlxh73mfm",
+        "name": "Gabriel Gomes",
+        "position": "CB",
+        "rating": 71,
+        "number": 4
+      },
+      {
+        "id": "p_a1lkvarwd",
+        "name": "Gabriel Martins",
+        "position": "LB",
+        "rating": 69,
+        "number": 5
+      },
+      {
+        "id": "p_4feg77xvf",
+        "name": "Thiago Alves",
+        "position": "CDM",
+        "rating": 70,
+        "number": 6
+      },
+      {
+        "id": "p_29t9nw1do",
+        "name": "Victor Martins",
+        "position": "CM",
+        "rating": 68,
+        "number": 7
+      },
+      {
+        "id": "p_dbqqz66h9",
+        "name": "Thiago Rodrigues",
+        "position": "CAM",
+        "rating": 70,
+        "number": 8
+      },
+      {
+        "id": "p_oz0ndj212",
+        "name": "Eduardo Souza",
+        "position": "RW",
+        "rating": 69,
+        "number": 9
+      },
+      {
+        "id": "p_s5ijz5fms",
+        "name": "Pedro Pereira",
+        "position": "ST",
+        "rating": 69,
+        "number": 10
+      },
+      {
+        "id": "p_1q44h53hk",
+        "name": "Bruno Martins",
+        "position": "LW",
+        "rating": 70,
+        "number": 11
+      },
+      {
+        "id": "p_ffjkr8poj",
+        "name": "Gabriel Almeida",
+        "position": "ST",
+        "rating": 70,
+        "number": 12
+      },
+      {
+        "id": "p_pnqzvdf3l",
+        "name": "Guilherme Ribeiro",
+        "position": "CM",
+        "rating": 72,
+        "number": 13
+      },
+      {
+        "id": "p_kscwedjtd",
+        "name": "Rafael Alves",
+        "position": "CB",
+        "rating": 70,
+        "number": 14
+      },
+      {
+        "id": "p_vj02nm45x",
+        "name": "Marcos Almeida",
+        "position": "GK",
+        "rating": 71,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "novorizontino",
+    "name": "Novorizontino",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/pt/b/b1/Gremio_Novorizontino.png",
+    "rating": 70,
+    "squad": [
+      {
+        "id": "p_lx4v8xxd4",
+        "name": "João Alves",
+        "position": "GK",
+        "rating": 71,
+        "number": 1
+      },
+      {
+        "id": "p_a9xp9u5bu",
+        "name": "Rodrigo Santos",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_azxa4cqze",
+        "name": "Leonardo Alves",
+        "position": "CB",
+        "rating": 71,
+        "number": 3
+      },
+      {
+        "id": "p_0ks8g1mpf",
+        "name": "Guilherme Oliveira",
+        "position": "CB",
+        "rating": 69,
+        "number": 4
+      },
+      {
+        "id": "p_rjn7gbfyb",
+        "name": "Rafael Silva",
+        "position": "LB",
+        "rating": 69,
+        "number": 5
+      },
+      {
+        "id": "p_jsuyydg86",
+        "name": "Gabriel Souza",
+        "position": "CDM",
+        "rating": 69,
+        "number": 6
+      },
+      {
+        "id": "p_iol3cwihc",
+        "name": "Rodrigo Alves",
+        "position": "CM",
+        "rating": 71,
+        "number": 7
+      },
+      {
+        "id": "p_gm0u7lp3l",
+        "name": "Rafael Ferreira",
+        "position": "CAM",
+        "rating": 69,
+        "number": 8
+      },
+      {
+        "id": "p_nppry0l7x",
+        "name": "Bruno Santos",
+        "position": "RW",
+        "rating": 69,
+        "number": 9
+      },
+      {
+        "id": "p_snyc38cuf",
+        "name": "João Ribeiro",
+        "position": "ST",
+        "rating": 68,
+        "number": 10
+      },
+      {
+        "id": "p_oqkcnagfr",
+        "name": "Leonardo Silva",
+        "position": "LW",
+        "rating": 69,
+        "number": 11
+      },
+      {
+        "id": "p_5k1dnu0mk",
+        "name": "Pedro Rodrigues",
+        "position": "ST",
+        "rating": 69,
+        "number": 12
+      },
+      {
+        "id": "p_hi5h98flu",
+        "name": "Bruno Pereira",
+        "position": "CM",
+        "rating": 72,
+        "number": 13
+      },
+      {
+        "id": "p_8rgd9k5ty",
+        "name": "João Costa",
+        "position": "CB",
+        "rating": 72,
+        "number": 14
+      },
+      {
+        "id": "p_t3i6ukt27",
+        "name": "Felipe Ribeiro",
+        "position": "GK",
+        "rating": 70,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "mirassol",
+    "name": "Mirassol",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/pt/4/4c/Mirassol_Futebol_Clube.png",
+    "rating": 69,
+    "squad": [
+      {
+        "id": "p_n4a5kc15u",
+        "name": "Eduardo Lima",
+        "position": "GK",
+        "rating": 70,
+        "number": 1
+      },
+      {
+        "id": "p_i9pjk9opj",
+        "name": "Rodrigo Costa",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_oc3iwm9lx",
+        "name": "Guilherme Costa",
+        "position": "CB",
+        "rating": 71,
+        "number": 3
+      },
+      {
+        "id": "p_e5ugw1s25",
+        "name": "Rodrigo Costa",
+        "position": "CB",
+        "rating": 67,
+        "number": 4
+      },
+      {
+        "id": "p_e74fbc1mq",
+        "name": "Rafael Carvalho",
+        "position": "LB",
+        "rating": 71,
+        "number": 5
+      },
+      {
+        "id": "p_37qrxtsje",
+        "name": "Guilherme Gomes",
+        "position": "CDM",
+        "rating": 70,
+        "number": 6
+      },
+      {
+        "id": "p_y5hnpmoy0",
+        "name": "Matheus Pereira",
+        "position": "CM",
+        "rating": 68,
+        "number": 7
+      },
+      {
+        "id": "p_z30dj6upo",
+        "name": "Gabriel Souza",
+        "position": "CAM",
+        "rating": 70,
+        "number": 8
+      },
+      {
+        "id": "p_7j9vn1oio",
+        "name": "João Almeida",
+        "position": "RW",
+        "rating": 68,
+        "number": 9
+      },
+      {
+        "id": "p_a5zqut31n",
+        "name": "Leonardo Martins",
+        "position": "ST",
+        "rating": 70,
+        "number": 10
+      },
+      {
+        "id": "p_ec2jwcsab",
+        "name": "Eduardo Santos",
+        "position": "LW",
+        "rating": 68,
+        "number": 11
+      },
+      {
+        "id": "p_lzzgezzxg",
+        "name": "Guilherme Rodrigues",
+        "position": "ST",
+        "rating": 67,
+        "number": 12
+      },
+      {
+        "id": "p_4ftf3nasf",
+        "name": "Bruno Martins",
+        "position": "CM",
+        "rating": 71,
+        "number": 13
+      },
+      {
+        "id": "p_129iomrlt",
+        "name": "Thiago Rodrigues",
+        "position": "CB",
+        "rating": 71,
+        "number": 14
+      },
+      {
+        "id": "p_6xb1c89kz",
+        "name": "Pedro Lima",
+        "position": "GK",
+        "rating": 70,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "operario_pr",
+    "name": "Operário-PR",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Oper%C3%A1rio_Ferrovi%C3%A1rio_Esporte_Clube_logo.svg",
+    "rating": 69,
+    "squad": [
+      {
+        "id": "p_6f991ze5v",
+        "name": "Leonardo Almeida",
+        "position": "GK",
+        "rating": 67,
+        "number": 1
+      },
+      {
+        "id": "p_52asr4lnz",
+        "name": "Victor Carvalho",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_qslfk7973",
+        "name": "Bruno Carvalho",
+        "position": "CB",
+        "rating": 67,
+        "number": 3
+      },
+      {
+        "id": "p_o06b59w2h",
+        "name": "João Oliveira",
+        "position": "CB",
+        "rating": 69,
+        "number": 4
+      },
+      {
+        "id": "p_pawh7pehe",
+        "name": "Victor Lima",
+        "position": "LB",
+        "rating": 68,
+        "number": 5
+      },
+      {
+        "id": "p_nr6zsnv37",
+        "name": "Rodrigo Almeida",
+        "position": "CDM",
+        "rating": 68,
+        "number": 6
+      },
+      {
+        "id": "p_o8qqp8txc",
+        "name": "Marcos Costa",
+        "position": "CM",
+        "rating": 71,
+        "number": 7
+      },
+      {
+        "id": "p_6tj4jz6hf",
+        "name": "Pedro Souza",
+        "position": "CAM",
+        "rating": 68,
+        "number": 8
+      },
+      {
+        "id": "p_8rop8k32e",
+        "name": "Bruno Pereira",
+        "position": "RW",
+        "rating": 69,
+        "number": 9
+      },
+      {
+        "id": "p_q9soqlyzi",
+        "name": "Marcos Alves",
+        "position": "ST",
+        "rating": 70,
+        "number": 10
+      },
+      {
+        "id": "p_1m5f5nagm",
+        "name": "Leonardo Pereira",
+        "position": "LW",
+        "rating": 70,
+        "number": 11
+      },
+      {
+        "id": "p_5o399mwmx",
+        "name": "Eduardo Rodrigues",
+        "position": "ST",
+        "rating": 68,
+        "number": 12
+      },
+      {
+        "id": "p_9e0vnfg52",
+        "name": "Bruno Souza",
+        "position": "CM",
+        "rating": 70,
+        "number": 13
+      },
+      {
+        "id": "p_n47o89j5p",
+        "name": "Guilherme Silva",
+        "position": "CB",
+        "rating": 70,
+        "number": 14
+      },
+      {
+        "id": "p_scd93ky4b",
+        "name": "Leonardo Almeida",
+        "position": "GK",
+        "rating": 70,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "avai",
+    "name": "Avaí",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Avai_FC_logo.svg",
+    "rating": 70,
+    "squad": [
+      {
+        "id": "p_09b11sz6u",
+        "name": "João Alves",
+        "position": "GK",
+        "rating": 70,
+        "number": 1
+      },
+      {
+        "id": "p_yta21g4qc",
+        "name": "Rafael Carvalho",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_ezqv5p9ir",
+        "name": "Gabriel Gomes",
+        "position": "CB",
+        "rating": 70,
+        "number": 3
+      },
+      {
+        "id": "p_j8k68ao5o",
+        "name": "Victor Rodrigues",
+        "position": "CB",
+        "rating": 70,
+        "number": 4
+      },
+      {
+        "id": "p_r0tvyhww0",
+        "name": "Bruno Martins",
+        "position": "LB",
+        "rating": 72,
+        "number": 5
+      },
+      {
+        "id": "p_s2077v58x",
+        "name": "Guilherme Almeida",
+        "position": "CDM",
+        "rating": 70,
+        "number": 6
+      },
+      {
+        "id": "p_csyc6vmwa",
+        "name": "Eduardo Pereira",
+        "position": "CM",
+        "rating": 71,
+        "number": 7
+      },
+      {
+        "id": "p_ofp1n9p1c",
+        "name": "Rafael Almeida",
+        "position": "CAM",
+        "rating": 69,
+        "number": 8
+      },
+      {
+        "id": "p_dtqw0mh88",
+        "name": "João Santos",
+        "position": "RW",
+        "rating": 69,
+        "number": 9
+      },
+      {
+        "id": "p_972xg2ivz",
+        "name": "Bruno Pereira",
+        "position": "ST",
+        "rating": 72,
+        "number": 10
+      },
+      {
+        "id": "p_y6q1mlom0",
+        "name": "Rafael Rodrigues",
+        "position": "LW",
+        "rating": 70,
+        "number": 11
+      },
+      {
+        "id": "p_jvkriax6b",
+        "name": "Guilherme Rodrigues",
+        "position": "ST",
+        "rating": 69,
+        "number": 12
+      },
+      {
+        "id": "p_mzzejw949",
+        "name": "Gabriel Almeida",
+        "position": "CM",
+        "rating": 68,
+        "number": 13
+      },
+      {
+        "id": "p_24uv6z59a",
+        "name": "Guilherme Ferreira",
+        "position": "CB",
+        "rating": 71,
+        "number": 14
+      },
+      {
+        "id": "p_legpy9v81",
+        "name": "Bruno Lima",
+        "position": "GK",
+        "rating": 71,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "amazonas",
+    "name": "Amazonas",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Amazonas_Futebol_Clube_logo.svg",
+    "rating": 68,
+    "squad": [
+      {
+        "id": "p_t0436m6yx",
+        "name": "Bruno Ribeiro",
+        "position": "GK",
+        "rating": 69,
+        "number": 1
+      },
+      {
+        "id": "p_lojrj0jqj",
+        "name": "Thiago Carvalho",
+        "position": "RB",
+        "rating": 67,
+        "number": 2
+      },
+      {
+        "id": "p_a7calhuq1",
+        "name": "Gabriel Pereira",
+        "position": "CB",
+        "rating": 70,
+        "number": 3
+      },
+      {
+        "id": "p_qqk9pw6ry",
+        "name": "Lucas Souza",
+        "position": "CB",
+        "rating": 68,
+        "number": 4
+      },
+      {
+        "id": "p_idoxv7e1g",
+        "name": "Gabriel Ribeiro",
+        "position": "LB",
+        "rating": 70,
+        "number": 5
+      },
+      {
+        "id": "p_9j2uta6kq",
+        "name": "Thiago Rodrigues",
+        "position": "CDM",
+        "rating": 70,
+        "number": 6
+      },
+      {
+        "id": "p_qfjp0i8qh",
+        "name": "João Pereira",
+        "position": "CM",
+        "rating": 67,
+        "number": 7
+      },
+      {
+        "id": "p_jinhehtbm",
+        "name": "Victor Ribeiro",
+        "position": "CAM",
+        "rating": 69,
+        "number": 8
+      },
+      {
+        "id": "p_0fl34xvvv",
+        "name": "Rodrigo Oliveira",
+        "position": "RW",
+        "rating": 68,
+        "number": 9
+      },
+      {
+        "id": "p_gz1rh4y5k",
+        "name": "Rafael Lima",
+        "position": "ST",
+        "rating": 66,
+        "number": 10
+      },
+      {
+        "id": "p_nyuv8t5ls",
+        "name": "Pedro Alves",
+        "position": "LW",
+        "rating": 66,
+        "number": 11
+      },
+      {
+        "id": "p_irxjb7x3w",
+        "name": "Gabriel Carvalho",
+        "position": "ST",
+        "rating": 68,
+        "number": 12
+      },
+      {
+        "id": "p_hzxk597vu",
+        "name": "Thiago Martins",
+        "position": "CM",
+        "rating": 66,
+        "number": 13
+      },
+      {
+        "id": "p_i80boi0tk",
+        "name": "Eduardo Pereira",
+        "position": "CB",
+        "rating": 70,
+        "number": 14
+      },
+      {
+        "id": "p_mnd08as5z",
+        "name": "Rafael Martins",
+        "position": "GK",
+        "rating": 66,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "crb",
+    "name": "CRB",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Clube_de_Regatas_Brasil_logo.svg",
+    "rating": 69,
+    "squad": [
+      {
+        "id": "p_lj1t18wfi",
+        "name": "Bruno Gomes",
+        "position": "GK",
+        "rating": 70,
+        "number": 1
+      },
+      {
+        "id": "p_npous7hhr",
+        "name": "Lucas Oliveira",
+        "position": "RB",
+        "rating": 70,
+        "number": 2
+      },
+      {
+        "id": "p_nlfqqyn6t",
+        "name": "Victor Pereira",
+        "position": "CB",
+        "rating": 68,
+        "number": 3
+      },
+      {
+        "id": "p_davw076j6",
+        "name": "Guilherme Oliveira",
+        "position": "CB",
+        "rating": 68,
+        "number": 4
+      },
+      {
+        "id": "p_hz8xpbslu",
+        "name": "Pedro Souza",
+        "position": "LB",
+        "rating": 68,
+        "number": 5
+      },
+      {
+        "id": "p_6ddnbihqr",
+        "name": "Thiago Pereira",
+        "position": "CDM",
+        "rating": 67,
+        "number": 6
+      },
+      {
+        "id": "p_0l6xsl63o",
+        "name": "Lucas Oliveira",
+        "position": "CM",
+        "rating": 70,
+        "number": 7
+      },
+      {
+        "id": "p_uxaf03vrm",
+        "name": "Gabriel Costa",
+        "position": "CAM",
+        "rating": 71,
+        "number": 8
+      },
+      {
+        "id": "p_io9kvlyr7",
+        "name": "Felipe Martins",
+        "position": "RW",
+        "rating": 68,
+        "number": 9
+      },
+      {
+        "id": "p_i2f64h62y",
+        "name": "João Souza",
+        "position": "ST",
+        "rating": 70,
+        "number": 10
+      },
+      {
+        "id": "p_n6sfhi00h",
+        "name": "Felipe Costa",
+        "position": "LW",
+        "rating": 71,
+        "number": 11
+      },
+      {
+        "id": "p_ois2pkfef",
+        "name": "Victor Costa",
+        "position": "ST",
+        "rating": 67,
+        "number": 12
+      },
+      {
+        "id": "p_vmfcy8klq",
+        "name": "Pedro Costa",
+        "position": "CM",
+        "rating": 69,
+        "number": 13
+      },
+      {
+        "id": "p_t6t03znkr",
+        "name": "Eduardo Lima",
+        "position": "CB",
+        "rating": 68,
+        "number": 14
+      },
+      {
+        "id": "p_dyj5nd1pk",
+        "name": "João Ferreira",
+        "position": "GK",
+        "rating": 69,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "paysandu",
+    "name": "Paysandu",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/d/da/Paysandu_Sport_Club_logo.svg",
+    "rating": 69,
+    "squad": [
+      {
+        "id": "p_d5cauqilk",
+        "name": "Leonardo Rodrigues",
+        "position": "GK",
+        "rating": 71,
+        "number": 1
+      },
+      {
+        "id": "p_3ogd5sdy1",
+        "name": "Thiago Oliveira",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_r28ygjfj6",
+        "name": "Pedro Oliveira",
+        "position": "CB",
+        "rating": 71,
+        "number": 3
+      },
+      {
+        "id": "p_ehsvoxbe7",
+        "name": "Victor Silva",
+        "position": "CB",
+        "rating": 68,
+        "number": 4
+      },
+      {
+        "id": "p_x9ubzi03t",
+        "name": "Lucas Costa",
+        "position": "LB",
+        "rating": 71,
+        "number": 5
+      },
+      {
+        "id": "p_jje6wn3jt",
+        "name": "Matheus Silva",
+        "position": "CDM",
+        "rating": 67,
+        "number": 6
+      },
+      {
+        "id": "p_rsh3ut50m",
+        "name": "Eduardo Souza",
+        "position": "CM",
+        "rating": 70,
+        "number": 7
+      },
+      {
+        "id": "p_fgllsdtma",
+        "name": "João Martins",
+        "position": "CAM",
+        "rating": 71,
+        "number": 8
+      },
+      {
+        "id": "p_g3k5ldgtr",
+        "name": "Gabriel Rodrigues",
+        "position": "RW",
+        "rating": 68,
+        "number": 9
+      },
+      {
+        "id": "p_xct070v82",
+        "name": "Gabriel Ferreira",
+        "position": "ST",
+        "rating": 71,
+        "number": 10
+      },
+      {
+        "id": "p_tlgccj8di",
+        "name": "Lucas Pereira",
+        "position": "LW",
+        "rating": 67,
+        "number": 11
+      },
+      {
+        "id": "p_44z8u8dor",
+        "name": "Rafael Ribeiro",
+        "position": "ST",
+        "rating": 71,
+        "number": 12
+      },
+      {
+        "id": "p_4oay009xe",
+        "name": "Eduardo Santos",
+        "position": "CM",
+        "rating": 71,
+        "number": 13
+      },
+      {
+        "id": "p_b5ggk0wx9",
+        "name": "Guilherme Lima",
+        "position": "CB",
+        "rating": 69,
+        "number": 14
+      },
+      {
+        "id": "p_e29ga6wec",
+        "name": "Guilherme Ferreira",
+        "position": "GK",
+        "rating": 67,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "ponte_preta",
+    "name": "Ponte Preta",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Associa%C3%A7%C3%A3o_Atl%C3%A9tica_Ponte_Preta_logo.svg",
+    "rating": 69,
+    "squad": [
+      {
+        "id": "p_0vbfrjev4",
+        "name": "Guilherme Pereira",
+        "position": "GK",
+        "rating": 70,
+        "number": 1
+      },
+      {
+        "id": "p_3z2vpwpy5",
+        "name": "Victor Ferreira",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_0rs3n7n98",
+        "name": "Rodrigo Martins",
+        "position": "CB",
+        "rating": 67,
+        "number": 3
+      },
+      {
+        "id": "p_izvwdpvn8",
+        "name": "Felipe Pereira",
+        "position": "CB",
+        "rating": 68,
+        "number": 4
+      },
+      {
+        "id": "p_cao1fw4og",
+        "name": "Matheus Lima",
+        "position": "LB",
+        "rating": 68,
+        "number": 5
+      },
+      {
+        "id": "p_mhqzn5ebu",
+        "name": "Gabriel Lima",
+        "position": "CDM",
+        "rating": 67,
+        "number": 6
+      },
+      {
+        "id": "p_zo3132on1",
+        "name": "Matheus Ferreira",
+        "position": "CM",
+        "rating": 70,
+        "number": 7
+      },
+      {
+        "id": "p_j3pktxhw4",
+        "name": "Felipe Souza",
+        "position": "CAM",
+        "rating": 69,
+        "number": 8
+      },
+      {
+        "id": "p_lslmvviwj",
+        "name": "Guilherme Carvalho",
+        "position": "RW",
+        "rating": 68,
+        "number": 9
+      },
+      {
+        "id": "p_363svbcef",
+        "name": "Thiago Almeida",
+        "position": "ST",
+        "rating": 67,
+        "number": 10
+      },
+      {
+        "id": "p_fypv7palp",
+        "name": "Guilherme Costa",
+        "position": "LW",
+        "rating": 71,
+        "number": 11
+      },
+      {
+        "id": "p_wws4yb6t8",
+        "name": "Eduardo Gomes",
+        "position": "ST",
+        "rating": 69,
+        "number": 12
+      },
+      {
+        "id": "p_zzrer9bpl",
+        "name": "Marcos Gomes",
+        "position": "CM",
+        "rating": 68,
+        "number": 13
+      },
+      {
+        "id": "p_l1cc20hyx",
+        "name": "Victor Santos",
+        "position": "CB",
+        "rating": 71,
+        "number": 14
+      },
+      {
+        "id": "p_7ryvetb4l",
+        "name": "Felipe Ribeiro",
+        "position": "GK",
+        "rating": 70,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "chapecoense",
+    "name": "Chapecoense",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/5/52/Associa%C3%A7%C3%A3o_Chapecoense_de_Futebol_logo.svg",
+    "rating": 69,
+    "squad": [
+      {
+        "id": "p_g2qqtvm02",
+        "name": "Marcos Ribeiro",
+        "position": "GK",
+        "rating": 70,
+        "number": 1
+      },
+      {
+        "id": "p_hwqdbzgy8",
+        "name": "Gabriel Almeida",
+        "position": "RB",
+        "rating": 71,
+        "number": 2
+      },
+      {
+        "id": "p_ox8wyqtl3",
+        "name": "Marcos Rodrigues",
+        "position": "CB",
+        "rating": 71,
+        "number": 3
+      },
+      {
+        "id": "p_gz3j8973k",
+        "name": "Rafael Santos",
+        "position": "CB",
+        "rating": 67,
+        "number": 4
+      },
+      {
+        "id": "p_vqb9sp4qb",
+        "name": "Leonardo Alves",
+        "position": "LB",
+        "rating": 68,
+        "number": 5
+      },
+      {
+        "id": "p_1v39921of",
+        "name": "Bruno Rodrigues",
+        "position": "CDM",
+        "rating": 67,
+        "number": 6
+      },
+      {
+        "id": "p_h01chd1w6",
+        "name": "Thiago Martins",
+        "position": "CM",
+        "rating": 69,
+        "number": 7
+      },
+      {
+        "id": "p_sikrwpopk",
+        "name": "Thiago Almeida",
+        "position": "CAM",
+        "rating": 68,
+        "number": 8
+      },
+      {
+        "id": "p_u8ak62egl",
+        "name": "Lucas Santos",
+        "position": "RW",
+        "rating": 67,
+        "number": 9
+      },
+      {
+        "id": "p_1o6gc6ac7",
+        "name": "Leonardo Alves",
+        "position": "ST",
+        "rating": 69,
+        "number": 10
+      },
+      {
+        "id": "p_cwdg2wzya",
+        "name": "Victor Costa",
+        "position": "LW",
+        "rating": 69,
+        "number": 11
+      },
+      {
+        "id": "p_abokca2rh",
+        "name": "Lucas Alves",
+        "position": "ST",
+        "rating": 70,
+        "number": 12
+      },
+      {
+        "id": "p_6tydggv65",
+        "name": "Felipe Martins",
+        "position": "CM",
+        "rating": 69,
+        "number": 13
+      },
+      {
+        "id": "p_0wznz294q",
+        "name": "Lucas Martins",
+        "position": "CB",
+        "rating": 68,
+        "number": 14
+      },
+      {
+        "id": "p_d9cfwd61v",
+        "name": "Pedro Martins",
+        "position": "GK",
+        "rating": 69,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "botafogo_sp",
+    "name": "Botafogo-SP",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Botafogo_FC_Ribeir%C3%A3o_Preto_logo.svg",
+    "rating": 68,
+    "squad": [
+      {
+        "id": "p_lusj9eb53",
+        "name": "Lucas Alves",
+        "position": "GK",
+        "rating": 66,
+        "number": 1
+      },
+      {
+        "id": "p_j55ghjdvu",
+        "name": "Gabriel Oliveira",
+        "position": "RB",
+        "rating": 67,
+        "number": 2
+      },
+      {
+        "id": "p_yfvk9hoxv",
+        "name": "Gabriel Alves",
+        "position": "CB",
+        "rating": 67,
+        "number": 3
+      },
+      {
+        "id": "p_zi4o0c8ub",
+        "name": "Eduardo Pereira",
+        "position": "CB",
+        "rating": 66,
+        "number": 4
+      },
+      {
+        "id": "p_uth4ucnr5",
+        "name": "Rafael Oliveira",
+        "position": "LB",
+        "rating": 66,
+        "number": 5
+      },
+      {
+        "id": "p_0ufbd8o70",
+        "name": "Victor Carvalho",
+        "position": "CDM",
+        "rating": 66,
+        "number": 6
+      },
+      {
+        "id": "p_9d694zwf4",
+        "name": "Bruno Gomes",
+        "position": "CM",
+        "rating": 67,
+        "number": 7
+      },
+      {
+        "id": "p_u5f5g80ub",
+        "name": "Pedro Gomes",
+        "position": "CAM",
+        "rating": 70,
+        "number": 8
+      },
+      {
+        "id": "p_t3mz15i5b",
+        "name": "Pedro Martins",
+        "position": "RW",
+        "rating": 70,
+        "number": 9
+      },
+      {
+        "id": "p_dua23ditk",
+        "name": "Lucas Martins",
+        "position": "ST",
+        "rating": 67,
+        "number": 10
+      },
+      {
+        "id": "p_q2uqakcao",
+        "name": "Felipe Rodrigues",
+        "position": "LW",
+        "rating": 67,
+        "number": 11
+      },
+      {
+        "id": "p_ps9c15w17",
+        "name": "Bruno Carvalho",
+        "position": "ST",
+        "rating": 66,
+        "number": 12
+      },
+      {
+        "id": "p_hla0dnrv1",
+        "name": "Guilherme Alves",
+        "position": "CM",
+        "rating": 69,
+        "number": 13
+      },
+      {
+        "id": "p_7yyrzwnmj",
+        "name": "Eduardo Rodrigues",
+        "position": "CB",
+        "rating": 69,
+        "number": 14
+      },
+      {
+        "id": "p_waqmufri0",
+        "name": "Lucas Carvalho",
+        "position": "GK",
+        "rating": 69,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "ituano",
+    "name": "Ituano",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/pt/e/ee/Ituano_Futebol_Clube.png",
+    "rating": 68,
+    "squad": [
+      {
+        "id": "p_vdebuhmg1",
+        "name": "Felipe Ferreira",
+        "position": "GK",
+        "rating": 70,
+        "number": 1
+      },
+      {
+        "id": "p_4qjd2ubpw",
+        "name": "Eduardo Silva",
+        "position": "RB",
+        "rating": 67,
+        "number": 2
+      },
+      {
+        "id": "p_igp9d64jp",
+        "name": "Rafael Souza",
+        "position": "CB",
+        "rating": 70,
+        "number": 3
+      },
+      {
+        "id": "p_cowyfnk9x",
+        "name": "Felipe Pereira",
+        "position": "CB",
+        "rating": 68,
+        "number": 4
+      },
+      {
+        "id": "p_cfo6w448r",
+        "name": "Gabriel Ribeiro",
+        "position": "LB",
+        "rating": 67,
+        "number": 5
+      },
+      {
+        "id": "p_yzkljeh03",
+        "name": "Eduardo Ribeiro",
+        "position": "CDM",
+        "rating": 67,
+        "number": 6
+      },
+      {
+        "id": "p_fp8z4n8oq",
+        "name": "Victor Costa",
+        "position": "CM",
+        "rating": 69,
+        "number": 7
+      },
+      {
+        "id": "p_iylimu42i",
+        "name": "Leonardo Silva",
+        "position": "CAM",
+        "rating": 67,
+        "number": 8
+      },
+      {
+        "id": "p_r8g0e5nso",
+        "name": "Matheus Martins",
+        "position": "RW",
+        "rating": 70,
+        "number": 9
+      },
+      {
+        "id": "p_6q0ywzjpy",
+        "name": "Felipe Almeida",
+        "position": "ST",
+        "rating": 70,
+        "number": 10
+      },
+      {
+        "id": "p_6ld841zjn",
+        "name": "João Martins",
+        "position": "LW",
+        "rating": 66,
+        "number": 11
+      },
+      {
+        "id": "p_d9129v0kn",
+        "name": "Felipe Carvalho",
+        "position": "ST",
+        "rating": 66,
+        "number": 12
+      },
+      {
+        "id": "p_l64rg7tgd",
+        "name": "Pedro Martins",
+        "position": "CM",
+        "rating": 68,
+        "number": 13
+      },
+      {
+        "id": "p_3kilhpxic",
+        "name": "Rafael Rodrigues",
+        "position": "CB",
+        "rating": 69,
+        "number": 14
+      },
+      {
+        "id": "p_4b1ufqpwr",
+        "name": "Thiago Alves",
+        "position": "GK",
+        "rating": 69,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "brusque",
+    "name": "Brusque",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/9/91/Brusque_Futebol_Clube_logo.svg",
+    "rating": 67,
+    "squad": [
+      {
+        "id": "p_bmuajuy7o",
+        "name": "Lucas Martins",
+        "position": "GK",
+        "rating": 67,
+        "number": 1
+      },
+      {
+        "id": "p_0zp7sdoa5",
+        "name": "Pedro Souza",
+        "position": "RB",
+        "rating": 68,
+        "number": 2
+      },
+      {
+        "id": "p_rpwobeous",
+        "name": "Rodrigo Silva",
+        "position": "CB",
+        "rating": 69,
+        "number": 3
+      },
+      {
+        "id": "p_8gxxyhvvb",
+        "name": "Leonardo Carvalho",
+        "position": "CB",
+        "rating": 68,
+        "number": 4
+      },
+      {
+        "id": "p_j414395qa",
+        "name": "Pedro Ferreira",
+        "position": "LB",
+        "rating": 67,
+        "number": 5
+      },
+      {
+        "id": "p_gmr5y2pn4",
+        "name": "Felipe Costa",
+        "position": "CDM",
+        "rating": 67,
+        "number": 6
+      },
+      {
+        "id": "p_gdi3o01mt",
+        "name": "Bruno Silva",
+        "position": "CM",
+        "rating": 66,
+        "number": 7
+      },
+      {
+        "id": "p_ct3sglgbl",
+        "name": "Matheus Souza",
+        "position": "CAM",
+        "rating": 68,
+        "number": 8
+      },
+      {
+        "id": "p_iwpfq568l",
+        "name": "Guilherme Ferreira",
+        "position": "RW",
+        "rating": 66,
+        "number": 9
+      },
+      {
+        "id": "p_jiue70iqh",
+        "name": "Leonardo Ferreira",
+        "position": "ST",
+        "rating": 66,
+        "number": 10
+      },
+      {
+        "id": "p_4rdhwymrm",
+        "name": "Lucas Souza",
+        "position": "LW",
+        "rating": 65,
+        "number": 11
+      },
+      {
+        "id": "p_sf1uc03kq",
+        "name": "Marcos Gomes",
+        "position": "ST",
+        "rating": 66,
+        "number": 12
+      },
+      {
+        "id": "p_cvyyy7azp",
+        "name": "Matheus Martins",
+        "position": "CM",
+        "rating": 69,
+        "number": 13
+      },
+      {
+        "id": "p_vkzur8vfe",
+        "name": "Rodrigo Almeida",
+        "position": "CB",
+        "rating": 66,
+        "number": 14
+      },
+      {
+        "id": "p_z1e4l6et6",
+        "name": "Guilherme Pereira",
+        "position": "GK",
+        "rating": 68,
+        "number": 12
+      }
+    ]
+  },
+  {
+    "id": "guarani",
+    "name": "Guarani",
+    "leagueId": "brazil_b",
+    "badgeUrl": "https://upload.wikimedia.org/wikipedia/commons/8/81/Guarani_Futebol_Clube_logo.svg",
+    "rating": 68,
+    "squad": [
+      {
+        "id": "p_rvmone3ta",
+        "name": "Lucas Martins",
+        "position": "GK",
+        "rating": 67,
+        "number": 1
+      },
+      {
+        "id": "p_i82dca3ix",
+        "name": "Bruno Almeida",
+        "position": "RB",
+        "rating": 69,
+        "number": 2
+      },
+      {
+        "id": "p_1rxhricu6",
+        "name": "Victor Souza",
+        "position": "CB",
+        "rating": 68,
+        "number": 3
+      },
+      {
+        "id": "p_hv6mz4hke",
+        "name": "João Souza",
+        "position": "CB",
+        "rating": 70,
+        "number": 4
+      },
+      {
+        "id": "p_trrxbvipg",
+        "name": "Thiago Souza",
+        "position": "LB",
+        "rating": 67,
+        "number": 5
+      },
+      {
+        "id": "p_b1zn1qq17",
+        "name": "Guilherme Ferreira",
+        "position": "CDM",
+        "rating": 69,
+        "number": 6
+      },
+      {
+        "id": "p_zzomk2t2g",
+        "name": "Victor Souza",
+        "position": "CM",
+        "rating": 67,
+        "number": 7
+      },
+      {
+        "id": "p_re3x3lsr3",
+        "name": "Victor Souza",
+        "position": "CAM",
+        "rating": 66,
+        "number": 8
+      },
+      {
+        "id": "p_zez6eg1ik",
+        "name": "João Santos",
+        "position": "RW",
+        "rating": 70,
+        "number": 9
+      },
+      {
+        "id": "p_96twvnd1t",
+        "name": "Matheus Santos",
+        "position": "ST",
+        "rating": 66,
+        "number": 10
+      },
+      {
+        "id": "p_gpdbb752z",
+        "name": "Eduardo Almeida",
+        "position": "LW",
+        "rating": 67,
+        "number": 11
+      },
+      {
+        "id": "p_ffokazivx",
+        "name": "Bruno Almeida",
+        "position": "ST",
+        "rating": 70,
+        "number": 12
+      },
+      {
+        "id": "p_gdyn9zzf3",
+        "name": "Lucas Almeida",
+        "position": "CM",
+        "rating": 66,
+        "number": 13
+      },
+      {
+        "id": "p_ubt1ihfgt",
+        "name": "Victor Ribeiro",
+        "position": "CB",
+        "rating": 69,
+        "number": 14
+      },
+      {
+        "id": "p_ssnnjt7qs",
+        "name": "Matheus Martins",
+        "position": "GK",
+        "rating": 70,
+        "number": 12
+      }
+    ]
+  }
+]

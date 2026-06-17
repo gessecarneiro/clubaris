@@ -1,19 +1,30 @@
 import { Link } from "react-router-dom";
 import { useGameStore } from "../store/gameStore";
+import { useTranslation } from "../utils/i18n";
+import TutorialModal from "../components/TutorialModal";
+import AssistantTip from "../components/AssistantTip";
+import HelpTooltip from "../components/HelpTooltip";
 
 export default function DashboardClubHouse() {
-  const { teamName, morale, fitness } = useGameStore();
+  const { teamName, morale, fitness, language, startingXI } = useGameStore();
+  const t = useTranslation();
+
+  const hasInvalidStartingXI = startingXI.slice(0, 11).some(p => p.status === 'injured' || p.status === 'red_card');
 
   return (
-    <main className="mt-20 mb-8 px-4 lg:px-8 grid grid-cols-12 gap-2 max-w-screen-2xl mx-auto">
-      {/* Column 1: Match & Squad */}
-      <div className="col-span-12 lg:col-span-4 flex flex-col gap-2">
+    <>
+      <TutorialModal />
+      <main className="mt-20 mb-8 px-4 lg:px-8 grid grid-cols-12 gap-2 max-w-screen-2xl mx-auto">
+        <div className="col-span-12">
+          <AssistantTip tipKey="tip_dashboard" />
+        </div>
+        {/* Column 1: Match & Squad */}
+        <div className="col-span-12 lg:col-span-4 flex flex-col gap-2 tour-step-dashboard">
         {/* Next Match Preview */}
         <section className="bg-surface-container border-2 border-on-background retro-border overflow-hidden">
           <div className="bg-primary-container px-3 py-2 border-b-2 border-on-background">
             <h2 className="text-[12px] font-bold tracking-[1px] text-on-primary-container flex items-center gap-2">
-              <span className="material-symbols-outlined">event</span> NEXT
-              FIXTURE
+              <span className="material-symbols-outlined">event</span> {t('next_match', language)}
             </h2>
           </div>
           <div className="p-6 flex flex-col items-center gap-6 relative">
@@ -54,12 +65,18 @@ export default function DashboardClubHouse() {
                 </p>
               </div>
             </div>
-            <Link
-              to="/partida"
-              className="block text-center w-full bg-secondary-container text-on-secondary-container border-2 border-on-background py-3 text-[12px] font-bold tracking-[1px] retro-btn-press retro-border relative z-10"
-            >
-              MATCH CENTER
-            </Link>
+            {hasInvalidStartingXI ? (
+              <div className="block text-center w-full bg-error-container text-on-error-container border-2 border-error py-3 text-[12px] font-bold tracking-[1px] relative z-10">
+                {t('cant_play_injured', language)}
+              </div>
+            ) : (
+              <Link
+                to="/partida"
+                className="block text-center w-full bg-secondary-container text-on-secondary-container border-2 border-on-background py-3 text-[12px] font-bold tracking-[1px] retro-btn-press retro-border relative z-10"
+              >
+                {t('match_center', language)}
+              </Link>
+            )}
           </div>
         </section>
         {/* Squad Status Widgets */}
@@ -67,8 +84,9 @@ export default function DashboardClubHouse() {
           {/* Morale */}
           <div className="bg-surface-container border-2 border-on-background retro-border">
             <div className="bg-surface-variant px-3 py-1 border-b-2 border-on-background flex items-center justify-between">
-              <span className="text-[10px] font-bold tracking-[1px]">
-                MORALE
+              <span className="text-[10px] font-bold tracking-[1px] flex items-center">
+                {t('morale', language)}
+                <HelpTooltip textKey="tooltip_morale" />
               </span>
               <span className="material-symbols-outlined text-sm">
                 sentiment_very_satisfied
@@ -85,42 +103,43 @@ export default function DashboardClubHouse() {
                 {morale}%
               </p>
               <p className="text-[10px] text-on-surface-variant font-bold tracking-[1px]">
-                EXCELLENT
+                {t('excellent', language)}
               </p>
             </div>
           </div>
           {/* Fitness */}
           <div className="bg-surface-container border-2 border-on-background retro-border">
             <div className="bg-surface-variant px-3 py-1 border-b-2 border-on-background flex items-center justify-between">
-              <span className="text-[10px] font-bold tracking-[1px]">
-                FITNESS
+              <span className="text-[10px] font-bold tracking-[1px] flex items-center">
+                {t('fitness', language)}
+                <HelpTooltip textKey="tooltip_fitness" />
               </span>
               <span className="material-symbols-outlined text-sm">bolt</span>
             </div>
             <div className="p-4">
               <div className="h-4 bg-background border-2 border-on-background p-0.5">
                 <div
-                  className="h-full bg-secondary-container"
+                  className={`h-full ${fitness < 50 ? 'bg-error' : 'bg-secondary-container'}`}
                   style={{ width: `${fitness}%` }}
                 ></div>
               </div>
-              <p className="text-[18px] font-bold mt-2 text-secondary-container">
+              <p className={`text-[18px] font-bold mt-2 ${fitness < 50 ? 'text-error' : 'text-secondary-container'}`}>
                 {fitness}%
               </p>
               <p className="text-[10px] text-on-surface-variant font-bold tracking-[1px]">
-                STABLE
+                {fitness < 50 ? t('tired', language) || "TIRED" : t('stable', language)}
               </p>
             </div>
           </div>
         </div>
       </div>
       {/* Column 2: League Table */}
-      <div className="col-span-12 lg:col-span-5 flex flex-col gap-2">
+      <div className="col-span-12 lg:col-span-5 flex flex-col gap-2 tour-step-league">
         <section className="bg-surface-container border-2 border-on-background retro-border h-full">
           <div className="bg-primary-container px-3 py-2 border-b-2 border-on-background flex justify-between items-center">
             <h2 className="text-[12px] font-bold tracking-[1px] text-on-primary-container flex items-center gap-2">
               <span className="material-symbols-outlined">table_chart</span>{" "}
-              LEAGUE STANDINGS
+              {t('league_table', language)}
             </h2>
             <span className="text-[10px] font-bold tracking-[1px] bg-on-primary-container text-primary-container px-2">
               WEEK 24 / 38
@@ -130,11 +149,11 @@ export default function DashboardClubHouse() {
             <table className="w-full text-left text-[12px] font-bold tracking-[1px]">
               <thead className="bg-surface-variant border-b-2 border-on-background">
                 <tr>
-                  <th className="p-2 border-r-2 border-on-background">POS</th>
-                  <th className="p-2 border-r-2 border-on-background">CLUB</th>
+                  <th className="p-2 border-r-2 border-on-background">{t('pos', language)}</th>
+                  <th className="p-2 border-r-2 border-on-background">{t('club', language)}</th>
                   <th className="p-2 border-r-2 border-on-background">P</th>
                   <th className="p-2 border-r-2 border-on-background">GD</th>
-                  <th className="p-2">PTS</th>
+                  <th className="p-2">{t('pts', language)}</th>
                 </tr>
               </thead>
               <tbody className="divide-y-2 divide-on-background/20">
@@ -216,14 +235,13 @@ export default function DashboardClubHouse() {
         <section className="bg-surface-container border-2 border-on-background retro-border flex-grow">
           <div className="bg-surface-variant px-3 py-2 border-b-2 border-on-background flex justify-between items-center">
             <h2 className="text-[12px] font-bold tracking-[1px] flex items-center gap-2">
-              <span className="material-symbols-outlined">newspaper</span> NEWS
-              WIRE
+              <span className="material-symbols-outlined">newspaper</span> {t('news_wire', language)}
             </h2>
           </div>
           <div className="p-4 space-y-4">
             <div className="group cursor-pointer">
               <p className="text-[10px] text-primary font-bold tracking-[1px]">
-                INJURY UPDATE
+                {t('injury_update', language)}
               </p>
               <h3 className="text-sm font-bold group-hover:underline">
                 STRIKER "BULL" SMITH OUT FOR 3 WEEKS
@@ -231,7 +249,7 @@ export default function DashboardClubHouse() {
             </div>
             <div className="group cursor-pointer border-t-2 border-on-background/10 pt-4">
               <p className="text-[10px] text-secondary-container font-bold tracking-[1px]">
-                TRANSFER RUMOR
+                {t('transfer_rumor', language)}
               </p>
               <h3 className="text-sm font-bold group-hover:underline">
                 CLUB LINKED WITH WINGER "ZIPPY"
@@ -241,5 +259,6 @@ export default function DashboardClubHouse() {
         </section>
       </div>
     </main>
+    </>
   );
 }

@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useGameStore } from "../store/gameStore";
+import { useTranslation } from "../utils/i18n";
 
 export default function MercadoTransferencias() {
   const [filterPos, setFilterPos] = useState("ALL");
+  const { language } = useGameStore();
+  const t = useTranslation();
 
   const marketPlayers = [
     {
@@ -48,27 +52,27 @@ export default function MercadoTransferencias() {
       {/* Sidebar Filter */}
       <aside className="w-full md:w-64 flex flex-col gap-4 shrink-0">
         <div className="border-2 border-on-background bg-surface-container p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
-          <h2 className="text-[20px] font-bold mb-2 text-secondary">FILTERS</h2>
+          <h2 className="text-[20px] font-bold mb-2 text-secondary">{t('filters', language)}</h2>
           <div className="space-y-4">
             <div>
               <label className="text-[12px] font-bold tracking-[1px] text-on-surface-variant block mb-1">
-                POSITION
+                {t('position', language)}
               </label>
               <select
                 className="w-full bg-surface-container-lowest border-2 border-on-background p-1 text-on-surface focus:outline-none"
                 value={filterPos}
                 onChange={(e) => setFilterPos(e.target.value)}
               >
-                <option value="ALL">ALL POSITIONS</option>
-                <option value="FWD">FORWARD</option>
-                <option value="MID">MIDFIELDER</option>
-                <option value="DEF">DEFENDER</option>
-                <option value="GK">GOALKEEPER</option>
+                <option value="ALL">{t('all_positions', language)}</option>
+                <option value="FWD">{t('forward', language)}</option>
+                <option value="MID">{t('midfielder', language)}</option>
+                <option value="DEF">{t('defender', language)}</option>
+                <option value="GK">{t('goalkeeper', language)}</option>
               </select>
             </div>
             <div>
               <label className="text-[12px] font-bold tracking-[1px] text-on-surface-variant block mb-1">
-                MAX PRICE
+                {t('max_price', language)}
               </label>
               <input
                 className="w-full accent-primary bg-surface-container-high h-2"
@@ -84,7 +88,7 @@ export default function MercadoTransferencias() {
             </div>
           </div>
           <button className="w-full mt-4 bg-secondary-container text-on-secondary-fixed py-2 text-[16px] font-bold border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all">
-            APPLY
+            {t('apply', language)}
           </button>
         </div>
       </aside>
@@ -98,7 +102,7 @@ export default function MercadoTransferencias() {
             </span>
             <input
               className="bg-transparent border-none focus:outline-none w-full text-on-surface placeholder:text-outline"
-              placeholder="SEARCH PLAYER NAME..."
+              placeholder={t('search_player', language)}
               type="text"
             />
           </div>
@@ -162,7 +166,7 @@ export default function MercadoTransferencias() {
               <div className="bg-surface-container-high p-2 flex justify-between items-center border-t-2 border-on-background">
                 <div className="flex flex-col pl-1">
                   <span className="text-[10px] font-bold tracking-[1px] text-on-surface-variant">
-                    MARKET VALUE
+                    {t('market_value', language)}
                   </span>
                   <span className="text-[18px] font-bold text-secondary-fixed">
                     ${(player.value / 1000000).toFixed(1)}M
@@ -179,7 +183,7 @@ export default function MercadoTransferencias() {
                   <span className="material-symbols-outlined text-[16px]">
                     {player.locked ? "lock" : "shopping_basket"}
                   </span>
-                  {player.locked ? "LOCKED" : "BUY NOW"}
+                  {player.locked ? t('locked', language) : t('buy_now', language)}
                 </button>
               </div>
             </article>
