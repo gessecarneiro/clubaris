@@ -1,5 +1,5 @@
 import { useGameStore } from "../store/gameStore";
-import Joyride, { CallBackProps, STATUS } from "react-joyride";
+import Joyride, { STATUS } from "react-joyride";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "../utils/i18n";
 import { useEffect, useState } from "react";
@@ -10,8 +10,8 @@ export default function GameGuide() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status, action, index } = data;
+  const handleJoyrideCallback = (data: any) => {
+    const { status } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
 
     if (finishedStatuses.includes(status)) {
