@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { useGameStore } from "../store/gameStore";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../utils/i18n";
+import teamsData from "../data/teams.json";
 
 type MatchEvent = { time: number; text: string; type: "info" | "goal" | "card" | "injury" };
 type GoalScorer = { time: number; name: string; isHome: boolean };
 
 export default function SimulacaoPartida() {
-  const { teamName, startingXI, language, finishMatch, updatePlayerStatus } = useGameStore();
+  const { teamName, teamId, startingXI, language, finishMatch, updatePlayerStatus, schedule, tournaments } = useGameStore();
   const t = useTranslation();
   const navigate = useNavigate();
 
@@ -24,14 +25,29 @@ export default function SimulacaoPartida() {
     away: { possession: 50, shots: 0, fouls: 0, yellows: 0, reds: 0 },
   });
 
+  // Get Next Match
+  const unplayedMatches = schedule.filter(f => !f.played);
+  const nextMatch = unplayedMatches.length > 0 ? unplayedMatches[0] : null;
+  const isHome = nextMatch ? nextMatch.homeTeamId === teamId : true;
+  
+  const oppId = nextMatch ? (isHome ? nextMatch.awayTeamId : nextMatch.homeTeamId) : "titans";
+  const oppTeam = teamsData.find(t => t.id === oppId);
+  const opponentName = oppTeam ? oppTeam.name : "TITANS FC";
+  const tournamentName = nextMatch ? tournaments[nextMatch.tournamentId]?.name || "Friendly" : "Friendly";
+
   // Strength calc
-  const getHomeStrength = () => {
+  const getPlayerStrength = () => {
     const validXI = startingXI.filter(p => p.status !== 'red_card' && p.status !== 'injured');
     if (validXI.length === 0) return 10;
     const avg = validXI.reduce((acc, p) => acc + p.rating, 0) / validXI.length;
-    return avg; // ~80-90
+    return avg; 
   };
-  const awayStrength = 82; // Opponent
+  
+  const playerStrength = getPlayerStrength();
+  const opponentStrength = oppTeam?.rating || 82;
+  
+  const homeStrength = isHome ? playerStrength : opponentStrength;
+  const awayStrength = !isHome ? playerStrength : opponentStrength;
 
   const getRandomPlayer = (positionTypes: string[]) => {
     const valid = startingXI.filter(p => positionTypes.some(pos => p.position.includes(pos)) && p.status !== 'red_card' && p.status !== 'injured');
@@ -157,13 +173,17 @@ export default function SimulacaoPartida() {
       }, 100); // 100ms real time = 1 minute game time (faster simulation)
     }
     return () => clearInterval(interval);
-  }, [isPlaying, matchTime, language, t, awayStrength, startingXI, updatePlayerStatus]);
+  }, [isPlaying, matchTime, language, t, homeStrength, awayStrength, startingXI, updatePlayerStatus, isHome, opponentName]);
 
   const handleFinishMatch = () => {
+    const playerScore = isHome ? score.home : score.away;
+    const oppScore = isHome ? score.away : score.home;
+    
     let result: 'win' | 'draw' | 'loss' = 'draw';
-    if (score.home > score.away) result = 'win';
-    if (score.home < score.away) result = 'loss';
-    finishMatch(result);
+    if (playerScore > oppScore) result = 'win';
+    if (playerScore < oppScore) result = 'loss';
+    
+    finishMatch(result, score.home, score.away);
     navigate('/dashboard');
   };
 
@@ -175,7 +195,7 @@ export default function SimulacaoPartida() {
         <section className="bg-surface-container border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] overflow-hidden">
           <div className="bg-primary-container px-3 py-2 border-b-2 border-on-background flex justify-between items-center">
             <h2 className="text-[12px] font-bold tracking-[1px] text-on-primary-container flex items-center gap-2">
-              <span className="material-symbols-outlined text-[16px]">sports_soccer</span> {t('matchday', language)}
+              <span className="material-symbols-outlined text-[16px]">sports_soccer</span> {tournamentName} - {t('matchday', language)}
             </h2>
             <span className="text-[12px] font-bold tracking-[1px] text-primary-fixed">{matchTime}'</span>
           </div>
@@ -188,10 +208,10 @@ export default function SimulacaoPartida() {
                <div className="flex justify-between items-center w-full">
                   {/* Home */}
                   <div className="flex flex-col items-center gap-2 w-1/3">
-                    <div className="w-16 h-16 bg-surface-variant border-2 border-on-background flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
-                      <span className="material-symbols-outlined text-4xl text-primary">shield</span>
+                    <div className="w-16 h-16 bg-surface-variant border-2 border-on-background flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] p-2">
+                      {isHome ? <span className="material-symbols-outlined text-4xl text-primary">shield</span> : (oppTeam?.badgeUrl ? <img src={oppTeam.badgeUrl} alt="Opponent" className="w-full h-full object-contain" /> : <span className="material-symbols-outlined text-4xl text-error">swords</span>)}
                     </div>
-                    <span className="text-[12px] font-bold tracking-[1px] text-center uppercase">{teamName || "LEGENDARY CLUB"}</span>
+                    <span className="text-[12px] font-bold tracking-[1px] text-center uppercase">{isHome ? teamName : opponentName}</span>
                   </div>
 
                   {/* Score */}
@@ -208,10 +228,10 @@ export default function SimulacaoPartida() {
 
                   {/* Away */}
                   <div className="flex flex-col items-center gap-2 w-1/3">
-                    <div className="w-16 h-16 bg-surface-variant border-2 border-on-background flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
-                      <span className="material-symbols-outlined text-4xl text-error">swords</span>
+                    <div className="w-16 h-16 bg-surface-variant border-2 border-on-background flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] p-2">
+                      {!isHome ? <span className="material-symbols-outlined text-4xl text-primary">shield</span> : (oppTeam?.badgeUrl ? <img src={oppTeam.badgeUrl} alt="Opponent" className="w-full h-full object-contain" /> : <span className="material-symbols-outlined text-4xl text-error">swords</span>)}
                     </div>
-                    <span className="text-[12px] font-bold tracking-[1px] text-center">TITANS FC</span>
+                    <span className="text-[12px] font-bold tracking-[1px] text-center uppercase">{!isHome ? teamName : opponentName}</span>
                   </div>
                </div>
 

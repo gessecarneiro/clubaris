@@ -6,6 +6,8 @@ import HomeClubHouse from './pages/HomeClubHouse';
 import MercadoTransferencias from './pages/MercadoTransferencias';
 import SimulacaoPartida from './pages/SimulacaoPartida';
 import StartMenu from './pages/StartMenu';
+import Clubes from './pages/Clubes';
+import SalaTrofeus from './pages/SalaTrofeus';
 import TopBar from './components/TopBar';
 import BottomNav from './components/BottomNav';
 import GameGuide from './components/GameGuide';
@@ -29,6 +31,8 @@ function AppContent() {
         <Route path="/tatico" element={<GerenciamentoTatico />} />
         <Route path="/mercado" element={<MercadoTransferencias />} />
         <Route path="/partida" element={<SimulacaoPartida />} />
+        <Route path="/clubes" element={<Clubes />} />
+        <Route path="/trofeus" element={<SalaTrofeus />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <BottomNav />

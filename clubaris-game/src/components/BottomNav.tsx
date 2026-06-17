@@ -87,10 +87,52 @@ export default function BottomNav() {
             path === "/dashboard" ? { fontVariationSettings: "'FILL' 1" } : {}
           }
         >
+          table_chart
+        </span>
+        <span className="font-label-caps text-[10px] uppercase">
+          {language === 'pt' ? "Painel" : "Dashboard"}
+        </span>
+      </Link>
+
+      <Link
+        to="/clubes"
+        className={`flex flex-col items-center justify-center p-1 ${
+          path === "/clubes"
+            ? "bg-primary-container text-on-primary-container border-2 border-on-background active-press"
+            : "text-on-surface-variant hover:bg-surface-container-highest transition-all"
+        }`}
+      >
+        <span
+          className="material-symbols-outlined"
+          style={
+            path === "/clubes" ? { fontVariationSettings: "'FILL' 1" } : {}
+          }
+        >
+          public
+        </span>
+        <span className="font-label-caps text-[10px] uppercase">
+          {language === 'pt' ? "Clubes" : "Clubs"}
+        </span>
+      </Link>
+
+      <Link
+        to="/trofeus"
+        className={`flex flex-col items-center justify-center p-1 ${
+          path === "/trofeus"
+            ? "bg-primary-container text-on-primary-container border-2 border-on-background active-press"
+            : "text-on-surface-variant hover:bg-surface-container-highest transition-all"
+        }`}
+      >
+        <span
+          className="material-symbols-outlined"
+          style={
+            path === "/trofeus" ? { fontVariationSettings: "'FILL' 1" } : {}
+          }
+        >
           emoji_events
         </span>
         <span className="font-label-caps text-[10px] uppercase">
-          {t("league", language)}
+          {language === 'pt' ? "Troféus" : "Trophies"}
         </span>
       </Link>
     </nav>

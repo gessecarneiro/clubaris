@@ -4,27 +4,52 @@ import { useTranslation } from "../utils/i18n";
 import TutorialModal from "../components/TutorialModal";
 import AssistantTip from "../components/AssistantTip";
 import HelpTooltip from "../components/HelpTooltip";
+import teamsData from "../data/teams.json";
 
 export default function DashboardClubHouse() {
-  const { teamName, morale, fitness, language, startingXI } = useGameStore();
+  const { teamName, morale, fitness, language, startingXI, schedule, currentDate, advanceDay, teamId, tournaments } = useGameStore();
   const t = useTranslation();
 
   const hasInvalidStartingXI = startingXI.slice(0, 11).some(p => p.status === 'injured' || p.status === 'red_card');
+
+  const unplayedMatches = schedule.filter(f => !f.played);
+  const nextMatch = unplayedMatches.length > 0 ? unplayedMatches[0] : null;
+  const isMatchDay = nextMatch && new Date(nextMatch.date).toDateString() === new Date(currentDate).toDateString();
+  
+  let opponentName = "N/A";
+  let opponentBadge = "";
+  let isHome = true;
+  let tournamentName = "N/A";
+
+  if (nextMatch) {
+    isHome = nextMatch.homeTeamId === teamId;
+    const oppId = isHome ? nextMatch.awayTeamId : nextMatch.homeTeamId;
+    const oppTeam = teamsData.find(t => t.id === oppId);
+    opponentName = oppTeam ? oppTeam.name : oppId;
+    opponentBadge = oppTeam?.badgeUrl || "";
+    tournamentName = tournaments[nextMatch.tournamentId]?.name || nextMatch.tournamentId;
+  }
+
+  const formattedDate = new Date(currentDate).toLocaleDateString(language === 'pt' ? 'pt-BR' : 'en-US', { day: '2-digit', month: 'short', year: 'numeric' });
 
   return (
     <>
       <TutorialModal />
       <main className="mt-20 mb-8 px-4 lg:px-8 grid grid-cols-12 gap-2 max-w-screen-2xl mx-auto">
-        <div className="col-span-12">
+        <div className="col-span-12 flex justify-between items-end">
           <AssistantTip tipKey="tip_dashboard" />
+          <div className="bg-primary text-on-primary px-4 py-2 font-bold tracking-[2px] border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] mb-4">
+            {formattedDate}
+          </div>
         </div>
         {/* Column 1: Match & Squad */}
         <div className="col-span-12 lg:col-span-4 flex flex-col gap-2 tour-step-dashboard">
         {/* Next Match Preview */}
         <section className="bg-surface-container border-2 border-on-background retro-border overflow-hidden">
           <div className="bg-primary-container px-3 py-2 border-b-2 border-on-background">
-            <h2 className="text-[12px] font-bold tracking-[1px] text-on-primary-container flex items-center gap-2">
-              <span className="material-symbols-outlined">event</span> {t('next_match', language)}
+            <h2 className="text-[12px] font-bold tracking-[1px] text-on-primary-container flex items-center justify-between gap-2">
+              <span className="flex items-center gap-2"><span className="material-symbols-outlined">event</span> {t('next_match', language)}</span>
+              <span className="text-[10px] text-primary-fixed">{tournamentName}</span>
             </h2>
           </div>
           <div className="p-6 flex flex-col items-center gap-6 relative">
@@ -35,48 +60,66 @@ export default function DashboardClubHouse() {
                 alt="Stadium background"
               />
             </div>
-            <div className="flex justify-between items-center w-full relative z-10">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-surface-variant border-2 border-on-background flex items-center justify-center mx-auto mb-2">
-                  <span className="material-symbols-outlined text-4xl text-primary">
-                    shield
-                  </span>
+            
+            {nextMatch ? (
+              <div className="flex justify-between items-center w-full relative z-10">
+                {/* Home Team */}
+                <div className="text-center w-1/3">
+                  <div className="w-16 h-16 bg-surface-variant border-2 border-on-background flex items-center justify-center mx-auto mb-2 overflow-hidden p-2">
+                    {isHome ? <span className="material-symbols-outlined text-4xl text-primary">shield</span> : (opponentBadge ? <img src={opponentBadge} alt={opponentName} className="w-full h-full object-contain" /> : <span className="material-symbols-outlined text-4xl text-error">swords</span>)}
+                  </div>
+                  <p className="text-[10px] font-bold tracking-[1px] uppercase">
+                    {isHome ? teamName : opponentName}
+                  </p>
                 </div>
-                <p className="text-[12px] font-bold tracking-[1px] uppercase">
-                  {teamName || "LGD CLUB"}
-                </p>
-              </div>
-              <div className="text-center">
-                <span className="text-[24px] font-bold tracking-[-1px] text-primary">
-                  VS
-                </span>
-                <p className="text-xs font-bold tracking-[1px] text-on-surface-variant mt-2">
-                  SUN 18:00
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-surface-variant border-2 border-on-background flex items-center justify-center mx-auto mb-2">
-                  <span className="material-symbols-outlined text-4xl text-error">
-                    swords
+                
+                {/* VS */}
+                <div className="text-center w-1/3">
+                  <span className="text-[24px] font-bold tracking-[-1px] text-primary">
+                    VS
                   </span>
+                  <p className="text-[10px] font-bold tracking-[1px] text-on-surface-variant mt-2">
+                    {new Date(nextMatch.date).toLocaleDateString(language === 'pt' ? 'pt-BR' : 'en-US', { day: '2-digit', month: 'short' })}
+                  </p>
                 </div>
-                <p className="text-[12px] font-bold tracking-[1px]">
-                  TITANS FC
-                </p>
+                
+                {/* Away Team */}
+                <div className="text-center w-1/3">
+                  <div className="w-16 h-16 bg-surface-variant border-2 border-on-background flex items-center justify-center mx-auto mb-2 overflow-hidden p-2">
+                    {!isHome ? <span className="material-symbols-outlined text-4xl text-primary">shield</span> : (opponentBadge ? <img src={opponentBadge} alt={opponentName} className="w-full h-full object-contain" /> : <span className="material-symbols-outlined text-4xl text-error">swords</span>)}
+                  </div>
+                  <p className="text-[10px] font-bold tracking-[1px] uppercase">
+                    {!isHome ? teamName : opponentName}
+                  </p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="text-center py-4 relative z-10 font-bold tracking-[1px] text-on-surface-variant">
+                No upcoming matches. Season ended.
+              </div>
+            )}
+
             {hasInvalidStartingXI ? (
               <div className="block text-center w-full bg-error-container text-on-error-container border-2 border-error py-3 text-[12px] font-bold tracking-[1px] relative z-10">
                 {t('cant_play_injured', language)}
               </div>
-            ) : (
-              <Link
-                to="/partida"
-                className="block text-center w-full bg-secondary-container text-on-secondary-container border-2 border-on-background py-3 text-[12px] font-bold tracking-[1px] retro-btn-press retro-border relative z-10"
-              >
-                {t('match_center', language)}
-              </Link>
-            )}
+            ) : nextMatch ? (
+              isMatchDay ? (
+                <Link
+                  to="/partida"
+                  className="block text-center w-full bg-secondary-container text-on-secondary-container border-2 border-on-background py-3 text-[12px] font-bold tracking-[1px] retro-btn-press retro-border relative z-10"
+                >
+                  {t('match_center', language)}
+                </Link>
+              ) : (
+                <button
+                  onClick={advanceDay}
+                  className="block text-center w-full bg-surface-variant text-on-surface-variant border-2 border-on-background py-3 text-[12px] font-bold tracking-[1px] retro-btn-press retro-border relative z-10 hover:bg-surface-container-highest"
+                >
+                  {language === 'pt' ? "AVANÇAR DIA" : "ADVANCE DAY"}
+                </button>
+              )
+            ) : null}
           </div>
         </section>
         {/* Squad Status Widgets */}
@@ -135,19 +178,19 @@ export default function DashboardClubHouse() {
       </div>
       {/* Column 2: League Table */}
       <div className="col-span-12 lg:col-span-5 flex flex-col gap-2 tour-step-league">
-        <section className="bg-surface-container border-2 border-on-background retro-border h-full">
-          <div className="bg-primary-container px-3 py-2 border-b-2 border-on-background flex justify-between items-center">
+        <section className="bg-surface-container border-2 border-on-background retro-border h-full flex flex-col max-h-[600px]">
+          <div className="bg-primary-container px-3 py-2 border-b-2 border-on-background flex justify-between items-center shrink-0">
             <h2 className="text-[12px] font-bold tracking-[1px] text-on-primary-container flex items-center gap-2">
               <span className="material-symbols-outlined">table_chart</span>{" "}
-              {t('league_table', language)}
+              {tournamentName}
             </h2>
             <span className="text-[10px] font-bold tracking-[1px] bg-on-primary-container text-primary-container px-2">
-              WEEK 24 / 38
+              LATEST
             </span>
           </div>
-          <div className="overflow-x-auto">
+          <div className="overflow-y-auto flex-1">
             <table className="w-full text-left text-[12px] font-bold tracking-[1px]">
-              <thead className="bg-surface-variant border-b-2 border-on-background">
+              <thead className="bg-surface-variant border-b-2 border-on-background sticky top-0 z-10">
                 <tr>
                   <th className="p-2 border-r-2 border-on-background">{t('pos', language)}</th>
                   <th className="p-2 border-r-2 border-on-background">{t('club', language)}</th>
@@ -157,74 +200,29 @@ export default function DashboardClubHouse() {
                 </tr>
               </thead>
               <tbody className="divide-y-2 divide-on-background/20">
-                <tr className="bg-primary-container/20">
-                  <td className="p-2 border-r-2 border-on-background text-[18px]">
-                    01
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background flex items-center gap-2">
-                    <span className="material-symbols-outlined text-sm">
-                      stars
-                    </span>{" "}
-                    METRO UNITED
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background text-center">
-                    24
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background text-center text-primary">
-                    +32
-                  </td>
-                  <td className="p-2 text-[18px] text-primary">58</td>
-                </tr>
-                <tr className="bg-primary-container/10">
-                  <td className="p-2 border-r-2 border-on-background text-[18px]">
-                    02
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background">
-                    SHADOW ATHLETIC
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background text-center">
-                    24
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background text-center text-primary">
-                    +28
-                  </td>
-                  <td className="p-2 text-[18px] text-primary">55</td>
-                </tr>
-                <tr className="bg-secondary-container text-on-secondary-container">
-                  <td className="p-2 border-r-2 border-on-background text-[18px]">
-                    03
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background flex items-center gap-2">
-                    <span className="material-symbols-outlined text-sm">
-                      play_arrow
-                    </span>{" "}
-                    <span className="uppercase">
-                      {teamName || "LEGENDARY CLUB"}
-                    </span>
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background text-center">
-                    23
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background text-center">
-                    +25
-                  </td>
-                  <td className="p-2 text-[18px]">52</td>
-                </tr>
-                <tr className="bg-primary-container/5">
-                  <td className="p-2 border-r-2 border-on-background text-[18px]">
-                    04
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background">
-                    VALOR FC
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background text-center">
-                    24
-                  </td>
-                  <td className="p-2 border-r-2 border-on-background text-center text-primary">
-                    +18
-                  </td>
-                  <td className="p-2 text-[18px] text-primary">49</td>
-                </tr>
+                {(tournaments[nextMatch?.tournamentId || ""]?.table || Object.values(tournaments)[0]?.table || []).map((entry, index) => {
+                  const oppTeam = teamsData.find(t => t.id === entry.teamId);
+                  const name = oppTeam ? oppTeam.name : entry.teamId;
+                  const isPlayer = entry.teamId === teamId;
+                  return (
+                    <tr key={entry.teamId} className={isPlayer ? "bg-secondary-container text-on-secondary-container" : (index < 4 ? "bg-primary-container/20" : "")}>
+                      <td className="p-2 border-r-2 border-on-background text-[14px]">
+                        {String(index + 1).padStart(2, '0')}
+                      </td>
+                      <td className="p-2 border-r-2 border-on-background flex items-center gap-2 whitespace-nowrap">
+                        {isPlayer && <span className="material-symbols-outlined text-sm">play_arrow</span>}
+                        <span className="uppercase truncate max-w-[120px]" title={name}>{name}</span>
+                      </td>
+                      <td className="p-2 border-r-2 border-on-background text-center">
+                        {entry.played}
+                      </td>
+                      <td className={`p-2 border-r-2 border-on-background text-center ${entry.goalDifference > 0 ? "text-primary" : entry.goalDifference < 0 ? "text-error" : ""}`}>
+                        {entry.goalDifference > 0 ? `+${entry.goalDifference}` : entry.goalDifference}
+                      </td>
+                      <td className="p-2 text-[14px] text-primary">{entry.points}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
