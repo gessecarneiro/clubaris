@@ -1,5 +1,5 @@
 import { useGameStore } from "../store/gameStore";
-import Joyride, { STATUS } from "react-joyride";
+import { Joyride, STATUS } from "react-joyride";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "../utils/i18n";
 import { useEffect, useState } from "react";
