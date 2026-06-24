@@ -518,11 +518,19 @@ export const useGameStore = create<GameState>()(
       tournament.currentRound += 1;
     }
 
-    // Advance date to next match or by 7 days
+    // Advance date to next match or by max 7 days
     const nextUnplayed = newSeasonData.playerSchedule.find(f => !f.played);
     let newDate = new Date(state.currentDate);
+    
     if (nextUnplayed) {
-      newDate = new Date(nextUnplayed.date);
+      const matchDate = new Date(nextUnplayed.date);
+      const daysUntilMatch = (matchDate.getTime() - newDate.getTime()) / (1000 * 3600 * 24);
+      
+      if (daysUntilMatch > 7) {
+        newDate.setDate(newDate.getDate() + 7);
+      } else {
+        newDate = matchDate;
+      }
     } else {
       newDate.setDate(newDate.getDate() + 7);
     }
