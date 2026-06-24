@@ -50,6 +50,9 @@ export interface Player {
 
   // New Contract/Loan properties
   age?: number;
+  preferredFoot?: string;
+  traits?: string[];
+  isWorldClass?: boolean;
   contract_salary?: number;
   contract_years?: number;
   // Empréstimos

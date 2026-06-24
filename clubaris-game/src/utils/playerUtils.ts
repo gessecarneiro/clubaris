@@ -1,4 +1,4 @@
-import { Player } from '../store/gameStore';
+import type { Player } from '../store/gameStore';
 
 export function calculateMarketValue(player: Player): number {
     let baseValue = 1000000 + ((player.rating - 50) * 800000);
