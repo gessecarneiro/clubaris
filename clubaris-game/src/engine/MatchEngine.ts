@@ -117,7 +117,7 @@ export function simulateDetailedMatch(
       homeScore++;
       // Determine scorer
       const isPenalty = Math.random() < 0.1;
-      let scorer = null;
+      let scorer: Player | undefined = undefined;
       
       if (isPenalty && homeTactic?.penaltyTakerId) {
         scorer = homeSquad.find(p => p.id === homeTactic.penaltyTakerId);
@@ -131,7 +131,7 @@ export function simulateDetailedMatch(
       }
 
       // Assist
-      let assist = null;
+      let assist: Player | undefined = undefined;
       if (!isPenalty && Math.random() < 0.6) {
         const mids = homeSquad.slice(0, 11).filter(p => ['CM', 'LM', 'RM', 'CAM', 'CDM'].includes(p.position) && p.id !== scorer.id);
         const pool = mids.length > 0 ? mids : homeSquad.slice(0, 11).filter(p => p.id !== scorer.id);
@@ -159,7 +159,7 @@ export function simulateDetailedMatch(
     if (Math.random() < awayGoalChance) {
       awayScore++;
       const isPenalty = Math.random() < 0.1;
-      let scorer = null;
+      let scorer: Player | undefined = undefined;
       
       if (isPenalty && awayTactic?.penaltyTakerId) {
         scorer = awaySquad.find(p => p.id === awayTactic.penaltyTakerId);
@@ -171,7 +171,7 @@ export function simulateDetailedMatch(
         scorer = pool[getRandomInt(0, pool.length - 1)];
       }
 
-      let assist = null;
+      let assist: Player | undefined = undefined;
       if (!isPenalty && Math.random() < 0.6) {
         const mids = awaySquad.slice(0, 11).filter(p => ['CM', 'LM', 'RM', 'CAM', 'CDM'].includes(p.position) && p.id !== scorer.id);
         const pool = mids.length > 0 ? mids : awaySquad.slice(0, 11).filter(p => p.id !== scorer.id);
