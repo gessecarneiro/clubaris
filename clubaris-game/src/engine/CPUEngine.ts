@@ -23,7 +23,7 @@ export function initializeCPUManagers() {
   const sortedTeams = [...teamsData].sort((a, b) => b.rating - a.rating);
   
   for (const team of sortedTeams) {
-     if (useGameStore.getState().playerTeamId === (team as any).original_id) continue;
+     if (useGameStore.getState().playerTeamId === team.id) continue;
      
      let managerName = "Técnico Genérico";
      if (available.length > 0) {
@@ -55,7 +55,7 @@ export function simulateCPU() {
      const seller = teamsData[Math.floor(Math.random() * teamsData.length)];
      
      if (buyer.id === seller.id) continue;
-     if ((buyer as any).original_id === store.playerTeamId || (seller as any).original_id === store.playerTeamId) continue;
+     if (buyer.id === store.playerTeamId || seller.id === store.playerTeamId) continue;
 
      if (seller.squad.length > 15) {
        // CPU buys a random player

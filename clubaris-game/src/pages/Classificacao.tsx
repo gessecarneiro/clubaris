@@ -136,8 +136,8 @@ export default function Classificacao() {
                               <tr key={entry.teamId} className={`${rowClass} hover:brightness-95`}>
                                 <td className="p-1 px-2 text-center border-r border-gray-200 dark:border-gray-700">{index + 1}</td>
                                 <td className="p-1 px-2 border-r border-gray-200 dark:border-gray-700 flex items-center gap-2">
-                                   <div className="w-5 h-5 flex items-center justify-center">
-                                      {team?.badgeUrl ? <img src={team.badgeUrl} alt="" className="w-full h-full object-contain" /> : <span className="material-symbols-outlined text-[14px]">shield</span>}
+                                   <div className="w-7 h-7 flex items-center justify-center">
+                                      {team?.badgeUrl ? <img src={team.badgeUrl} alt="" className="w-full h-full object-contain" /> : <span className="material-symbols-outlined text-[16px]">shield</span>}
                                    </div>
                                    <span className="truncate max-w-[120px]">{team?.name || entry.teamId}</span>
                                 </td>

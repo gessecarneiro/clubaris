@@ -51,27 +51,6 @@ export default function TopNav() {
       </Link>
 
       <Link
-        to="/treinamento"
-        className={`flex flex-col items-center justify-center p-1 w-16 sm:w-20 hover:text-white transition-colors ${
-          path === "/treinamento"
-            ? "text-white border-b-2 border-primary"
-            : "text-white/50 border-b-2 border-transparent"
-        }`}
-      >
-        <span
-          className="material-symbols-outlined"
-          style={
-            path === "/treinamento" ? { fontVariationSettings: "'FILL' 1" } : {}
-          }
-        >
-          fitness_center
-        </span>
-        <span className="font-label-caps text-[10px] uppercase">
-          {language === 'pt' ? 'Treino' : 'Train'}
-        </span>
-      </Link>
-
-      <Link
         to="/busca"
         className={`flex flex-col items-center justify-center p-1 w-16 sm:w-20 hover:text-white transition-colors ${
           path === "/busca"

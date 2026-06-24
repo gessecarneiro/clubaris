@@ -65,21 +65,33 @@ export function startNewSeason(playerTeamId: string, seasonYear: number): Season
       fixtures: estadualFixtures,
       currentRound: 1
     };
-  } else if (playerTeam) {
-    const leagueTeams = teamsData.filter(t => t.leagueId === playerTeam.leagueId).map(t => t.id);
-    if (leagueTeams.length > 0) {
-      const leagueStart = new Date(`${seasonYear}-08-15T12:00:00Z`);
-      const leagueFixtures = generateRoundRobinSchedule(leagueTeams, leagueStart, 7, playerTeam.leagueId);
-      tournaments[playerTeam.leagueId] = {
-        id: playerTeam.leagueId,
-        name: "National League",
-        type: 'LEAGUE',
-        table: initializeLeagueTable(leagueTeams),
-        fixtures: leagueFixtures,
-        currentRound: 1
-      };
-    }
   }
+
+  // Always generate all standard leagues (European)
+  const standardLeagues = ["england_a", "spain_a", "italy_a"];
+  
+  standardLeagues.forEach(leagueId => {
+    if (!tournaments[leagueId]) {
+      const leagueTeams = teamsData.filter(t => t.leagueId === leagueId).map(t => t.id);
+      if (leagueTeams.length > 0) {
+        const start = new Date(`${seasonYear}-08-15T12:00:00Z`); // EU start
+        const fix = generateRoundRobinSchedule(leagueTeams, start, 7, leagueId);
+        let name = leagueId;
+        if (leagueId === 'england_a') name = 'Premier League';
+        if (leagueId === 'spain_a') name = 'La Liga';
+        if (leagueId === 'italy_a') name = 'Serie A (ITA)';
+        
+        tournaments[leagueId] = {
+          id: leagueId,
+          name: name,
+          type: 'LEAGUE',
+          table: initializeLeagueTable(leagueTeams),
+          fixtures: fix,
+          currentRound: 1
+        };
+      }
+    }
+  });
 
   // 4. Copa Nacional (Knockout - 32 teams)
   if (isBrazilian) {

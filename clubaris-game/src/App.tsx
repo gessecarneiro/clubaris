@@ -7,7 +7,6 @@ import HomeClubHouse from './pages/HomeClubHouse';
 import BuscaGlobal from './pages/BuscaGlobal';
 import VerTimes from './pages/VerTimes';
 import SimulacaoPartida from './pages/SimulacaoPartida';
-import Treinamento from './pages/Treinamento';
 import SetupGame from './pages/SetupGame';
 import LoadGame from './pages/LoadGame';
 import Infraestrutura from './pages/Infraestrutura';
@@ -89,7 +88,6 @@ function AnimatedRoutes() {
         <Route path="/tatico" element={<MainGameLayout><GerenciamentoTatico /></MainGameLayout>} />
         <Route path="/busca" element={<MainGameLayout><BuscaGlobal /></MainGameLayout>} />
         <Route path="/times" element={<MainGameLayout><VerTimes /></MainGameLayout>} />
-        <Route path="/treinamento" element={<MainGameLayout><Treinamento /></MainGameLayout>} />
         <Route path="/partida" element={<MainGameLayout><SimulacaoPartida /></MainGameLayout>} />
         <Route path="/calendario" element={<MainGameLayout><Calendar /></MainGameLayout>} />
         <Route path="/trofeus" element={<MainGameLayout><SalaTrofeus /></MainGameLayout>} />

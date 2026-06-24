@@ -31,6 +31,7 @@ export default function SimulacaoPartida() {
   const [matchTime, setMatchTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [matchFinished, setMatchFinished] = useState(false);
+  const [simSpeed, setSimSpeed] = useState(100);
 
   const [score, setScore] = useState({ home: 0, away: 0 });
   const [eventsLog, setEventsLog] = useState<{time: number, text: string, type: string}[]>([]);
@@ -122,10 +123,10 @@ export default function SimulacaoPartida() {
           if (prev >= 90) return 90;
           return prev + 1;
         });
-      }, 100); // 100ms per minute
+      }, simSpeed); // use dynamic speed
     }
     return () => clearInterval(interval);
-  }, [isPlaying, matchResult, matchFinished]);
+  }, [isPlaying, matchResult, matchFinished, simSpeed]);
 
   useEffect(() => {
     if (!matchResult || matchTime === 0) return;
@@ -315,6 +316,18 @@ export default function SimulacaoPartida() {
                 <button onClick={handleStartMatch} className="bg-green-700 hover:bg-green-600 text-white font-bold px-8 py-3 uppercase shadow">
                   Apitar o Início
                 </button>
+             )}
+             
+             {isPlaying && !matchFinished && (
+                <div className="flex flex-col items-center gap-2">
+                   <span className="text-xs font-bold uppercase text-gray-500">Velocidade</span>
+                   <div className="flex gap-2">
+                      <button onClick={() => setSimSpeed(300)} className={`px-3 py-1 text-sm font-bold border-2 border-black dark:border-gray-500 ${simSpeed === 300 ? 'bg-primary text-white' : 'bg-white dark:bg-gray-800 dark:text-white text-black'}`}>Lenta</button>
+                      <button onClick={() => setSimSpeed(100)} className={`px-3 py-1 text-sm font-bold border-2 border-black dark:border-gray-500 ${simSpeed === 100 ? 'bg-primary text-white' : 'bg-white dark:bg-gray-800 dark:text-white text-black'}`}>Normal</button>
+                      <button onClick={() => setSimSpeed(30)} className={`px-3 py-1 text-sm font-bold border-2 border-black dark:border-gray-500 ${simSpeed === 30 ? 'bg-primary text-white' : 'bg-white dark:bg-gray-800 dark:text-white text-black'}`}>Rápida</button>
+                      <button onClick={() => setSimSpeed(5)} className={`px-3 py-1 text-sm font-bold border-2 border-black dark:border-gray-500 ${simSpeed === 5 ? 'bg-primary text-white' : 'bg-white dark:bg-gray-800 dark:text-white text-black'}`}>Super</button>
+                   </div>
+                </div>
              )}
              {matchFinished && (
                 <button onClick={handleFinishMatch} className="bg-blue-700 hover:bg-blue-600 text-white font-bold px-8 py-3 uppercase shadow animate-pulse">
