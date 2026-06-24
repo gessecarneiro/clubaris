@@ -3,6 +3,7 @@ import type { Player } from "../store/gameStore";
 import { useGameStore } from "../store/gameStore";
 import { fetchClubs, fetchSquad, buyPlayerDb, loanPlayerDb } from "../lib/supabaseServices";
 import { getTeamRelevance, getRelevanceLevel } from "../utils/relevance";
+import allLeaguesData from '../data/leagues.json';
 
 export default function VerTimes() {
   const { language, balance, buyPlayer, saveId, playerTeamId } = useGameStore();
@@ -28,25 +29,22 @@ export default function VerTimes() {
         const clubs = await fetchClubs(saveId);
         setClubsData(clubs);
         
-        // Dynamically rebuild the league structures from data
+        // Rebuild league structures from data
         const uniqueLeagues = Array.from(new Set(clubs.map((c: any) => c.league_id)));
-        import('../data/leagues.json').then((module) => {
-           let allLeagues = module.default;
-           
-           // Legacy support for older saves
-           const legacyMap: Record<string, string> = {
-              'brazil': 'brazil_a',
-              'spain': 'spain_a',
-              'england': 'england_a',
-              'italy': 'italy_a'
-           };
-           
-           const availableLeagues = allLeagues.filter((l: any) => 
-               uniqueLeagues.includes(l.id) || 
-               uniqueLeagues.some(ul => legacyMap[ul as string] === l.id)
-           );
-           setLeaguesData(availableLeagues);
-        });
+        
+        // Legacy support for older saves
+        const legacyMap: Record<string, string> = {
+           'brazil': 'brazil_a',
+           'spain': 'spain_a',
+           'england': 'england_a',
+           'italy': 'italy_a'
+        };
+        
+        const availableLeagues = allLeaguesData.filter((l: any) => 
+            uniqueLeagues.includes(l.id) || 
+            uniqueLeagues.some(ul => legacyMap[ul as string] === l.id)
+        );
+        setLeaguesData(availableLeagues);
       } catch (err) {
         console.error("Error loading clubs from DB", err);
       }
