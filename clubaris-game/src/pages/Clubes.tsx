@@ -1,7 +1,7 @@
 import { useState } from "react";
 import teamsData from "../data/teams.json";
 import { useGameStore } from "../store/gameStore";
-import BottomNav from "../components/BottomNav";
+
 
 export default function Clubes() {
   const { language } = useGameStore();
@@ -112,7 +112,6 @@ export default function Clubes() {
           </div>
         </div>
       </main>
-      <BottomNav />
     </>
   );
 }

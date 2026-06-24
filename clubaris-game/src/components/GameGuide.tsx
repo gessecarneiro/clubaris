@@ -19,20 +19,26 @@ export default function GameGuide() {
 
   const steps = [
     {
-      target: ".tour-step-dashboard",
-      content: t('tour_step1', language),
+      target: ".tour-step-team",
+      content: language === 'pt' 
+         ? 'Aqui você acompanha a saúde financeira e a confiança da sua diretoria e torcida.' 
+         : 'Here you track the financial health and confidence of your board and fans.',
       disableBeacon: true,
-      placement: "bottom" as const,
+      placement: "right" as const,
     },
     {
-      target: ".tour-step-league",
-      content: t('tour_step2', language),
-      placement: "top" as const,
+      target: ".tour-step-next-match",
+      content: language === 'pt'
+         ? 'Fique de olho no seu próximo adversário. Prepare-se bem!'
+         : 'Keep an eye on your next opponent. Be prepared!',
+      placement: "right" as const,
     },
     {
-      target: ".tour-step-nav-tactics",
-      content: t('tour_step3', language),
-      placement: "top" as const,
+      target: ".tour-step-squad",
+      content: language === 'pt'
+         ? 'Seu elenco principal. Use as abas acima para escalar ou buscar novos talentos!'
+         : 'Your main squad. Use the tabs above to setup tactics or scout new talent!',
+      placement: "left" as const,
     }
   ];
 
@@ -43,7 +49,7 @@ export default function GameGuide() {
   return (
     <JoyrideComponent
       steps={steps}
-      run={isTourRunning && location.pathname === '/dashboard'}
+      run={isTourRunning && location.pathname === '/clubhouse'}
       continuous
       scrollToFirstStep
       callback={handleJoyrideCallback}

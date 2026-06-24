@@ -1,14 +1,30 @@
 import { useState, useEffect } from "react";
 import { useGameStore } from "../store/gameStore";
+import type { Player } from "../store/gameStore";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../utils/i18n";
 import teamsData from "../data/teams.json";
+import { simulateDetailedMatch } from "../engine/MatchEngine";
+import type { MatchResult, MatchEvent } from "../engine/MatchEngine";
+import { simulateAIMatch } from "../engine/TournamentEngine";
+import { supabase } from "../lib/supabase";
 
-type MatchEvent = { time: number; text: string; type: "info" | "goal" | "card" | "injury" };
+type AIMatchStatus = {
+  fixtureId: string;
+  homeTeamName: string;
+  awayTeamName: string;
+  currentHomeScore: number;
+  currentAwayScore: number;
+  finalHomeScore: number;
+  finalAwayScore: number;
+  homeGoalsMins: number[];
+  awayGoalsMins: number[];
+};
+
 type GoalScorer = { time: number; name: string; isHome: boolean };
 
 export default function SimulacaoPartida() {
-  const { teamName, teamId, startingXI, language, finishMatch, updatePlayerStatus, schedule, tournaments } = useGameStore();
+  const { teamName, playerTeamId, startingXI, tactic, language, seasonData, simulateRound } = useGameStore();
   const t = useTranslation();
   const navigate = useNavigate();
 
@@ -17,336 +33,325 @@ export default function SimulacaoPartida() {
   const [matchFinished, setMatchFinished] = useState(false);
 
   const [score, setScore] = useState({ home: 0, away: 0 });
-  const [events, setEvents] = useState<MatchEvent[]>([]);
-  const [goalScorers, setGoalScorers] = useState<GoalScorer[]>([]);
-
-  const [stats, setStats] = useState({
-    home: { possession: 50, shots: 0, fouls: 0, yellows: 0, reds: 0 },
-    away: { possession: 50, shots: 0, fouls: 0, yellows: 0, reds: 0 },
-  });
-
-  // Get Next Match
-  const unplayedMatches = schedule.filter(f => !f.played);
-  const nextMatch = unplayedMatches.length > 0 ? unplayedMatches[0] : null;
-  const isHome = nextMatch ? nextMatch.homeTeamId === teamId : true;
+  const [eventsLog, setEventsLog] = useState<{time: number, text: string, type: string}[]>([]);
   
+  const [aiMatches, setAiMatches] = useState<AIMatchStatus[]>([]);
+  const [aiFinalScores, setAiFinalScores] = useState<Record<string, {homeScore: number, awayScore: number}>>({});
+
+  // The complete pre-calculated match
+  const [matchResult, setMatchResult] = useState<MatchResult | null>(null);
+  
+  // Get Next Match
+  let nextMatch = null;
+  if (seasonData) {
+    const unplayedMatches = seasonData.playerSchedule.filter(f => !f.played);
+    if (unplayedMatches.length > 0) {
+      nextMatch = unplayedMatches[0];
+    }
+  }
+
+  const isHome = nextMatch ? nextMatch.homeTeamId === playerTeamId : true;
   const oppId = nextMatch ? (isHome ? nextMatch.awayTeamId : nextMatch.homeTeamId) : "titans";
   const oppTeam = teamsData.find(t => t.id === oppId);
   const opponentName = oppTeam ? oppTeam.name : "TITANS FC";
-  const tournamentName = nextMatch ? tournaments[nextMatch.tournamentId]?.name || "Friendly" : "Friendly";
+  const tournamentName = nextMatch && seasonData ? seasonData.tournaments[nextMatch.tournamentId]?.name || "Friendly" : "Friendly";
 
-  // Strength calc
-  const getPlayerStrength = () => {
-    const validXI = startingXI.filter(p => p.status !== 'red_card' && p.status !== 'injured');
-    if (validXI.length === 0) return 10;
-    const avg = validXI.reduce((acc, p) => acc + p.rating, 0) / validXI.length;
-    return avg; 
-  };
-  
-  const playerStrength = getPlayerStrength();
-  const opponentStrength = oppTeam?.rating || 82;
-  
-  const homeStrength = isHome ? playerStrength : opponentStrength;
-  const awayStrength = !isHome ? playerStrength : opponentStrength;
+  const handleStartMatch = () => {
+    // Generate opponent squad dummy
+    const oppSquad: Player[] = oppTeam ? oppTeam.squad.map((p: any) => ({
+      ...p,
+      status: 'OK',
+      energy: 100,
+      morale: 100
+    })) : [];
 
-  const getRandomPlayer = (positionTypes: string[]) => {
-    const valid = startingXI.filter(p => positionTypes.some(pos => p.position.includes(pos)) && p.status !== 'red_card' && p.status !== 'injured');
-    if (valid.length === 0) return startingXI[0];
-    return valid[Math.floor(Math.random() * valid.length)];
+    const homeSquad = isHome ? startingXI : oppSquad;
+    const awaySquad = !isHome ? startingXI : oppSquad;
+    
+    const homeTactic = isHome ? tactic : null;
+    const awayTactic = !isHome ? tactic : null; // Dummy opponent has no tactic
+
+    // Pre-simulate other matches
+    if (seasonData && nextMatch) {
+       const tournament = seasonData.tournaments[nextMatch.tournamentId];
+       if (tournament) {
+          const otherFixtures = tournament.fixtures.filter(f => f.round === nextMatch!.round && f.id !== nextMatch!.id && !f.played);
+          const aiM: AIMatchStatus[] = [];
+          const aiS: Record<string, {homeScore: number, awayScore: number}> = {};
+
+          otherFixtures.forEach(f => {
+             const hTeam = teamsData.find(t => t.id === f.homeTeamId);
+             const aTeam = teamsData.find(t => t.id === f.awayTeamId);
+             const hRating = hTeam ? hTeam.rating : 75;
+             const aRating = aTeam ? aTeam.rating : 75;
+             
+             const { homeScore, awayScore } = simulateAIMatch(hRating, aRating);
+             aiS[f.id] = { homeScore, awayScore };
+             
+             // Generate random minutes for goals
+             const homeMins = Array.from({length: homeScore}).map(() => Math.floor(Math.random() * 90) + 1).sort((a,b) => a-b);
+             const awayMins = Array.from({length: awayScore}).map(() => Math.floor(Math.random() * 90) + 1).sort((a,b) => a-b);
+
+             aiM.push({
+               fixtureId: f.id,
+               homeTeamName: hTeam?.name || "Time Casa",
+               awayTeamName: aTeam?.name || "Time Fora",
+               currentHomeScore: 0,
+               currentAwayScore: 0,
+               finalHomeScore: homeScore,
+               finalAwayScore: awayScore,
+               homeGoalsMins: homeMins,
+               awayGoalsMins: awayMins
+             });
+          });
+          setAiMatches(aiM);
+          setAiFinalScores(aiS);
+       }
+    }
+
+    const result = simulateDetailedMatch(homeSquad, homeTactic, awaySquad, awayTactic);
+    setMatchResult(result);
+    setIsPlaying(true);
   };
 
   useEffect(() => {
     let interval: number;
-    if (isPlaying && matchTime < 90) {
+    if (isPlaying && matchResult && !matchFinished) {
       interval = window.setInterval(() => {
-        setMatchTime((prev) => {
-          const newTime = prev + 1;
-          
-          const totalStrength = homeStrength + awayStrength;
-          const homeAdvantage = homeStrength / totalStrength; // ~0.5
-
-          // Update possession slightly towards the stronger team
-          setStats(s => {
-             const basePossession = homeAdvantage * 100;
-             const fluctuation = (Math.random() * 10) - 5;
-             const homePossession = Math.max(20, Math.min(80, Math.round(basePossession + fluctuation)));
-             return {
-               ...s,
-               home: { ...s.home, possession: homePossession },
-               away: { ...s.away, possession: 100 - homePossession },
-             };
-          });
-
-          // Event generation
-          const eventChance = 0.08; // 8% chance of something happening every minute
-          if (Math.random() < eventChance) {
-            const isHomeAttacking = Math.random() < homeAdvantage;
-            const attacker = isHomeAttacking ? getRandomPlayer(['ST', 'FW', 'RW', 'LW', 'CAM', 'CM', 'RM', 'LM']) : null;
-            const defender = !isHomeAttacking ? getRandomPlayer(['CB', 'LB', 'RB', 'CDM']) : null;
-
-            const chanceType = Math.random();
-            if (chanceType < 0.25) {
-              // Goal
-              setScore(s => ({ home: s.home + (isHomeAttacking ? 1 : 0), away: s.away + (!isHomeAttacking ? 1 : 0) }));
-              setStats(s => ({
-                ...s,
-                home: { ...s.home, shots: s.home.shots + (isHomeAttacking ? 1 : 0) },
-                away: { ...s.away, shots: s.away.shots + (!isHomeAttacking ? 1 : 0) }
-              }));
-              
-              const scorerName = isHomeAttacking && attacker ? attacker.name : "Titans Player";
-              setGoalScorers(g => [...g, { time: newTime, name: scorerName, isHome: isHomeAttacking }]);
-              
-              setEvents(e => [
-                { time: newTime, text: `${t('goal', language)}! ${scorerName}`, type: "goal" },
-                ...e
-              ]);
-            } else if (chanceType < 0.5) {
-              // Save / Miss
-              setStats(s => ({
-                ...s,
-                home: { ...s.home, shots: s.home.shots + (isHomeAttacking ? 1 : 0) },
-                away: { ...s.away, shots: s.away.shots + (!isHomeAttacking ? 1 : 0) }
-              }));
-              const shooterName = isHomeAttacking && attacker ? attacker.name : "Titans Player";
-              setEvents(e => [
-                { time: newTime, text: Math.random() < 0.5 ? `${t('save_event', language)} ${shooterName}` : `${t('missed_chance', language)} ${shooterName}`, type: "info" },
-                ...e
-              ]);
-            } else if (chanceType < 0.8) {
-              // Foul & Card
-              const foulByHome = !isHomeAttacking;
-              setStats(s => ({
-                ...s,
-                home: { ...s.home, fouls: s.home.fouls + (foulByHome ? 1 : 0) },
-                away: { ...s.away, fouls: s.away.fouls + (!foulByHome ? 1 : 0) }
-              }));
-              
-              if (Math.random() < 0.3) {
-                 const isRed = Math.random() < 0.1;
-                 const offender = foulByHome && defender ? defender.name : "Titans Player";
-                 if (isRed) {
-                    setStats(s => ({
-                      ...s,
-                      home: { ...s.home, reds: s.home.reds + (foulByHome ? 1 : 0) },
-                      away: { ...s.away, reds: s.away.reds + (!foulByHome ? 1 : 0) }
-                    }));
-                    setEvents(e => [
-                      { time: newTime, text: `${t('red_card_event', language)} ${offender}`, type: "card" },
-                      ...e
-                    ]);
-                    if (foulByHome && defender) updatePlayerStatus(defender.id, "red_card");
-                 } else {
-                    setStats(s => ({
-                      ...s,
-                      home: { ...s.home, yellows: s.home.yellows + (foulByHome ? 1 : 0) },
-                      away: { ...s.away, yellows: s.away.yellows + (!foulByHome ? 1 : 0) }
-                    }));
-                    setEvents(e => [
-                      { time: newTime, text: `${t('yellow_card_event', language)} ${offender}`, type: "card" },
-                      ...e
-                    ]);
-                 }
-              }
-            } else {
-              // Injury
-              if (Math.random() < 0.1) {
-                 const injuredTeamHome = Math.random() < 0.5;
-                 const injuredPlayer = injuredTeamHome ? getRandomPlayer(['ST', 'CM', 'CB', 'RB', 'LB', 'GK']) : null;
-                 const pName = injuredTeamHome && injuredPlayer ? injuredPlayer.name : "Titans Player";
-                 setEvents(e => [
-                    { time: newTime, text: `${t('injury_event', language)} ${pName}`, type: "injury" },
-                    ...e
-                 ]);
-                 if (injuredTeamHome && injuredPlayer) updatePlayerStatus(injuredPlayer.id, "injured");
-              }
-            }
-          }
-
-          if (newTime >= 90) {
-            setIsPlaying(false);
-            setMatchFinished(true);
-          }
-          return newTime;
+        setMatchTime(prev => {
+          if (prev >= 90) return 90;
+          return prev + 1;
         });
-      }, 100); // 100ms real time = 1 minute game time (faster simulation)
+      }, 100); // 100ms per minute
     }
     return () => clearInterval(interval);
-  }, [isPlaying, matchTime, language, t, homeStrength, awayStrength, startingXI, updatePlayerStatus, isHome, opponentName]);
+  }, [isPlaying, matchResult, matchFinished]);
 
-  const handleFinishMatch = () => {
-    const playerScore = isHome ? score.home : score.away;
-    const oppScore = isHome ? score.away : score.home;
+  useEffect(() => {
+    if (!matchResult || matchTime === 0) return;
+
+    // Check for events in this minute
+    const currentEvents = matchResult.events.filter(e => e.minute === matchTime);
     
-    let result: 'win' | 'draw' | 'loss' = 'draw';
-    if (playerScore > oppScore) result = 'win';
-    if (playerScore < oppScore) result = 'loss';
-    
-    finishMatch(result, score.home, score.away);
-    navigate('/dashboard');
+    currentEvents.forEach(ev => {
+      let icon = '';
+      let text = '';
+      
+      if (ev.type === 'goal') {
+        if (ev.team === 'home') setScore(s => ({ ...s, home: s.home + 1 }));
+        else setScore(s => ({ ...s, away: s.away + 1 }));
+        
+        icon = '⚽';
+        text = `GOL! ${ev.player.name} (${ev.team === 'home' ? (isHome ? teamName : opponentName) : (!isHome ? teamName : opponentName)})`;
+        if (ev.assist) text += ` - Ast: ${ev.assist.name}`;
+      } else if (ev.type === 'yellow_card') {
+        icon = '🟨';
+        text = `Cartão Amarelo para ${ev.player.name}`;
+      } else if (ev.type === 'red_card') {
+        icon = '🟥';
+        text = `Cartão VERMELHO para ${ev.player.name}`;
+      } else if (ev.type === 'injury') {
+        icon = '✚';
+        text = `${ev.player.name} se machucou!`;
+      } else if (ev.type === 'miss') {
+        icon = '💨';
+        text = `Pra fora! ${ev.player.name} mandou longe.`;
+      } else if (ev.type === 'save') {
+        icon = '🧤';
+        text = `Defesa! O goleiro impediu o gol de ${ev.player.name}.`;
+      } else if (ev.type === 'woodwork') {
+        icon = '🥅';
+        text = `Na trave! Quase gol de ${ev.player.name}!`;
+      }
+
+      setEventsLog(old => [{ time: matchTime, text: `${icon} ${text}`, type: ev.type }, ...old]);
+    });
+
+    // Check AI Matches for this minute
+    aiMatches.forEach(m => {
+       const newHomeGoals = m.homeGoalsMins.filter(min => min === matchTime).length;
+       const newAwayGoals = m.awayGoalsMins.filter(min => min === matchTime).length;
+
+       if (newHomeGoals > 0 || newAwayGoals > 0) {
+          setAiMatches(prev => prev.map(pm => pm.fixtureId === m.fixtureId ? 
+            {...pm, currentHomeScore: pm.currentHomeScore + newHomeGoals, currentAwayScore: pm.currentAwayScore + newAwayGoals} 
+            : pm
+          ));
+
+          const newH = m.currentHomeScore + newHomeGoals;
+          const newA = m.currentAwayScore + newAwayGoals;
+
+          setEventsLog(old => [{
+            time: matchTime, 
+            text: `⚽ Placares Simultâneos: ${m.homeTeamName} ${newH} x ${newA} ${m.awayTeamName}`, 
+            type: 'ai_goal'
+          }, ...old]);
+       }
+    });
+
+    if (matchTime >= 90) {
+      setIsPlaying(false);
+      setMatchFinished(true);
+    }
+  }, [matchTime, matchResult, isHome, teamName, opponentName]);
+
+  const handleFinishMatch = async () => {
+    // Process injuries, cards, stats for Player Team only
+    if (matchResult) {
+      const playerTeamEvents = matchResult.events.filter(e => (isHome && e.team === 'home') || (!isHome && e.team === 'away'));
+      
+      const statsUpdate: Record<string, any> = {};
+      
+      // Update Matches Played
+      startingXI.forEach(p => {
+        statsUpdate[p.id] = { matches_played: (p.matches_played || 0) + 1 };
+      });
+
+      // Update from events
+      playerTeamEvents.forEach(ev => {
+        if (!statsUpdate[ev.player.id]) statsUpdate[ev.player.id] = {};
+        
+        if (ev.type === 'goal') {
+          statsUpdate[ev.player.id].goals = (statsUpdate[ev.player.id].goals || 0) + 1;
+        } else if (ev.type === 'yellow_card') {
+          statsUpdate[ev.player.id].yellow_cards = (statsUpdate[ev.player.id].yellow_cards || 0) + 1;
+        } else if (ev.type === 'red_card') {
+          statsUpdate[ev.player.id].red_cards = (statsUpdate[ev.player.id].red_cards || 0) + 1;
+          statsUpdate[ev.player.id].suspension_games = 1; // Suspend for 1 game
+        } else if (ev.type === 'injury') {
+          statsUpdate[ev.player.id].injury_days = Math.floor(Math.random() * 14) + 3; // 3 to 17 days
+        }
+
+        if (ev.assist) {
+          if (!statsUpdate[ev.assist.id]) statsUpdate[ev.assist.id] = {};
+          statsUpdate[ev.assist.id].assists = (statsUpdate[ev.assist.id].assists || 0) + 1;
+        }
+      });
+
+      // We should ideally sync this with the database (Supabase) and local store.
+      // This will be done properly via gameStore update loop. For now, it will apply on DB.
+      for (const [pId, updates] of Object.entries(statsUpdate)) {
+         try {
+           await supabase.from('players').update(updates).eq('id', pId);
+         } catch(e) {
+           console.error("Failed to update stats", e);
+         }
+      }
+    }
+
+    simulateRound(score.home, score.away, aiFinalScores);
+    navigate('/clubhouse');
   };
 
   return (
-    <main className="mt-20 pb-20 px-4 max-w-[1200px] mx-auto flex flex-col xl:flex-row gap-4">
-      {/* Left Column: Match & Events */}
-      <div className="flex-1 flex flex-col gap-4">
-        {/* Match Header */}
-        <section className="bg-surface-container border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] overflow-hidden">
-          <div className="bg-primary-container px-3 py-2 border-b-2 border-on-background flex justify-between items-center">
-            <h2 className="text-[12px] font-bold tracking-[1px] text-on-primary-container flex items-center gap-2">
-              <span className="material-symbols-outlined text-[16px]">sports_soccer</span> {tournamentName} - {t('matchday', language)}
-            </h2>
-            <span className="text-[12px] font-bold tracking-[1px] text-primary-fixed">{matchTime}'</span>
-          </div>
+    <main className="mt-20 pb-20 px-4 max-w-6xl mx-auto flex flex-col gap-4">
+      
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        
+        {/* Main Match Column */}
+        <div className="md:col-span-8 flex flex-col gap-4">
+          {/* Match Header */}
+          <section className="bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-700 shadow flex flex-col items-center p-6 transition-colors">
+        <h2 className="text-xs font-bold text-gray-500 uppercase tracking-widest">{tournamentName}</h2>
+        <div className="flex justify-between items-center w-full mt-4">
+           {/* Home */}
+           <div className="flex flex-col items-center w-1/3">
+              <span className="font-bold text-lg dark:text-white">{isHome ? teamName : opponentName}</span>
+           </div>
+           
+           {/* Score */}
+           <div className="flex flex-col items-center">
+              <div className="text-4xl font-black bg-gray-100 dark:bg-gray-900 border-2 border-black dark:border-gray-600 px-6 py-2 shadow flex gap-2 dark:text-white">
+                <span>{score.home}</span>
+                <span>-</span>
+                <span>{score.away}</span>
+              </div>
+              <span className="text-sm font-bold mt-2 bg-yellow-400 text-black px-2 py-1 uppercase">{matchTime}'</span>
+           </div>
 
-          <div className="p-6 relative bg-surface-container-lowest">
-             {/* Pitch bg */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-            
-            <div className="relative z-10 flex flex-col items-center">
-               <div className="flex justify-between items-center w-full">
-                  {/* Home */}
-                  <div className="flex flex-col items-center gap-2 w-1/3">
-                    <div className="w-16 h-16 bg-surface-variant border-2 border-on-background flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] p-2">
-                      {isHome ? <span className="material-symbols-outlined text-4xl text-primary">shield</span> : (oppTeam?.badgeUrl ? <img src={oppTeam.badgeUrl} alt="Opponent" className="w-full h-full object-contain" /> : <span className="material-symbols-outlined text-4xl text-error">swords</span>)}
-                    </div>
-                    <span className="text-[12px] font-bold tracking-[1px] text-center uppercase">{isHome ? teamName : opponentName}</span>
-                  </div>
+           {/* Away */}
+           <div className="flex flex-col items-center w-1/3">
+              <span className="font-bold text-lg dark:text-white">{!isHome ? teamName : opponentName}</span>
+           </div>
+        </div>
+      </section>
 
-                  {/* Score */}
-                  <div className="flex flex-col items-center">
-                    <div className="flex items-center gap-2 bg-background border-2 border-on-background px-4 py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
-                      <span className="text-[32px] font-bold text-primary">{score.home}</span>
-                      <span className="text-[20px] font-bold text-on-surface-variant">-</span>
-                      <span className="text-[32px] font-bold text-error">{score.away}</span>
-                    </div>
-                    <span className={`mt-2 text-[10px] font-bold tracking-[1px] px-2 py-1 border-2 border-on-background ${isPlaying ? "bg-secondary-container text-on-secondary-container animate-pulse" : "bg-surface-variant text-on-surface-variant"}`}>
-                      {matchTime === 0 ? t('not_started', language) : matchTime >= 90 ? t('full_time', language) : t('live', language)}
-                    </span>
-                  </div>
+      {/* Events Log */}
+      <section className="bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-700 shadow p-4 transition-colors">
+        <h3 className="font-bold uppercase border-b pb-2 mb-2 dark:text-white text-sm">Acontecimentos da Partida</h3>
+        <div className="h-64 overflow-y-auto flex flex-col gap-2">
+           {eventsLog.length === 0 && <span className="text-gray-500 text-sm">O jogo ainda não começou...</span>}
+           {eventsLog.map((ev, idx) => (
+             <div key={idx} className="flex gap-2 items-center text-sm dark:text-gray-200 border-b dark:border-gray-700 pb-1">
+               <span className="font-bold text-gray-500 w-8">{ev.time}'</span>
+               <span className={ev.type === 'goal' ? 'font-bold text-green-600 dark:text-green-400' : ''}>{ev.text}</span>
+             </div>
+           ))}
+        </div>
+      </section>
 
-                  {/* Away */}
-                  <div className="flex flex-col items-center gap-2 w-1/3">
-                    <div className="w-16 h-16 bg-surface-variant border-2 border-on-background flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] p-2">
-                      {!isHome ? <span className="material-symbols-outlined text-4xl text-primary">shield</span> : (oppTeam?.badgeUrl ? <img src={oppTeam.badgeUrl} alt="Opponent" className="w-full h-full object-contain" /> : <span className="material-symbols-outlined text-4xl text-error">swords</span>)}
-                    </div>
-                    <span className="text-[12px] font-bold tracking-[1px] text-center uppercase">{!isHome ? teamName : opponentName}</span>
-                  </div>
-               </div>
-
-               {/* Goal Scorers list under score */}
-               <div className="mt-6 flex w-full justify-between px-4 text-[10px] font-bold text-on-surface-variant tracking-[1px]">
-                  <div className="flex flex-col items-start w-1/2">
-                    {goalScorers.filter(g => g.isHome).map((g, i) => (
-                      <span key={i} className="flex items-center gap-1"><span className="material-symbols-outlined text-[10px] text-primary">sports_soccer</span> {g.name} {g.time}'</span>
+          {matchFinished && matchResult && (
+            <section className="bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-700 shadow p-4 transition-colors">
+              <h3 className="font-bold uppercase border-b pb-2 mb-2 dark:text-white text-sm">Avaliação dos Jogadores (Notas)</h3>
+              <div className="grid grid-cols-2 gap-4">
+                 <div className="flex flex-col gap-1">
+                    <span className="font-bold text-[10px] text-gray-500 uppercase">{isHome ? teamName : opponentName}</span>
+                    {startingXI.map(p => (
+                       <div key={p.id} className="flex justify-between text-xs dark:text-gray-300">
+                          <span>{p.name}</span>
+                          <span className={`font-bold ${matchResult.ratings[p.id] >= 7.0 ? 'text-green-500' : matchResult.ratings[p.id] < 5.0 ? 'text-red-500' : ''}`}>
+                            {matchResult.ratings[p.id]?.toFixed(1) || "6.0"}
+                          </span>
+                       </div>
                     ))}
-                  </div>
-                  <div className="flex flex-col items-end w-1/2">
-                     {goalScorers.filter(g => !g.isHome).map((g, i) => (
-                      <span key={i} className="flex items-center gap-1">{g.time}' {g.name} <span className="material-symbols-outlined text-[10px] text-error">sports_soccer</span></span>
-                    ))}
-                  </div>
-               </div>
-            </div>
-          </div>
+                 </div>
+              </div>
+            </section>
+          )}
 
           {/* Controls */}
-          <div className="bg-surface-container-high p-2 flex gap-2 border-t-2 border-on-background">
-            {!isPlaying && !matchFinished && (
-              <button onClick={() => setIsPlaying(true)} className="flex-1 bg-primary-container text-on-primary-container py-2 text-[12px] font-bold tracking-[1px] border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2">
-                <span className="material-symbols-outlined text-[16px]">play_arrow</span> {matchTime === 0 ? t('kick_off', language) : t('resume', language)}
-              </button>
-            )}
-            {isPlaying && (
-              <button onClick={() => setIsPlaying(false)} className="flex-1 bg-error-container text-on-error-container py-2 text-[12px] font-bold tracking-[1px] border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2">
-                <span className="material-symbols-outlined text-[16px]">pause</span> {t('pause', language)}
-              </button>
-            )}
-            {matchFinished && (
-              <button onClick={handleFinishMatch} className="flex-1 bg-secondary-container text-on-secondary-container py-2 text-[12px] font-bold tracking-[1px] border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2 text-center">
-                {t('finish_match', language)}
-              </button>
-            )}
-          </div>
-        </section>
+          <section className="flex justify-center gap-4">
+             {!isPlaying && !matchFinished && (
+                <button onClick={handleStartMatch} className="bg-green-700 hover:bg-green-600 text-white font-bold px-8 py-3 uppercase shadow">
+                  Apitar o Início
+                </button>
+             )}
+             {matchFinished && (
+                <button onClick={handleFinishMatch} className="bg-blue-700 hover:bg-blue-600 text-white font-bold px-8 py-3 uppercase shadow animate-pulse">
+                  Continuar
+                </button>
+             )}
+          </section>
+        </div>
 
-        {/* Match Events */}
-        <section className="flex flex-col gap-1 flex-1">
-          <h3 className="bg-surface-variant text-on-surface-variant px-2 py-1 text-[10px] font-bold tracking-[1px] border-2 border-on-background inline-block self-start">
-            {t('match_log', language)}
-          </h3>
-          <div className="bg-surface-container border-2 border-on-background p-2 h-[200px] xl:h-full overflow-y-auto flex flex-col gap-2 shadow-[inset_2px_2px_0px_0px_rgba(0,0,0,0.5)]">
-            {events.length === 0 ? (
-              <div className="text-center text-on-surface-variant text-[12px] font-bold tracking-[1px] mt-4 opacity-50">
-                {t('awaiting_kickoff', language)}
-              </div>
-            ) : (
-              events.map((ev, i) => (
-                <div key={i} className={`flex items-start gap-2 p-2 border-2 border-on-background ${ev.type === "goal" ? "bg-primary-container/20 border-primary" : ev.type === "card" ? "bg-error-container/20 border-error" : ev.type === "injury" ? "bg-error-container/50 border-error" : "bg-surface-container-high border-on-background/20"}`}>
-                  <span className={`text-[12px] font-bold ${ev.type === "goal" ? "text-primary" : ev.type === "card" || ev.type === "injury" ? "text-error" : "text-on-surface-variant"}`}>
-                    {ev.time}'
-                  </span>
-                  <span className={`text-[12px] font-bold tracking-[1px] ${ev.type === "goal" ? "text-primary-fixed" : "text-on-surface"}`}>
-                    {ev.text}
-                  </span>
-                </div>
-              ))
-            )}
-          </div>
-        </section>
-      </div>
-
-      {/* Right Column: Match Stats */}
-      <aside className="w-full xl:w-80 flex flex-col gap-1 shrink-0">
-         <h3 className="bg-surface-variant text-on-surface-variant px-2 py-1 text-[10px] font-bold tracking-[1px] border-2 border-on-background inline-block self-start">
-            {t('match_stats', language)}
-         </h3>
-         <div className="bg-surface-container border-2 border-on-background p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] flex flex-col gap-4">
+        {/* Other Matches Column (Live Scores) */}
+        <div className="md:col-span-4 flex flex-col gap-4">
+          <section className="bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-700 shadow flex flex-col h-full transition-colors">
+            <div className="bg-gray-100 dark:bg-gray-900 border-b border-gray-300 dark:border-gray-700 p-2 flex items-center justify-between">
+              <h3 className="font-bold uppercase dark:text-white text-sm">Placares Simultâneos</h3>
+              {isPlaying && <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>}
+            </div>
             
-            {/* Possession */}
-            <div className="flex flex-col gap-1">
-               <div className="flex justify-between text-[10px] font-bold tracking-[1px] text-on-surface">
-                  <span>{stats.home.possession}%</span>
-                  <span className="text-on-surface-variant">{t('possession', language)}</span>
-                  <span>{stats.away.possession}%</span>
-               </div>
-               <div className="flex h-3 border-2 border-on-background w-full">
-                  <div className="bg-primary h-full transition-all duration-300" style={{ width: `${stats.home.possession}%` }}></div>
-                  <div className="bg-error h-full transition-all duration-300" style={{ width: `${stats.away.possession}%` }}></div>
-               </div>
+            <div className="flex-1 p-2 flex flex-col gap-2 overflow-y-auto max-h-[500px]">
+              {aiMatches.length === 0 && !isPlaying && !matchFinished && (
+                <div className="text-gray-500 text-sm text-center mt-4">Inicie a partida para ver os outros jogos.</div>
+              )}
+              {aiMatches.map(m => (
+                <div key={m.fixtureId} className="flex flex-col bg-gray-50 dark:bg-gray-700 p-2 rounded shadow-sm border border-gray-200 dark:border-gray-600">
+                   <div className="flex justify-between items-center text-xs font-bold dark:text-white">
+                      <span className="truncate w-2/5 text-right">{m.homeTeamName}</span>
+                      <span className="w-1/5 text-center bg-gray-200 dark:bg-gray-900 px-1 py-1 rounded">
+                         {m.currentHomeScore} - {m.currentAwayScore}
+                      </span>
+                      <span className="truncate w-2/5 text-left">{m.awayTeamName}</span>
+                   </div>
+                </div>
+              ))}
             </div>
+          </section>
+        </div>
 
-            {/* Shots */}
-            <div className="flex justify-between items-center border-b-2 border-on-background/20 pb-2">
-               <span className="text-[16px] font-bold text-primary">{stats.home.shots}</span>
-               <span className="text-[10px] font-bold tracking-[1px] text-on-surface-variant">{t('shots', language)}</span>
-               <span className="text-[16px] font-bold text-error">{stats.away.shots}</span>
-            </div>
-
-            {/* Fouls */}
-            <div className="flex justify-between items-center border-b-2 border-on-background/20 pb-2">
-               <span className="text-[16px] font-bold text-primary">{stats.home.fouls}</span>
-               <span className="text-[10px] font-bold tracking-[1px] text-on-surface-variant">{t('fouls', language)}</span>
-               <span className="text-[16px] font-bold text-error">{stats.away.fouls}</span>
-            </div>
-
-            {/* Yellow Cards */}
-            <div className="flex justify-between items-center border-b-2 border-on-background/20 pb-2">
-               <span className="text-[16px] font-bold text-primary">{stats.home.yellows}</span>
-               <span className="text-[10px] font-bold tracking-[1px] text-on-surface-variant">{t('yellow_cards', language)}</span>
-               <span className="text-[16px] font-bold text-error">{stats.away.yellows}</span>
-            </div>
-
-             {/* Red Cards */}
-             <div className="flex justify-between items-center">
-               <span className="text-[16px] font-bold text-primary">{stats.home.reds}</span>
-               <span className="text-[10px] font-bold tracking-[1px] text-on-surface-variant">{t('red_cards', language)}</span>
-               <span className="text-[16px] font-bold text-error">{stats.away.reds}</span>
-            </div>
-
-         </div>
-      </aside>
-
+      </div>
     </main>
   );
 }

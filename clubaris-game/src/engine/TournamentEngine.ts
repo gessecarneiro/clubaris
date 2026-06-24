@@ -10,6 +10,15 @@ export type Fixture = {
   played: boolean;
   date: Date;
   tournamentId: string;
+  isKnockout?: boolean;
+  knockoutPhase?: string; // e.g. "Oitavas de Final", "Quartas de Final", "Semifinal", "Final"
+  isSecondLeg?: boolean;
+  firstLegHomeId?: string;
+  firstLegAwayId?: string;
+  firstLegHomeScore?: number;
+  firstLegAwayScore?: number;
+  penaltiesHomeScore?: number;
+  penaltiesAwayScore?: number;
 };
 
 export type LeagueTableEntry = {
@@ -95,21 +104,83 @@ export function generateRoundRobinSchedule(
   return fixtures;
 }
 
+// Generates a knockout stage
+export function generateKnockoutStage(
+  teamIds: string[],
+  startDate: Date,
+  phaseName: string,
+  tournamentId: string,
+  roundNum: number,
+  isTwoLegged: boolean = true
+): Fixture[] {
+  const fixtures: Fixture[] = [];
+  const teams = [...teamIds].sort(() => Math.random() - 0.5); // Random draw
+
+  let currentDate = new Date(startDate);
+  
+  // Create matchups
+  for (let i = 0; i < teams.length; i += 2) {
+    const teamA = teams[i];
+    const teamB = teams[i + 1];
+
+    if (!teamB) break; // Odd number of teams shouldn't happen in knockout
+
+    // First leg
+    fixtures.push({
+      id: `f_${tournamentId}_${phaseName}_leg1_${teamA}_${teamB}`,
+      round: roundNum,
+      homeTeamId: teamA,
+      awayTeamId: teamB,
+      played: false,
+      date: new Date(currentDate),
+      tournamentId,
+      isKnockout: true,
+      knockoutPhase: phaseName,
+      isSecondLeg: false
+    });
+
+    if (isTwoLegged) {
+      // Second leg
+      const secondLegDate = new Date(currentDate);
+      secondLegDate.setDate(secondLegDate.getDate() + 7);
+      
+      fixtures.push({
+        id: `f_${tournamentId}_${phaseName}_leg2_${teamB}_${teamA}`,
+        round: roundNum + 1,
+        homeTeamId: teamB,
+        awayTeamId: teamA,
+        played: false,
+        date: new Date(secondLegDate),
+        tournamentId,
+        isKnockout: true,
+        knockoutPhase: phaseName,
+        isSecondLeg: true,
+        firstLegHomeId: teamA,
+        firstLegAwayId: teamB
+      });
+    }
+  }
+
+  return fixtures;
+}
+
 // Simulates a single match between two AI teams based on rating difference
 export function simulateAIMatch(homeRating: number, awayRating: number): { homeScore: number, awayScore: number } {
-  // Home advantage
-  const adjustedHome = homeRating + 3;
-  const total = adjustedHome + awayRating;
+  // Home advantage (+4 rating effectively)
+  const adjustedHome = homeRating + 4;
   
-  const homeProb = adjustedHome / total; // e.g. 0.55
+  // Base probability (e.g. if 84 vs 80, homeProb = 84/164 = 0.51)
+  // We amplify the difference so a 5 point rating gap means a lot
+  const diff = adjustedHome - awayRating;
+  const homeProb = 0.5 + (diff * 0.02); // 5 points diff = +10% chance
   
   let homeScore = 0;
   let awayScore = 0;
 
-  // Max 5 chances per team
-  for(let i=0; i<5; i++) {
-    if (Math.random() < homeProb * 0.4) homeScore++;
-    if (Math.random() < (1 - homeProb) * 0.4) awayScore++;
+  // Simulate 6 attacks per team. The better team converts more.
+  for(let i=0; i<6; i++) {
+    if (Math.random() < homeProb * 0.35) homeScore++;
+    if (Math.random() < (1 - homeProb) * 0.35) awayScore++;
   }
 
   return { homeScore, awayScore };
@@ -172,3 +243,84 @@ export function updateLeagueTable(table: LeagueTableEntry[], homeId: string, awa
     return b.goalsFor - a.goalsFor;
   });
 }
+
+// Resolves a completed knockout phase and generates the next one if applicable
+export function resolveKnockoutPhase(
+  fixtures: Fixture[],
+  currentRound: number,
+  tournamentId: string
+): Fixture[] | null {
+  // Find all fixtures of the current round
+  const currentFixtures = fixtures.filter(f => f.round === currentRound);
+  if (currentFixtures.length === 0 || currentFixtures.some(f => !f.played)) {
+    return null; // Phase not complete
+  }
+
+  // Check if we are at the end of a two-legged tie or a single leg
+  const sample = currentFixtures[0];
+  if (!sample.isKnockout) return null;
+
+  // We only advance if this round concludes a phase (i.e., it's a second leg, or a single-leg tournament)
+  // For our setup, isTwoLegged = true means round 1 is leg 1, round 2 is leg 2.
+  if (sample.isSecondLeg === false) {
+    // Check if there is a second leg scheduled in the fixtures for this phase
+    const hasSecondLeg = fixtures.some(f => f.round === currentRound + 1 && f.isSecondLeg);
+    if (hasSecondLeg) return null; // Wait for second leg
+  }
+
+  // Determine winners
+  const winners: string[] = [];
+  
+  if (sample.isSecondLeg) {
+    // Process two-legged ties
+    for (const f2 of currentFixtures) {
+      const f1 = fixtures.find(f => f.round === currentRound - 1 && f.homeTeamId === f2.awayTeamId && f.awayTeamId === f2.homeTeamId);
+      if (!f1) continue;
+
+      const teamA = f1.homeTeamId;
+      const teamB = f1.awayTeamId;
+
+      const scoreA = f1.homeScore! + f2.awayScore!;
+      const scoreB = f1.awayScore! + f2.homeScore!;
+
+      if (scoreA > scoreB) winners.push(teamA);
+      else if (scoreB > scoreA) winners.push(teamB);
+      else {
+        // Tie! In a real game, away goals or penalties. We will use random penalty winner for simplicity here.
+        winners.push(Math.random() > 0.5 ? teamA : teamB);
+      }
+    }
+  } else {
+    // Process single-leg ties
+    for (const f of currentFixtures) {
+      if (f.homeScore! > f.awayScore!) winners.push(f.homeTeamId);
+      else if (f.awayScore! > f.homeScore!) winners.push(f.awayTeamId);
+      else winners.push(Math.random() > 0.5 ? f.homeTeamId : f.awayTeamId);
+    }
+  }
+
+  if (winners.length <= 1) {
+    return null; // Tournament finished!
+  }
+
+  // Generate next phase
+  let nextPhaseName = "Fase Seguinte";
+  if (winners.length === 16) nextPhaseName = "16 Avos";
+  if (winners.length === 8) nextPhaseName = "Oitavas";
+  if (winners.length === 4) nextPhaseName = "Quartas";
+  if (winners.length === 2) nextPhaseName = "Semifinal";
+  if (winners.length === 1) nextPhaseName = "Final"; // wait, length=1 means winner.
+  // Wait, if 8 winners, next phase is Oitavas? No, if 8 winners advance, they play Quartas!
+  if (winners.length === 16) nextPhaseName = "Oitavas";
+  else if (winners.length === 8) nextPhaseName = "Quartas";
+  else if (winners.length === 4) nextPhaseName = "Semifinal";
+  else if (winners.length === 2) nextPhaseName = "Final";
+
+  // Final is single leg, others two-legged
+  const isTwoLegged = winners.length > 2;
+  const startDate = new Date(sample.date);
+  startDate.setDate(startDate.getDate() + 14); // Next phase starts 2 weeks later
+
+  return generateKnockoutStage(winners, startDate, nextPhaseName, tournamentId, currentRound + 1, isTwoLegged);
+}
+

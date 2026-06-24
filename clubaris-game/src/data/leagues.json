@@ -1,9 +1,72 @@
 [
-  { "id": "brazil", "name": "Brasileirão Série A", "country": "Brazil" },
-  { "id": "england", "name": "Premier League", "country": "England" },
-  { "id": "spain", "name": "La Liga", "country": "Spain" },
-  { "id": "italy", "name": "Serie A", "country": "Italy" },
-  { "id": "france", "name": "Ligue 1", "country": "France" },
-  { "id": "germany", "name": "Bundesliga", "country": "Germany" },
-  { "id": "brazil_b", "name": "Brasileirão Série B", "country": "Brazil" }
+  {
+    "id": "brazil_a",
+    "name": "Brasileirão - Série A",
+    "folder": "Brasil"
+  },
+  {
+    "id": "brazil_b",
+    "name": "Brasileirão - Série B",
+    "folder": "Brasil"
+  },
+  {
+    "id": "brazil_c",
+    "name": "Brasileirão - Série C",
+    "folder": "Brasil"
+  },
+  {
+    "id": "brazil_reg",
+    "name": "Regionais",
+    "folder": "Brasil"
+  },
+  {
+    "id": "spain_a",
+    "name": "La Liga",
+    "folder": "Espanha"
+  },
+  {
+    "id": "spain_b",
+    "name": "La Liga 2",
+    "folder": "Espanha"
+  },
+  {
+    "id": "england_a",
+    "name": "Premier League",
+    "folder": "Inglaterra"
+  },
+  {
+    "id": "england_b",
+    "name": "Championship",
+    "folder": "Inglaterra"
+  },
+  {
+    "id": "italy_a",
+    "name": "Serie A",
+    "folder": "Itália"
+  },
+  {
+    "id": "italy_b",
+    "name": "Serie B",
+    "folder": "Itália"
+  },
+  {
+    "id": "intl_fra",
+    "name": "Ligue 1",
+    "folder": "Internacionais"
+  },
+  {
+    "id": "intl_ger",
+    "name": "Bundesliga",
+    "folder": "Internacionais"
+  },
+  {
+    "id": "intl_ned",
+    "name": "Eredivisie",
+    "folder": "Internacionais"
+  },
+  {
+    "id": "intl_por",
+    "name": "Primeira Liga",
+    "folder": "Internacionais"
+  }
 ]

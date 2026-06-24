@@ -1,191 +1,294 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useGameStore } from "../store/gameStore";
-import { useTranslation } from "../utils/i18n";
+import type { Player } from "../store/gameStore";
+import teamsData from "../data/teams.json";
+import { supabase } from "../lib/supabase";
+import { motion } from "framer-motion";
 
 export default function HomeClubHouse() {
-  const { teamName, badgeUrl, morale, fitness, language } = useGameStore();
-  const t = useTranslation();
+  const { teamName, squad, seasonData, playerTeamId, language, balance, boardConfidence, fanConfidence, badgeUrl } = useGameStore();
+
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(squad.length > 0 ? squad[0] : null);
+
+  let nextMatch = null;
+  let oppTeam = null;
+  let isHome = false;
+  let tournamentName = '';
+
+  if (seasonData) {
+    const upcoming = seasonData.playerSchedule.filter(f => !f.played);
+    if (upcoming.length > 0) {
+      nextMatch = upcoming[0];
+      isHome = nextMatch.homeTeamId === playerTeamId;
+      const oppId = isHome ? nextMatch.awayTeamId : nextMatch.homeTeamId;
+      oppTeam = teamsData.find((t: any) => t.id === oppId);
+      tournamentName = seasonData.tournaments[nextMatch.tournamentId]?.name || 'Amistoso';
+    }
+  }
+
+  const formattedBalance = `$${(balance / 1000000).toFixed(1)}M`;
+
+  const handleAcceptNewJob = async () => {
+    // Find a weak team (rating < 75)
+    const weakTeams = teamsData.filter(t => t.rating < 75 && t.id !== playerTeamId);
+    const randomTeam = weakTeams[Math.floor(Math.random() * weakTeams.length)] || teamsData[0];
+    
+    // Update local store
+    useGameStore.setState({
+      playerTeamId: randomTeam.id,
+      teamName: randomTeam.name,
+      boardConfidence: 50,
+      balance: 10000000, // Reset balance
+      badgeUrl: randomTeam.badgeUrl
+    });
+
+    // We should ideally sync this to DB (saves table)
+    const saveId = useGameStore.getState().saveId;
+    if (saveId) {
+       await supabase.from('saves').update({
+         player_team_id: randomTeam.id,
+         team_name: randomTeam.name,
+         board_confidence: 50,
+         balance: 10000000
+       }).eq('id', saveId);
+    }
+    
+    // Reload page to fetch new squad (easiest way to reset)
+    window.location.reload();
+  };
+
+  if (boardConfidence <= 0) {
+    return (
+      <main className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
+        <motion.div 
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="bg-surface-container border-4 border-error shadow-[8px_8px_0px_0px_rgba(255,0,0,0.5)] p-8 max-w-lg w-full flex flex-col items-center gap-6"
+        >
+          <span className="material-symbols-outlined text-error text-6xl">gavel</span>
+          <h1 className="text-3xl font-black text-error uppercase tracking-widest text-center">Você foi demitido!</h1>
+          <p className="text-on-surface text-center">
+            A diretoria do <span className="font-bold text-secondary">{teamName}</span> perdeu completamente a paciência com os maus resultados. Seu contrato foi rescindido imediatamente.
+          </p>
+          <div className="bg-surface-container-high p-4 border border-on-background w-full">
+             <h3 className="text-xs font-bold text-on-surface-variant uppercase mb-2">Propostas na Mesa:</h3>
+             <p className="text-sm">Um clube de menor expressão está disposto a te dar uma nova chance para reerguer sua carreira.</p>
+          </div>
+          <button 
+            onClick={handleAcceptNewJob}
+            className="w-full bg-error text-on-error font-black uppercase py-4 border-2 border-on-background hover:bg-error-container hover:text-on-error-container transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] active:shadow-none active:translate-x-1 active:translate-y-1"
+          >
+            Assumir Novo Clube
+          </button>
+        </motion.div>
+      </main>
+    );
+  }
 
   return (
-    <main className="mt-20 px-4 flex flex-col gap-6">
-      {/* Next Match Section */}
-      <section className="flex flex-col gap-1">
-        <div className="flex justify-between items-end">
-          <h2 className="text-[12px] font-bold tracking-[1px] text-primary uppercase">
-            {t('next_match', language)}
-          </h2>
-          <span className="text-[14px] text-on-surface-variant text-[10px]">
-            GW 14 / SAT 15:00
-          </span>
-        </div>
-        <div className="relative bg-surface-container border-2 border-on-background p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] active-press transition-all">
-          <div className="absolute top-0 left-0 w-full h-1 bg-primary"></div>
-          <div className="flex items-center justify-between py-2">
-            {/* Home Team */}
-            <div className="flex flex-col items-center gap-2 w-1/3">
-              <div className="w-16 h-16 bg-surface-container-high border-2 border-on-background flex items-center justify-center p-2">
-                <img
-                  alt="Home Team Logo"
-                  className="w-full h-full object-contain [image-rendering:pixelated]"
-                  src={badgeUrl || "https://lh3.googleusercontent.com/aida-public/AB6AXuCnim_q40K5jSCAiVOAriSjhV6Lj_s6y11BZM9LDoKfjOqGVrnxoHGCiJPUrKb6mA_So-t3Jr9t3j3VB7a68Z_ps0zfTnc1Grx-ulKpOEKOUd--hwePfJ_xHGEWzNQp2iiMIfqCjWrsGbds9VtsV33G_JBXdYdTADrlbedEFFV-QnGZCZKm8L3AYNtge8PN4htM3jwXQoHLCUqnSY4jBVUqdz1hNaFrNRbKPTghmpJvWMRVwB09Utjs3oxgKZ-WSOG-sT0zOolesn0U"}
-                />
-              </div>
-              <span className="text-[10px] font-bold tracking-[1px] text-center leading-tight uppercase">
-                {teamName || "LEGENDARY CLUB"}
-              </span>
+    <main className="px-4 flex flex-col lg:flex-row gap-6 pb-20 max-w-7xl mx-auto mt-4 font-sans bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen transition-colors">
+      
+      {/* LEFT SIDEBAR (Brasfoot Style) */}
+      <aside className="w-full lg:w-80 flex flex-col gap-4">
+        
+        {/* Team Info & Finances */}
+        <div className="tour-step-team bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-600 p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 flex items-center justify-center p-1">
+              {badgeUrl ? (
+                <img src={badgeUrl} alt="Badge" className="w-full h-full object-contain drop-shadow-md" />
+              ) : (
+                <span className="material-symbols-outlined text-[24px]">shield</span>
+              )}
             </div>
-            {/* VS Divider */}
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-[24px] font-bold text-secondary-container italic">
-                {t('vs', language)}
-              </span>
-              <div className="px-2 py-0.5 bg-error-container border border-on-background">
-                <span className="text-[10px] font-bold tracking-[1px] text-on-error-container">
-                  {t('away', language)}
-                </span>
+            <div>
+              <h2 className="text-[16px] font-bold text-green-800 uppercase leading-tight">
+                {teamName}
+              </h2>
+              <div className="text-[12px] font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1 mt-1">
+                <span className="material-symbols-outlined text-[14px]">payments</span>
+                <span>{formattedBalance}</span>
               </div>
-            </div>
-            {/* Away Team */}
-            <div className="flex flex-col items-center gap-2 w-1/3">
-              <div className="w-16 h-16 bg-surface-container-high border-2 border-on-background flex items-center justify-center p-2">
-                <img
-                  alt="Away Team Logo"
-                  className="w-full h-full [image-rendering:pixelated]"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzxwkCj_SlhLIs2jM1nVbzS9sw4kFr7LDIph8Vt8MZNYd6kZcu8KeIUhunDBVFee6b7ThTyd8iEVN4OLo202OTThNxwg0nt4aMFxgPJMpm5i2laP9AvCVgFfOZN_PBGSB20Ls5W6O0qUSl_C5DlTxcPqc5uct1aQZwN1Q9BaaT1Uv45X11Pybphh0FTxj5sjJBy6TF6J_HRhaNUALoHLNuB6gF5yQZG8OXvKCmB8XvvzMhAqdgtrfB6NCz_dCKzHh48CPF3gtukybS"
-                />
-              </div>
-              <span className="text-[10px] font-bold tracking-[1px] text-center leading-tight">
-                TITANS FC
-              </span>
             </div>
           </div>
-          <div className="flex gap-2 mt-4">
-            <Link
-              to="/escalacao"
-              className="flex-1 text-center bg-surface-container-highest text-on-surface text-[12px] font-bold tracking-[1px] py-2 border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)] active-press"
-            >
-              {t('manage_squad', language)}
-            </Link>
-            <Link
-              to="/partida"
-              className="flex-1 text-center bg-primary text-on-primary text-[12px] font-bold tracking-[1px] py-2 border-2 border-on-background shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)] active-press"
-            >
-              {t('play_match', language)}
-            </Link>
-          </div>
-        </div>
-      </section>
 
-      {/* Club Status Bento Grid */}
-      <section className="grid grid-cols-2 gap-4">
-        <div className="bg-surface-container border-2 border-on-background p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] flex flex-col gap-2">
-          <div className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-[16px] text-primary">
-              sentiment_satisfied
-            </span>
-            <h3 className="text-[10px] font-bold tracking-[1px] uppercase">
-              {t('morale', language)}
-            </h3>
-          </div>
-          <div className="h-4 w-full bg-surface-container-lowest border-2 border-on-background relative">
-            <div
-              className="h-full bg-primary"
-              style={{ width: `${morale}%` }}
-            ></div>
-          </div>
-          <span className="text-[18px] font-bold text-primary">{morale}%</span>
-        </div>
-        <div className="bg-surface-container border-2 border-on-background p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] flex flex-col gap-2">
-          <div className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-[16px] text-error">
-              exercise
-            </span>
-            <h3 className="text-[10px] font-bold tracking-[1px] uppercase">
-              {t('fitness', language)}
-            </h3>
-          </div>
-          <div className="h-4 w-full bg-surface-container-lowest border-2 border-on-background relative">
-            <div
-              className="h-full bg-error"
-              style={{ width: `${fitness}%` }}
-            ></div>
-          </div>
-          <span className="text-[18px] font-bold text-error">{fitness}%</span>
-        </div>
-      </section>
+          <div className="flex flex-col gap-2 mt-2">
+            <div className="flex flex-col gap-1">
+              <div className="flex justify-between items-center text-[10px] font-bold">
+                <span className="text-gray-600 dark:text-gray-400 uppercase">{language === 'pt' ? 'Confianca Diretoria' : 'Board Confidence'}</span>
+                <span className="text-green-800">{boardConfidence}%</span>
+              </div>
+              <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 border border-black dark:border-gray-600 overflow-hidden">
+                <div className="h-full bg-green-600" style={{ width: `${boardConfidence}%` }}></div>
+              </div>
+            </div>
 
-      {/* League Table Preview */}
-      <section className="flex flex-col gap-1">
-        <h2 className="text-[12px] font-bold tracking-[1px] text-primary uppercase">
-          {t('league_table', language)}
-        </h2>
-        <div className="bg-surface-container border-2 border-on-background shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-surface-container-highest border-b-2 border-on-background">
-                <th className="p-2 text-[10px] font-bold tracking-[1px]">
-                  {t('pos', language)}
-                </th>
-                <th className="p-2 text-[10px] font-bold tracking-[1px]">
-                  {t('club', language)}
-                </th>
-                <th className="p-2 text-[10px] font-bold tracking-[1px] text-right">
-                  {t('pts', language)}
-                </th>
+            <div className="flex flex-col gap-1">
+              <div className="flex justify-between items-center text-[10px] font-bold">
+                <span className="text-gray-600 dark:text-gray-400 uppercase">{language === 'pt' ? 'Confianca Torcida' : 'Fan Confidence'}</span>
+                <span className="text-green-800">{fanConfidence}%</span>
+              </div>
+              <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 border border-black dark:border-gray-600 overflow-hidden">
+                <div className="h-full bg-green-600" style={{ width: `${fanConfidence}%` }}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Next Match */}
+        <div className="tour-step-next-match bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)]">
+          <div className="bg-green-800 dark:bg-green-900 text-white font-bold text-[12px] px-3 py-2 border-b-2 border-black dark:border-gray-900">
+            {language === 'pt' ? 'Próximo Jogo' : 'Next Match'} - {isHome ? (language === 'pt' ? 'Casa' : 'Home') : (language === 'pt' ? 'Fora' : 'Away')}
+          </div>
+          
+          <div className="p-3">
+            {nextMatch ? (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                   <div className="w-16 h-16 flex items-center justify-center">
+                     {oppTeam?.badgeUrl ? (
+                        <img src={oppTeam.badgeUrl} alt={oppTeam.name} className="w-full h-full object-contain drop-shadow-md" />
+                     ) : (
+                        <span className="material-symbols-outlined text-[32px] text-gray-400">shield</span>
+                     )}
+                   </div>
+                   <div className="flex flex-col">
+                      <span className="text-[14px] font-bold text-green-800 dark:text-green-400">
+                        {oppTeam?.name || (isHome ? nextMatch.awayTeamId : nextMatch.homeTeamId)}
+                      </span>
+                      <span className="text-[12px] font-bold text-green-700/80 dark:text-green-500/80 mt-1">
+                        {tournamentName} - {nextMatch.round}ª {language === 'pt' ? 'rodada' : 'round'}
+                      </span>
+                   </div>
+                </div>
+                <Link to="/partida" className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors" title="Estatísticas/Info">
+                   <span className="material-symbols-outlined text-gray-600 dark:text-gray-300">analytics</span>
+                </Link>
+              </div>
+            ) : (
+              <div className="text-[12px] font-bold text-gray-500 text-center">
+                {language === 'pt' ? 'Fim de Temporada' : 'End of Season'}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <Link
+          to="/escalacao"
+          className="bg-gray-100 dark:bg-gray-800 text-black dark:text-white text-center py-3 text-[14px] font-bold border-2 border-black dark:border-gray-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors uppercase flex items-center justify-center gap-2"
+        >
+          <span className="material-symbols-outlined text-green-800 dark:text-green-400">sports_handball</span>
+          {language === 'pt' ? 'Escalar Time' : 'Tactics'}
+        </Link>
+        <Link
+          to="/classificacao"
+          className="bg-gray-100 dark:bg-gray-800 text-black dark:text-white text-center py-3 text-[14px] font-bold border-2 border-black dark:border-gray-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors uppercase flex items-center justify-center gap-2"
+        >
+          <span className="material-symbols-outlined text-green-800 dark:text-green-400">format_list_numbered</span>
+          {language === 'pt' ? 'Classificações' : 'Standings'}
+        </Link>
+        <Link
+          to="/partida"
+          className="bg-gray-100 dark:bg-gray-800 text-black dark:text-white text-center py-3 text-[14px] font-bold border-2 border-black dark:border-gray-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors uppercase flex items-center justify-center gap-2"
+        >
+          <span className="material-symbols-outlined text-green-800 dark:text-green-400">play_arrow</span>
+          {language === 'pt' ? 'Jogar Partida' : 'Play Match'}
+        </Link>
+
+        {/* Selected Player Details */}
+        {selectedPlayer && (
+          <div className="bg-white dark:bg-gray-800 border-2 border-green-800 dark:border-green-600 mt-auto">
+            <div className="bg-green-800 dark:bg-green-900 text-white p-1 px-2 flex justify-between items-center font-bold text-[12px]">
+              <span className="truncate uppercase">{selectedPlayer.name}</span>
+              <span>OVR: {selectedPlayer.rating}</span>
+            </div>
+            <div className="p-3 flex gap-3">
+              <div className="w-16 h-16 bg-gray-100 dark:bg-gray-900 border border-black dark:border-gray-700 flex items-center justify-center overflow-hidden">
+                 {selectedPlayer.photoUrl ? (
+                    <img src={selectedPlayer.photoUrl} alt="Player" className="w-full h-full object-cover" />
+                 ) : (
+                    <span className="material-symbols-outlined text-[32px] text-gray-400">person</span>
+                 )}
+              </div>
+              <div className="flex flex-col gap-1 text-[10px] font-bold">
+                 <div className="flex gap-1">
+                    <span className="text-gray-500 w-12 text-right">Pos:</span>
+                    <span className="text-black dark:text-white">{selectedPlayer.position}</span>
+                 </div>
+                 <div className="flex gap-1">
+                    <span className="text-gray-500 dark:text-gray-400 w-12 text-right">Idade:</span>
+                    <span className="text-black dark:text-white">20</span>
+                 </div>
+                 <div className="flex gap-1">
+                    <span className="text-gray-500 dark:text-gray-400 w-12 text-right">Ene:</span>
+                    <span className={selectedPlayer.energy && selectedPlayer.energy < 70 ? 'text-red-600 dark:text-red-400' : 'text-green-700 dark:text-green-400'}>
+                      {selectedPlayer.energy || 100}%
+                    </span>
+                 </div>
+                 <div className="flex gap-1">
+                    <span className="text-gray-500 dark:text-gray-400 w-12 text-right">Passe:</span>
+                    <span className="text-black dark:text-white">${((selectedPlayer.rating * 100000) / 1000000).toFixed(1)}M</span>
+                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </aside>      {/* RIGHT MAIN AREA - SQUAD Table */}
+      <section className="tour-step-squad flex-1 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-600 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden text-black dark:text-white">
+        <div className="overflow-x-auto flex-1 bg-gray-50 dark:bg-gray-900">
+          <table className="w-full text-left border-collapse min-w-[600px]">
+            <thead className="sticky top-0 bg-gray-200 dark:bg-gray-700 z-10">
+              <tr className="border-b-2 border-black dark:border-gray-900">
+                <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600">P</th>
+                <th className="p-1 px-2 text-[11px] font-bold border-r border-gray-400 dark:border-gray-600">{language === 'pt' ? 'Nome' : 'Name'}</th>
+                <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600">Nº</th>
+                <th className="p-1 px-2 text-[11px] font-bold w-16 text-center border-r border-gray-400 dark:border-gray-600">OVR</th>
+                <th className="p-1 px-2 text-[11px] font-bold w-20 text-center border-r border-gray-400 dark:border-gray-600">Energia</th>
+                <th className="p-1 px-2 text-[11px] font-bold w-24 text-right">Valor</th>
               </tr>
             </thead>
-            <tbody className="text-[12px]">
-              <tr className="border-b-2 border-on-background/10 bg-primary-container/20">
-                <td className="p-2 text-[18px] font-bold text-primary">01</td>
-                <td className="p-2">METRO UNITED</td>
-                <td className="p-2 text-[18px] font-bold text-right">58</td>
-              </tr>
-              <tr className="border-b-2 border-on-background/10 bg-surface-container-low">
-                <td className="p-2 text-[18px] font-bold">02</td>
-                <td className="p-2">SHADOW ATHLETIC</td>
-                <td className="p-2 text-[18px] font-bold text-right">55</td>
-              </tr>
-              <tr className="bg-secondary-container text-on-secondary-container">
-                <td className="p-2 text-[18px] font-bold">03</td>
-                <td className="p-2 font-bold uppercase">{teamName || 'LEGENDARY CLUB'}</td>
-                <td className="p-2 text-[18px] font-bold text-right">52</td>
-              </tr>
+            <tbody className="text-[12px] font-bold cursor-pointer">
+              {squad.map((player) => {
+                const isSelected = selectedPlayer?.id === player.id;
+                
+                // Determine Row Color Class
+                let rowClass = 'bg-white dark:bg-gray-800';
+                if (isSelected) rowClass = 'bf-select';
+                else if (player.position === 'GK') rowClass = 'bf-gk';
+                else if (['CB', 'LB', 'RB'].includes(player.position)) rowClass = 'bf-def';
+                else if (['CM', 'CDM', 'CAM', 'RM', 'LM'].includes(player.position)) rowClass = 'bf-mid';
+                else rowClass = 'bf-atk';
+
+                return (
+                  <tr 
+                    key={player.id} 
+                    onClick={() => setSelectedPlayer(player)}
+                    className={`border-b border-black/10 dark:border-black/30 hover:brightness-95 transition-all ${rowClass}`}
+                  >
+                    <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40">
+                      {player.position.charAt(0)}
+                    </td>
+                    <td className="p-2 md:p-1 px-2 truncate border-r border-black/20 dark:border-black/40">{player.name}</td>
+                    <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40">{player.number || '-'}</td>
+                    <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40 text-black/80">{player.rating}</td>
+                    <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40 bg-black/5">
+                      <span className={player.energy && player.energy < 70 ? 'text-red-700' : 'text-green-800'}>
+                        {player.energy || 100}%
+                      </span>
+                    </td>
+                    <td className="p-2 md:p-1 px-2 text-right bg-black/5">
+                      ${((player.rating * 100000) / 1000000).toFixed(1)}M
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
-          <div className="p-2 bg-surface-container-high text-center border-t-2 border-on-background">
-            <Link
-              to="/dashboard"
-              className="text-[10px] font-bold tracking-[1px] text-on-surface-variant hover:text-primary cursor-pointer block w-full"
-            >
-              {t('view_full_standings', language)}
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* Quick Actions Grid */}
-      <section className="grid grid-cols-2 gap-4">
-        <Link
-          to="/mercado"
-          className="bg-surface-container border-2 border-on-background p-4 flex flex-col items-center justify-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] active-press"
-        >
-          <span className="material-symbols-outlined text-[32px] text-tertiary">
-            group
-          </span>
-          <span className="text-[10px] font-bold tracking-[1px]">{t('scouting', language)}</span>
-        </Link>
-        <Link
-          to="/tatico"
-          className="bg-surface-container border-2 border-on-background p-4 flex flex-col items-center justify-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] active-press"
-        >
-          <span className="material-symbols-outlined text-[32px] text-secondary-container">
-            stadium
-          </span>
-          <span className="text-[10px] font-bold tracking-[1px]">
-            {t('facilities', language)}
-          </span>
-        </Link>
-      </section>
     </main>
   );
 }
