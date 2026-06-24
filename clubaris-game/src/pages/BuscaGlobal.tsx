@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useGameStore } from "../store/gameStore";
+import { calculateMarketValue, translatePosition } from "../utils/playerUtils";
 import { searchPlayersDb, fetchClubs, buyPlayerDb, loanPlayerDb } from "../lib/supabaseServices";
 import { getTeamRelevance, getRelevanceLevel } from "../utils/relevance";
 
@@ -86,14 +87,6 @@ export default function BuscaGlobal() {
     setResults([]);
   };
 
-  const calculateMarketValue = (rating: number) => {
-    if (rating >= 90) return 100000000;
-    if (rating >= 85) return 50000000;
-    if (rating >= 80) return 20000000;
-    if (rating >= 75) return 8000000;
-    return 2000000;
-  };
-
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat(language === "pt" ? "pt-BR" : "en-US", {
       style: "currency",
@@ -106,7 +99,7 @@ export default function BuscaGlobal() {
     setOfferPlayer(player);
     setOfferType(type);
     if (type === 'buy') {
-      setOfferAmount(calculateMarketValue(player.rating).toString());
+      setOfferAmount(calculateMarketValue(player).toString());
     } else {
       setOfferAmount('');
     }
@@ -114,7 +107,7 @@ export default function BuscaGlobal() {
 
   const submitOffer = async () => {
     if (!offerPlayer || !saveId) return;
-    const amount = parseInt(offerAmount);
+    const amount = parseFloat(offerAmount.replace(/[^0-9.-]+/g,""));
     if (isNaN(amount) || amount <= 0) return;
 
     if (amount > balance) {
@@ -139,7 +132,7 @@ export default function BuscaGlobal() {
       }
     }
 
-    const marketValue = calculateMarketValue(offerPlayer.rating);
+    const marketValue = calculateMarketValue(offerPlayer);
     if (amount >= marketValue * 0.9) {
       setIsProcessing(true);
       try {
@@ -349,12 +342,12 @@ export default function BuscaGlobal() {
             </thead>
             <tbody className="text-[12px]">
               {results.map((player: any, idx: number) => {
-                const estValue = calculateMarketValue(player.rating);
+                const estValue = calculateMarketValue(player);
                 const salary = player.contract_salary || estValue / 100;
 
                 return (
                   <tr key={player.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                    <td className="p-1 px-2 text-center border-r border-gray-300">{player.position.charAt(0)}</td>
+                    <td className="p-1 px-2 text-center border-r border-gray-300">{translatePosition(player.position, language).charAt(0)}</td>
                     <td className="p-1 px-2 truncate border-r border-gray-300">{player.name}</td>
                     <td className="p-1 px-2 truncate border-r border-gray-300 text-[11px] text-gray-700">
                       {player.clubs ? player.clubs.name : "Sem Clube"}
@@ -395,16 +388,12 @@ export default function BuscaGlobal() {
             </div>
             
             <div className="p-4 flex flex-col gap-4 font-sans text-black font-bold">
-              <div className="flex items-center gap-3 bg-white border border-gray-400 p-2 shadow-inner">
-                <div className="w-10 h-10 bg-gray-100 flex items-center justify-center border border-gray-300">
-                   <span className="material-symbols-outlined text-gray-400">person</span>
-                </div>
-                <div>
-                  <h3 className="text-[14px] uppercase">{offerPlayer.name}</h3>
-                  <div className="text-[10px] text-gray-500">
-                    OVR: {offerPlayer.rating} | POS: {offerPlayer.position}
-                  </div>
-                </div>
+              <div className="flex justify-between font-bold text-sm bg-gray-100 p-2 mb-2 border border-gray-400">
+                  <span className="truncate max-w-[200px]">{offerPlayer.name} {offerPlayer.isWorldClass && '⭐'}</span>
+                  <span>OVR: {offerPlayer.rating}</span>
+              </div>
+              <div className="text-xs text-gray-600 mb-4 text-center">
+                  Est. Market Value: {formatCurrency(calculateMarketValue(offerPlayer))}
               </div>
 
               <div className="flex flex-col gap-1">
@@ -422,9 +411,6 @@ export default function BuscaGlobal() {
                      className="flex-1 bg-white text-black border border-black px-3 py-1 focus:outline-none font-mono"
                    />
                 </div>
-                <p className="text-[9px] text-gray-500 mt-1">
-                  Est. Market Value: {formatCurrency(calculateMarketValue(offerPlayer.rating))}
-                </p>
                 <p className="text-[9px] text-green-700 mt-1">
                   Your Balance: {formatCurrency(balance)}
                 </p>

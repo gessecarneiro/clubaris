@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useGameStore } from "../store/gameStore";
 import type { Player } from "../store/gameStore";
+import { calculateMarketValue, translatePosition } from '../utils/playerUtils';
 import teamsData from "../data/teams.json";
 import { supabase } from "../lib/supabase";
 import { motion } from "framer-motion";
@@ -214,11 +215,11 @@ export default function HomeClubHouse() {
               <div className="flex flex-col gap-1 text-[10px] font-bold">
                  <div className="flex gap-1">
                     <span className="text-gray-500 w-12 text-right">Pos:</span>
-                    <span className="text-black dark:text-white">{selectedPlayer.position}</span>
+                    <span className="text-black dark:text-white">{translatePosition(selectedPlayer.position, language)}</span>
                  </div>
                  <div className="flex gap-1">
                     <span className="text-gray-500 dark:text-gray-400 w-12 text-right">Idade:</span>
-                    <span className="text-black dark:text-white">20</span>
+                    <span className="text-black dark:text-white">{selectedPlayer.age || '-'}</span>
                  </div>
                  <div className="flex gap-1">
                     <span className="text-gray-500 dark:text-gray-400 w-12 text-right">Ene:</span>
@@ -228,7 +229,7 @@ export default function HomeClubHouse() {
                  </div>
                  <div className="flex gap-1">
                     <span className="text-gray-500 dark:text-gray-400 w-12 text-right">Passe:</span>
-                    <span className="text-black dark:text-white">${((selectedPlayer.rating * 100000) / 1000000).toFixed(1)}M</span>
+                    <span className="text-black dark:text-white">${(calculateMarketValue(selectedPlayer) / 1000000).toFixed(1)}M</span>
                  </div>
               </div>
             </div>
@@ -243,9 +244,11 @@ export default function HomeClubHouse() {
               <tr className="border-b-2 border-black dark:border-gray-900">
                 <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600">P</th>
                 <th className="p-1 px-2 text-[11px] font-bold border-r border-gray-400 dark:border-gray-600">{language === 'pt' ? 'Nome' : 'Name'}</th>
-                <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600">Nº</th>
+                <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600">Id.</th>
+                <th className="p-1 px-2 text-[11px] font-bold w-16 text-center border-r border-gray-400 dark:border-gray-600">Pé</th>
+                <th className="p-1 px-2 text-[11px] font-bold w-32 border-r border-gray-400 dark:border-gray-600">Características</th>
                 <th className="p-1 px-2 text-[11px] font-bold w-16 text-center border-r border-gray-400 dark:border-gray-600">OVR</th>
-                <th className="p-1 px-2 text-[11px] font-bold w-20 text-center border-r border-gray-400 dark:border-gray-600">Energia</th>
+                <th className="p-1 px-2 text-[11px] font-bold w-20 text-center border-r border-gray-400 dark:border-gray-600">Ene</th>
                 <th className="p-1 px-2 text-[11px] font-bold w-24 text-right">Valor</th>
               </tr>
             </thead>
@@ -268,10 +271,16 @@ export default function HomeClubHouse() {
                     className={`border-b border-black/10 dark:border-black/30 hover:brightness-95 transition-all ${rowClass}`}
                   >
                     <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40">
-                      {player.position.charAt(0)}
+                      {translatePosition(player.position, language)}
                     </td>
-                    <td className="p-2 md:p-1 px-2 truncate border-r border-black/20 dark:border-black/40">{player.name}</td>
-                    <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40">{player.number || '-'}</td>
+                    <td className="p-2 md:p-1 px-2 truncate border-r border-black/20 dark:border-black/40">
+                       {player.name} {player.isWorldClass && <span title="Craque Mundial">⭐</span>}
+                    </td>
+                    <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40">{player.age || '-'}</td>
+                    <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40">{player.preferredFoot === 'Esquerdo' ? 'Esq' : 'Dir'}</td>
+                    <td className="p-2 md:p-1 px-2 truncate border-r border-black/20 dark:border-black/40 text-[10px]">
+                        {player.traits ? player.traits.join(', ') : '-'}
+                    </td>
                     <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40 text-black/80">{player.rating}</td>
                     <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40 bg-black/5">
                       <span className={player.energy && player.energy < 70 ? 'text-red-700' : 'text-green-800'}>
@@ -279,7 +288,7 @@ export default function HomeClubHouse() {
                       </span>
                     </td>
                     <td className="p-2 md:p-1 px-2 text-right bg-black/5">
-                      ${((player.rating * 100000) / 1000000).toFixed(1)}M
+                      ${(calculateMarketValue(player) / 1000000).toFixed(1)}M
                     </td>
                   </tr>
                 );

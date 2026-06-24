@@ -12,78 +12,62 @@ export interface MatchResult {
   homeScore: number;
   awayScore: number;
   events: MatchEvent[];
-  ratings: Record<string, number>; // playerId -> match rating (0-10)
+  ratings: Record<string, number>;
 }
 
-function getRandomInt(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+function getSector(position: string) {
+    if (position === 'GK') return 'GK';
+    if (['CB', 'LB', 'RB', 'LWB', 'RWB'].includes(position)) return 'DEF';
+    if (['CM', 'CDM', 'CAM', 'LM', 'RM'].includes(position)) return 'MID';
+    if (['ST', 'CF', 'LW', 'RW', 'PE', 'PD'].includes(position)) return 'ATT';
+    return 'MID'; 
 }
 
-function getTeamOVR(squad: Player[], tactic: Tactic | null) {
-  if (squad.length === 0) return 50;
-  
-  let total = 0;
-  let penalty = 0;
-  
-  // Base rating
-  squad.slice(0, 11).forEach(p => {
-    total += p.rating;
-    
-    // Quick improvisation penalty if we know the formation (very simple approximation)
-    // Real implementation would compare specific roles.
-    const isAttacker = p.position === 'ST' || p.position === 'LW' || p.position === 'RW';
-    const isDefender = p.position === 'CB' || p.position === 'LB' || p.position === 'RB';
-    
-    // Penalize if an attacker is in a defensive formation slot (if we assume array index 0-4 are def)
-    // We skip exact mapping here to keep the engine fast, but we apply a small penalty if energy is low
-    if (p.energy && p.energy < 70) penalty += 2;
-    if (p.morale && p.morale < 50) penalty += 1;
-  });
-  
-  let ovr = (total / Math.min(11, squad.length)) - penalty;
-  
-  if (tactic) {
-    if (tactic.captainId) {
-      const cap = squad.find(p => p.id === tactic.captainId);
-      if (cap && cap.morale && cap.morale > 80) ovr += 1; // Good captain bonus
-    }
-  }
+function calculateTeamSectors(squad: Player[], tactic: Tactic | null) {
+   let defTotal = 0, defCount = 0;
+   let midTotal = 0, midCount = 0;
+   let attTotal = 0, attCount = 0;
+   let gkTotal = 50;
 
-  return Math.max(1, ovr);
-}
+   const starters = squad.slice(0, 11);
+   starters.forEach(p => {
+       let rating = p.rating;
+       if (p.energy && p.energy < 70) rating -= 2;
+       if (p.morale && p.morale < 50) rating -= 1;
 
-function simulateTeamStats(squad: Player[], tactic: Tactic | null, isHome: boolean, opponentOvr: number): { attack: number, defense: number, aggression: number } {
-  let ovr = getTeamOVR(squad, tactic);
-  if (isHome) ovr += 3; // Home advantage
+       const sector = getSector(p.position);
+       if (sector === 'GK') gkTotal = rating;
+       else if (sector === 'DEF') { defTotal += rating; defCount++; }
+       else if (sector === 'MID') { midTotal += rating; midCount++; }
+       else if (sector === 'ATT') { attTotal += rating; attCount++; }
+   });
 
-  let attack = ovr;
-  let defense = ovr;
-  let aggression = 50; // Base chance for cards/injuries
+   let defOvr = defCount > 0 ? defTotal / defCount : 50;
+   let midOvr = midCount > 0 ? midTotal / midCount : 50;
+   let attOvr = attCount > 0 ? attTotal / attCount : 50;
 
-  if (tactic) {
-    // Mentality
-    switch (tactic.mentality) {
-      case 'muito_ofensiva': attack += 5; defense -= 5; break;
-      case 'ofensiva': attack += 3; defense -= 3; break;
-      case 'defensiva': attack -= 3; defense += 3; break;
-      case 'muito_defensiva': attack -= 5; defense += 5; break;
-    }
+   if (tactic) {
+       if (tactic.formation.startsWith('5')) defOvr += 3;
+       if (tactic.formation.startsWith('3')) defOvr -= 1;
+       if (tactic.formation.startsWith('4-3-3')) attOvr += 2;
+       if (tactic.formation === '4-5-1' || tactic.formation === '4-2-3-1') midOvr += 2;
 
-    // Playstyle (Rock Paper Scissors effect could be added here later)
-    switch (tactic.playstyle) {
-      case 'posse': defense += 1; attack += 1; break; // Balanced
-      case 'contra_ataque': defense += 2; attack += 1; break;
-      case 'pressao': attack += 2; aggression += 10; break;
-    }
+       switch (tactic.mentality) {
+          case 'muito_ofensiva': attOvr += 6; defOvr -= 5; break;
+          case 'ofensiva': attOvr += 4; defOvr -= 3; break;
+          case 'defensiva': attOvr -= 3; defOvr += 4; break;
+          case 'muito_defensiva': attOvr -= 5; defOvr += 6; break;
+       }
 
-    // Intensity
-    switch (tactic.intensity) {
-      case 'alta': attack += 2; defense += 2; aggression += 20; break;
-      case 'baixa': attack -= 2; defense -= 2; aggression -= 20; break;
-    }
-  }
+       switch (tactic.playstyle) {
+          case 'posse': midOvr += 4; attOvr -= 1; break; 
+          case 'contra_ataque': midOvr -= 3; attOvr += 3; defOvr += 2; break; 
+          case 'pressao': midOvr += 3; attOvr += 2; defOvr -= 2; break; 
+          case 'direto': midOvr -= 2; attOvr += 2; break; 
+       }
+   }
 
-  return { attack, defense, aggression };
+   return { defOvr, midOvr, attOvr, gkTotal, starters };
 }
 
 export function simulateDetailedMatch(
@@ -93,152 +77,107 @@ export function simulateDetailedMatch(
   const events: MatchEvent[] = [];
   const ratings: Record<string, number> = {};
 
-  const homeOvr = getTeamOVR(homeSquad, homeTactic);
-  const awayOvr = getTeamOVR(awaySquad, awayTactic);
+  [...homeSquad, ...awaySquad].forEach(p => ratings[p.id] = 6.0);
 
-  const homeStats = simulateTeamStats(homeSquad, homeTactic, true, awayOvr);
-  const awayStats = simulateTeamStats(awaySquad, awayTactic, false, homeOvr);
+  if (homeSquad.length === 0 || awaySquad.length === 0) {
+      return { homeScore: 0, awayScore: 0, events: [], ratings: {} };
+  }
+
+  const home = calculateTeamSectors(homeSquad, homeTactic);
+  const away = calculateTeamSectors(awaySquad, awayTactic);
+  
+  home.midOvr += 2;
+  home.attOvr += 1;
+  home.defOvr += 1;
 
   let homeScore = 0;
   let awayScore = 0;
 
-  // Initialize ratings (base 6.0)
-  [...homeSquad.slice(0, 11), ...awaySquad.slice(0, 11)].forEach(p => {
-    ratings[p.id] = 6.0 + (getRandomInt(-5, 5) / 10); // 5.5 to 6.5
-  });
-
-  // Minute by minute simulation
+  const totalMid = home.midOvr + away.midOvr;
+  const homeMidControl = totalMid > 0 ? (home.midOvr / totalMid) : 0.5;
+  
   for (let minute = 1; minute <= 90; minute++) {
-    
-    // --- HOME CHANCE ---
-    // Chance to score is based on home attack vs away defense
-    const homeGoalChance = Math.max(1, (homeStats.attack - awayStats.defense + 20)) / 1000;
-    if (Math.random() < homeGoalChance) {
-      homeScore++;
-      // Determine scorer
-      const isPenalty = Math.random() < 0.1;
-      let scorer: Player | undefined = undefined;
+      const r = Math.random();
+      const homeHasBall = r < homeMidControl;
       
-      if (isPenalty && homeTactic?.penaltyTakerId) {
-        scorer = homeSquad.find(p => p.id === homeTactic.penaltyTakerId);
+      const attackingTeam = homeHasBall ? home : away;
+      const defendingTeam = homeHasBall ? away : home;
+      const attSide = homeHasBall ? 'home' : 'away';
+
+      if (minute > 60) {
+          attackingTeam.attOvr -= 0.1;
+          defendingTeam.defOvr -= 0.1;
+          attackingTeam.midOvr -= 0.1;
       }
+
+      const defForce = Math.max(1, defendingTeam.defOvr);
+      let chanceCreation = (attackingTeam.attOvr / defForce) * 0.11;
       
-      if (!scorer) {
-        // Bias towards attackers
-        const attackers = homeSquad.slice(0, 11).filter(p => ['ST', 'LW', 'RW', 'CF', 'CAM'].includes(p.position));
-        const pool = attackers.length > 0 && Math.random() < 0.7 ? attackers : homeSquad.slice(0, 11);
-        scorer = pool[getRandomInt(0, pool.length - 1)];
+      if (Math.random() < chanceCreation) {
+          let attackers = attackingTeam.starters.filter(p => getSector(p.position) === 'ATT');
+          if (attackers.length === 0) attackers = attackingTeam.starters.filter(p => getSector(p.position) === 'MID');
+          if (attackers.length === 0) attackers = attackingTeam.starters;
+          
+          if (attackers.length > 0) {
+              const shooter = attackers[Math.floor(Math.random() * attackers.length)];
+              
+              let shotQuality = 0.40;
+              if (defendingTeam.gkTotal > 0) {
+                  shotQuality = (shooter.rating / defendingTeam.gkTotal) * 0.42;
+              }
+              
+              if (Math.random() < shotQuality) {
+                  if (attSide === 'home') homeScore++; else awayScore++;
+                  
+                  let mids = attackingTeam.starters.filter(p => getSector(p.position) === 'MID' && p.id !== shooter.id);
+                  let assist = undefined;
+                  if (mids.length > 0 && Math.random() < 0.7) {
+                      assist = mids[Math.floor(Math.random() * mids.length)];
+                      ratings[assist.id] += 0.5;
+                  }
+                  
+                  ratings[shooter.id] += 1.0;
+                  events.push({ minute, type: 'goal', player: shooter, assist, team: attSide });
+              } else {
+                  const isSave = Math.random() < 0.6;
+                  const type = isSave ? 'save' : (Math.random() < 0.3 ? 'woodwork' : 'miss');
+                  
+                  events.push({ minute, type, player: shooter, team: attSide });
+                  
+                  if (isSave) {
+                     const gk = defendingTeam.starters.find(p => getSector(p.position) === 'GK');
+                     if (gk) ratings[gk.id] += 0.2;
+                  }
+              }
+          }
       }
 
-      // Assist
-      let assist: Player | undefined = undefined;
-      if (!isPenalty && Math.random() < 0.6) {
-        const mids = homeSquad.slice(0, 11).filter(p => ['CM', 'LM', 'RM', 'CAM', 'CDM'].includes(p.position) && p.id !== scorer.id);
-        const pool = mids.length > 0 ? mids : homeSquad.slice(0, 11).filter(p => p.id !== scorer.id);
-        if (pool.length > 0) assist = pool[getRandomInt(0, pool.length - 1)];
-      }
+      if (Math.random() < 0.02) {
+         const evType = Math.random();
+         const teamSquad = Math.random() < 0.5 ? home.starters : away.starters;
+         
+         if (teamSquad.length > 0) {
+             const player = teamSquad[Math.floor(Math.random() * teamSquad.length)];
+             const teamStr = (teamSquad === home.starters) ? 'home' : 'away';
 
-      if (scorer) {
-        events.push({ minute, type: 'goal', team: 'home', player: scorer, assist });
-        ratings[scorer.id] += 1.0;
-        if (assist) ratings[assist.id] += 0.5;
+             if (evType < 0.5) {
+                 events.push({ minute, type: 'yellow_card', player, team: teamStr });
+                 ratings[player.id] -= 0.3;
+             } else if (evType < 0.55) {
+                 events.push({ minute, type: 'red_card', player, team: teamStr });
+                 ratings[player.id] -= 1.0;
+             } else if (evType < 0.70) {
+                 events.push({ minute, type: 'injury', player, team: teamStr });
+                 ratings[player.id] -= 0.5;
+             }
+         }
       }
-    } else if (Math.random() < homeGoalChance * 2) {
-      const types = ['miss', 'save', 'woodwork'] as const;
-      const type = types[Math.floor(Math.random() * types.length)];
-      const attackers = homeSquad.slice(0, 11).filter(p => ['ST', 'LW', 'RW', 'CF', 'CAM'].includes(p.position));
-      const pool = attackers.length > 0 && Math.random() < 0.7 ? attackers : homeSquad.slice(0, 11);
-      const shooter = pool[getRandomInt(0, pool.length - 1)];
-      if (shooter) {
-        events.push({ minute, type, team: 'home', player: shooter });
-      }
-    }
-
-    // --- AWAY CHANCE ---
-    const awayGoalChance = Math.max(1, (awayStats.attack - homeStats.defense + 20)) / 1000;
-    if (Math.random() < awayGoalChance) {
-      awayScore++;
-      const isPenalty = Math.random() < 0.1;
-      let scorer: Player | undefined = undefined;
-      
-      if (isPenalty && awayTactic?.penaltyTakerId) {
-        scorer = awaySquad.find(p => p.id === awayTactic.penaltyTakerId);
-      }
-      
-      if (!scorer) {
-        const attackers = awaySquad.slice(0, 11).filter(p => ['ST', 'LW', 'RW', 'CF', 'CAM'].includes(p.position));
-        const pool = attackers.length > 0 && Math.random() < 0.7 ? attackers : awaySquad.slice(0, 11);
-        scorer = pool[getRandomInt(0, pool.length - 1)];
-      }
-
-      let assist: Player | undefined = undefined;
-      if (!isPenalty && Math.random() < 0.6) {
-        const mids = awaySquad.slice(0, 11).filter(p => ['CM', 'LM', 'RM', 'CAM', 'CDM'].includes(p.position) && p.id !== scorer.id);
-        const pool = mids.length > 0 ? mids : awaySquad.slice(0, 11).filter(p => p.id !== scorer.id);
-        if (pool.length > 0) assist = pool[getRandomInt(0, pool.length - 1)];
-      }
-
-      if (scorer) {
-        events.push({ minute, type: 'goal', team: 'away', player: undefined as any, assist });
-        ratings[scorer.id] += 1.0;
-        if (assist) ratings[assist.id] += 0.5;
-      }
-    } else if (Math.random() < awayGoalChance * 2) {
-      const types = ['miss', 'save', 'woodwork'] as const;
-      const type = types[Math.floor(Math.random() * types.length)];
-      const attackers = awaySquad.slice(0, 11).filter(p => ['ST', 'LW', 'RW', 'CF', 'CAM'].includes(p.position));
-      const pool = attackers.length > 0 && Math.random() < 0.7 ? attackers : awaySquad.slice(0, 11);
-      const shooter = pool[getRandomInt(0, pool.length - 1)];
-      if (shooter) {
-        events.push({ minute, type, team: 'away', player: shooter });
-      }
-    }
-
-    // --- CARDS AND INJURIES (Home) ---
-    const homeAggressionChance = (homeStats.aggression / 10000);
-    if (Math.random() < homeAggressionChance) {
-      const isRed = Math.random() < 0.05;
-      const isInjury = Math.random() < 0.1;
-      const victim = homeSquad.slice(0, 11)[getRandomInt(0, Math.min(10, homeSquad.length - 1))];
-      
-      if (isInjury) {
-        events.push({ minute, type: 'injury', team: 'home', player: victim });
-        ratings[victim.id] -= 0.5;
-      } else {
-        events.push({ minute, type: isRed ? 'red_card' : 'yellow_card', team: 'home', player: victim });
-        ratings[victim.id] -= isRed ? 2.0 : 0.5;
-      }
-    }
-
-    // --- CARDS AND INJURIES (Away) ---
-    const awayAggressionChance = (awayStats.aggression / 10000);
-    if (Math.random() < awayAggressionChance) {
-      const isRed = Math.random() < 0.05;
-      const isInjury = Math.random() < 0.1;
-      const victim = awaySquad.slice(0, 11)[getRandomInt(0, Math.min(10, awaySquad.length - 1))];
-      
-      if (isInjury) {
-        events.push({ minute, type: 'injury', team: 'away', player: victim });
-        ratings[victim.id] -= 0.5;
-      } else {
-        events.push({ minute, type: isRed ? 'red_card' : 'yellow_card', team: 'away', player: victim });
-        ratings[victim.id] -= isRed ? 2.0 : 0.5;
-      }
-    }
   }
 
-  // Finalize ratings bounds
-  Object.keys(ratings).forEach(id => {
-    if (ratings[id] > 10.0) ratings[id] = 10.0;
-    if (ratings[id] < 3.0) ratings[id] = 3.0;
-    // Round to 1 decimal
-    ratings[id] = Math.round(ratings[id] * 10) / 10;
+  Object.keys(ratings).forEach(k => {
+     if (ratings[k] > 10.0) ratings[k] = 10.0;
+     if (ratings[k] < 3.0) ratings[k] = 3.0;
   });
 
-  return {
-    homeScore,
-    awayScore,
-    events,
-    ratings
-  };
+  return { homeScore, awayScore, events, ratings };
 }

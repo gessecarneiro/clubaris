@@ -3,6 +3,7 @@ import type { Player } from "../store/gameStore";
 import { useGameStore } from "../store/gameStore";
 import { fetchClubs, fetchSquad, buyPlayerDb, loanPlayerDb } from "../lib/supabaseServices";
 import { getTeamRelevance, getRelevanceLevel } from "../utils/relevance";
+import { calculateMarketValue, translatePosition } from '../utils/playerUtils';
 import allLeaguesData from '../data/leagues.json';
 
 export default function VerTimes() {
@@ -86,14 +87,6 @@ export default function VerTimes() {
 
   const selectedTeam = clubsData.find(t => t.id === selectedTeamId);
 
-  const calculateMarketValue = (rating: number) => {
-    if (rating >= 90) return 100000000;
-    if (rating >= 85) return 50000000;
-    if (rating >= 80) return 20000000;
-    if (rating >= 75) return 8000000;
-    return 2000000;
-  };
-
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat(language === "pt" ? "pt-BR" : "en-US", {
       style: "currency",
@@ -107,10 +100,10 @@ export default function VerTimes() {
     setOfferType(type);
     setGeneratedOffer(null);
     if (type === 'buy') {
-      setOfferAmount(calculateMarketValue(player.rating).toString());
+      setOfferAmount(calculateMarketValue(player).toString());
     } else if (type === 'sell' || type === 'loan_out') {
       // Brasfoot style: immediate random offer
-      const baseValue = calculateMarketValue(player.rating);
+      const baseValue = calculateMarketValue(player);
       // Random offer between 70% and 130% of market value for sale
       // For loan, random salary % between 20% and 100%
       if (type === 'sell') {
@@ -179,7 +172,7 @@ export default function VerTimes() {
        return;
     }
 
-    const marketValue = calculateMarketValue(offerPlayer.rating);
+    const marketValue = calculateMarketValue(offerPlayer);
     if (amount >= marketValue * 0.9) {
       setIsProcessing(true);
       try {
@@ -334,7 +327,7 @@ export default function VerTimes() {
                 </thead>
                 <tbody className="text-[12px] font-bold">
                   {selectedTeamSquad.map((player: any) => {
-                    const estValue = calculateMarketValue(player.rating);
+                    const estValue = calculateMarketValue(player);
                     
                     let rowClass = 'bg-white dark:bg-gray-800';
                     if (player.position === 'GK') rowClass = 'bf-gk';
@@ -428,16 +421,13 @@ export default function VerTimes() {
             </div>
             
             <div className="p-4 flex flex-col gap-4 font-sans text-black dark:text-white font-bold">
-              <div className="flex items-center gap-3 bg-white dark:bg-gray-700 border border-gray-400 dark:border-gray-600 p-2 shadow-inner">
-                <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 flex items-center justify-center border border-gray-300 dark:border-gray-600">
-                   <span className="material-symbols-outlined text-gray-400">person</span>
-                </div>
-                <div>
-                  <h3 className="text-[14px] uppercase">{offerPlayer.name}</h3>
-                  <div className="text-[10px] text-gray-500 dark:text-gray-400">
-                    OVR: {offerPlayer.rating} | POS: {offerPlayer.position}
-                  </div>
-                </div>
+              <div className="flex justify-between font-bold text-sm bg-gray-100 dark:bg-gray-900 p-2 mb-2">
+                  <span className="truncate max-w-[200px]">{offerPlayer.name}</span>
+                  <span>OVR: {offerPlayer.rating}</span>
+              </div>
+              
+              <div className="text-xs text-gray-600 dark:text-gray-400 mb-4 text-center">
+                  Est. Market Value: {formatCurrency(calculateMarketValue(offerPlayer))}
               </div>
 
               <div className="flex flex-col gap-1">
@@ -459,9 +449,6 @@ export default function VerTimes() {
                      className="flex-1 bg-white dark:bg-gray-800 text-black dark:text-white border border-black dark:border-gray-500 px-3 py-1 focus:outline-none font-mono disabled:opacity-70 disabled:bg-gray-100 dark:disabled:bg-gray-900"
                    />
                 </div>
-                <p className="text-[9px] text-gray-500 dark:text-gray-400 mt-1">
-                  Est. Market Value: {formatCurrency(calculateMarketValue(offerPlayer.rating))}
-                </p>
                 <p className="text-[9px] text-green-700 dark:text-green-400 mt-1">
                   Your Balance: {formatCurrency(balance)}
                 </p>

@@ -1,4 +1,5 @@
 import { useGameStore } from '../store/gameStore';
+import { calculateMarketValue } from '../utils/playerUtils';
 import teamsData from '../data/teams.json';
 
 const REAL_MANAGERS = [
@@ -60,7 +61,7 @@ export function simulateCPU() {
      if (seller.squad.length > 15) {
        // CPU buys a random player
        const player = seller.squad[Math.floor(Math.random() * seller.squad.length)];
-       const marketValue = 2000000 + ((player.rating - 60) * 1000000);
+       const marketValue = calculateMarketValue(player);
        if (marketValue > 0) {
          store.generateNews('info', 'MERCADO DA BOLA', `O ${buyer.name} acertou a contratação de ${player.name} (${player.position}) junto ao ${seller.name} por um valor não revelado.`);
        }
