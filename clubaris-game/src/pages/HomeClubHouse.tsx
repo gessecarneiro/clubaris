@@ -163,7 +163,7 @@ export default function HomeClubHouse() {
                       </span>
                    </div>
                 </div>
-                <Link to="/partida" className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors" title="Estatísticas/Info">
+                <Link to="/times" state={{ teamId: oppTeam?.id }} className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors" title="Estatísticas/Info">
                    <span className="material-symbols-outlined text-gray-600 dark:text-gray-300">analytics</span>
                 </Link>
               </div>

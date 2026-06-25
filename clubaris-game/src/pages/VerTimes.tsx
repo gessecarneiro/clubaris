@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import type { Player } from "../store/gameStore";
 import { useGameStore } from "../store/gameStore";
 import { fetchClubs, fetchSquad, buyPlayerDb, loanPlayerDb } from "../lib/supabaseServices";
@@ -7,11 +8,12 @@ import { calculateMarketValue, translatePosition } from '../utils/playerUtils';
 import allLeaguesData from '../data/leagues.json';
 
 export default function VerTimes() {
+  const location = useLocation();
   const { language, balance, buyPlayer, saveId, playerTeamId } = useGameStore();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedLeagueId, setSelectedLeagueId] = useState<string>("all");
-  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(null);
+  const [selectedTeamId, setSelectedTeamId] = useState<string | null>(location.state?.teamId || null);
   const [offerPlayer, setOfferPlayer] = useState<Player | null>(null);
   const [offerType, setOfferType] = useState<'buy' | 'loan' | 'sell' | 'loan_out' | null>(null);
   const [offerAmount, setOfferAmount] = useState<string>("");

@@ -295,3 +295,12 @@ export async function searchPlayersDb(saveId: string, filters: any) {
   if (error) throw new Error(error.message);
   return data;
 }
+
+export const deleteSaveGame = async (saveId: string) => {
+  const { error } = await supabase.from('saves').delete().eq('id', saveId);
+  if (error) {
+    console.error('Error deleting save:', error);
+    throw error;
+  }
+  return true;
+};

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useGameStore } from "../store/gameStore";
-import { loadSaveGame } from "../lib/supabaseServices";
+import { loadSaveGame, deleteSaveGame } from "../lib/supabaseServices";
 import { motion } from "framer-motion";
 
 export default function LoadGame() {
@@ -56,6 +56,17 @@ export default function LoadGame() {
     }
   };
 
+  const handleDeleteSave = async (saveId: string) => {
+    if (window.confirm(language === 'pt' ? 'Tem certeza que deseja deletar este save?' : 'Are you sure you want to delete this save?')) {
+      try {
+        await deleteSaveGame(saveId);
+        setSaves(saves.filter(s => s.id !== saveId));
+      } catch (error) {
+        alert(language === 'pt' ? 'Erro ao deletar save.' : 'Error deleting save.');
+      }
+    }
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -97,13 +108,23 @@ export default function LoadGame() {
                     {new Date(save.game_date).toLocaleDateString()} - {language === 'pt' ? 'Saldo:' : 'Balance:'} ${save.balance.toLocaleString()}
                   </p>
                 </div>
-                <button
-                  onClick={() => handleLoadSave(save.id)}
-                  disabled={isStarting}
-                  className="bg-[#3a7c29] text-white font-bold text-[12px] px-6 py-2 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,0.4)] uppercase hover:bg-[#489933] active:translate-y-[2px] active:shadow-none disabled:opacity-50"
-                >
-                  {isStarting ? '...' : (language === 'pt' ? 'Carregar' : 'Load')}
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleLoadSave(save.id)}
+                    disabled={isStarting}
+                    className="bg-[#3a7c29] text-white font-bold text-[12px] px-6 py-2 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,0.4)] uppercase hover:bg-[#489933] active:translate-y-[2px] active:shadow-none disabled:opacity-50"
+                  >
+                    {isStarting ? '...' : (language === 'pt' ? 'Carregar' : 'Load')}
+                  </button>
+                  <button
+                    onClick={() => handleDeleteSave(save.id)}
+                    disabled={isStarting}
+                    className="bg-red-600 text-white font-bold text-[12px] px-4 py-2 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,0.4)] uppercase hover:bg-red-700 active:translate-y-[2px] active:shadow-none disabled:opacity-50 flex items-center justify-center"
+                    title={language === 'pt' ? 'Deletar' : 'Delete'}
+                  >
+                    <span className="material-symbols-outlined text-[16px]">delete</span>
+                  </button>
+                </div>
               </div>
             ))
           )}
