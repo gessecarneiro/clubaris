@@ -8,6 +8,8 @@ import { motion } from "framer-motion";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSignUpMode, setIsSignUpMode] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const { setUser, language } = useGameStore();
@@ -39,9 +41,16 @@ export default function Login() {
     setIsLoading(false);
   };
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
     setErrorMsg("");
+
+    if (!acceptTerms) {
+      setErrorMsg(language === 'pt' ? "Você precisa aceitar os termos de serviço." : "You must accept the terms of service.");
+      setIsLoading(false);
+      return;
+    }
 
     const cleanEmail = sanitizeText(email);
     if (!isValidEmail(cleanEmail)) {
@@ -89,50 +98,106 @@ export default function Login() {
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1">
-            <label className="text-[12px] font-bold uppercase tracking-wide">E-mail</label>
-            <input 
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="border-2 border-black p-2 font-mono focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="treinador@exemplo.com"
-            />
-          </div>
+        {!isSignUpMode ? (
+          <form onSubmit={handleLogin} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <label className="text-[12px] font-bold uppercase tracking-wide">E-mail</label>
+              <input 
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="border-2 border-black p-2 font-mono focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="treinador@exemplo.com"
+              />
+            </div>
 
-          <div className="flex flex-col gap-1">
-            <label className="text-[12px] font-bold uppercase tracking-wide">Senha</label>
-            <input 
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="border-2 border-black p-2 font-mono focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-[12px] font-bold uppercase tracking-wide">Senha</label>
+              <input 
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="border-2 border-black p-2 font-mono focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
 
-          <div className="flex flex-col gap-2 mt-4">
-            <button 
-              type="submit"
-              disabled={isLoading}
-              className="bg-[#2a7d2a] text-white font-bold text-[14px] uppercase py-3 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.5)] active:translate-y-[2px] active:shadow-none hover:bg-[#1e5c1e] transition-all disabled:opacity-50"
-            >
-              {isLoading ? "..." : (language === "pt" ? "Entrar" : "Login")}
-            </button>
-            <button 
-              type="button"
-              onClick={handleSignUp}
-              disabled={isLoading}
-              className="bg-gray-200 text-black font-bold text-[14px] uppercase py-3 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.5)] active:translate-y-[2px] active:shadow-none hover:bg-gray-300 transition-all disabled:opacity-50"
-            >
-              {language === 'pt' ? 'Criar Nova Conta' : 'Sign Up'}
-            </button>
+            <div className="flex flex-col gap-2 mt-4">
+              <button 
+                type="submit"
+                disabled={isLoading}
+                className="bg-[#2a7d2a] text-white font-bold text-[14px] uppercase py-3 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.5)] active:translate-y-[2px] active:shadow-none hover:bg-[#1e5c1e] transition-all disabled:opacity-50"
+              >
+                {isLoading ? "..." : (language === "pt" ? "Entrar" : "Login")}
+              </button>
+              <button 
+                type="button"
+                onClick={() => setIsSignUpMode(true)}
+                disabled={isLoading}
+                className="bg-gray-200 text-black font-bold text-[14px] uppercase py-3 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.5)] active:translate-y-[2px] active:shadow-none hover:bg-gray-300 transition-all disabled:opacity-50"
+              >
+                {language === 'pt' ? 'Criar Nova Conta' : 'Sign Up'}
+              </button>
+            </div>
+          </form>
+        ) : (
+          <form onSubmit={handleSignUp} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <label className="text-[12px] font-bold uppercase tracking-wide">E-mail</label>
+              <input 
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="border-2 border-black p-2 font-mono focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="treinador@exemplo.com"
+              />
+            </div>
 
+            <div className="flex flex-col gap-1">
+              <label className="text-[12px] font-bold uppercase tracking-wide">Senha</label>
+              <input 
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="border-2 border-black p-2 font-mono focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
 
-          </div>
-        </form>
+            <div className="flex items-center gap-2 mt-2">
+              <input 
+                type="checkbox" 
+                id="terms" 
+                checked={acceptTerms}
+                onChange={(e) => setAcceptTerms(e.target.checked)}
+                className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2 cursor-pointer border-2 border-black"
+              />
+              <label htmlFor="terms" className="text-[11px] font-bold text-gray-600 cursor-pointer">
+                {language === 'pt' ? 'Eu aceito os termos de serviço e política de privacidade' : 'I accept the terms of service and privacy policy'}
+              </label>
+            </div>
+
+            <div className="flex flex-col gap-2 mt-4">
+              <button 
+                type="submit"
+                disabled={isLoading || !acceptTerms}
+                className="bg-[#2a7d2a] text-white font-bold text-[14px] uppercase py-3 border-2 border-black shadow-[4px_4px_0px_rgba(0,0,0,0.5)] active:translate-y-[2px] active:shadow-none hover:bg-[#1e5c1e] transition-all disabled:opacity-50"
+              >
+                {isLoading ? "..." : (language === "pt" ? "Registrar" : "Register")}
+              </button>
+              <button 
+                type="button"
+                onClick={() => setIsSignUpMode(false)}
+                disabled={isLoading}
+                className="bg-transparent text-gray-500 font-bold text-[12px] uppercase py-2 hover:text-black transition-colors"
+              >
+                {language === 'pt' ? 'Voltar para Login' : 'Back to Login'}
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </motion.div>
   );
