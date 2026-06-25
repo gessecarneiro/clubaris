@@ -322,8 +322,10 @@ export default function VerTimes() {
                   <tr className="border-b-2 border-black dark:border-gray-900">
                     <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600">P</th>
                     <th className="p-1 px-2 text-[11px] font-bold border-r border-gray-400 dark:border-gray-600">{language === 'pt' ? 'Nome' : 'Name'}</th>
-                    <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600">Nº</th>
-                    <th className="p-1 px-2 text-[11px] font-bold w-16 text-center border-r border-gray-400 dark:border-gray-600">OVR</th>
+                    <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600">Id.</th>
+                    <th className="p-1 px-2 text-[11px] font-bold w-16 text-center border-r border-gray-400 dark:border-gray-600">Força</th>
+                    <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600" title="Gols">G</th>
+                    <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600" title="Assistências">A</th>
                     <th className="p-1 px-2 text-[11px] font-bold w-24 text-right border-r border-gray-400 dark:border-gray-600">Valor (Est.)</th>
                     <th className="p-1 px-2 text-[11px] font-bold w-20 text-center">Ação</th>
                   </tr>
@@ -346,8 +348,10 @@ export default function VerTimes() {
                           {player.position.charAt(0)}
                         </td>
                         <td className="p-1 px-2 truncate border-r border-black/20 dark:border-black/40">{player.name}</td>
-                        <td className="p-1 px-2 text-center border-r border-black/20 dark:border-black/40">{player.number || '-'}</td>
+                        <td className={`p-1 px-2 text-center border-r border-black/20 dark:border-black/40 ${(player.age && player.age >= 33) ? 'text-red-600 font-black' : ''}`}>{player.age || '-'}</td>
                         <td className="p-1 px-2 text-center border-r border-black/20 dark:border-black/40 text-black/80">{player.rating}</td>
+                        <td className="p-1 px-2 text-center border-r border-black/20 dark:border-black/40 font-black text-black/70">{player.goals || 0}</td>
+                        <td className="p-1 px-2 text-center border-r border-black/20 dark:border-black/40 font-black text-black/70">{player.assists || 0}</td>
                         <td className="p-1 px-2 text-right border-r border-black/20 dark:border-black/40 bg-black/5">
                           {formatCurrency(estValue)}
                         </td>

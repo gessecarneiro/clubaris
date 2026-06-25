@@ -262,7 +262,9 @@ export default function HomeClubHouse() {
                 <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600">Id.</th>
                 <th className="p-1 px-2 text-[11px] font-bold w-16 text-center border-r border-gray-400 dark:border-gray-600">Pé</th>
                 <th className="p-1 px-2 text-[11px] font-bold w-32 border-r border-gray-400 dark:border-gray-600">Características</th>
-                <th className="p-1 px-2 text-[11px] font-bold w-16 text-center border-r border-gray-400 dark:border-gray-600">OVR</th>
+                <th className="p-1 px-2 text-[11px] font-bold w-16 text-center border-r border-gray-400 dark:border-gray-600">Força</th>
+                <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600" title="Gols">G</th>
+                <th className="p-1 px-2 text-[11px] font-bold w-12 text-center border-r border-gray-400 dark:border-gray-600" title="Assistências">A</th>
                 <th className="p-1 px-2 text-[11px] font-bold w-20 text-center border-r border-gray-400 dark:border-gray-600">Ene</th>
                 <th className="p-1 px-2 text-[11px] font-bold w-24 text-right">Valor</th>
               </tr>
@@ -291,12 +293,14 @@ export default function HomeClubHouse() {
                     <td className="p-2 md:p-1 px-2 truncate border-r border-black/20 dark:border-black/40">
                        {player.name} {player.isWorldClass && <span title="Craque Mundial">⭐</span>}
                     </td>
-                    <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40">{player.age || '-'}</td>
+                    <td className={`p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40 ${(player.age && player.age >= 33) ? 'text-red-600 font-black' : ''}`}>{player.age || '-'}</td>
                     <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40">{player.preferredFoot === 'Esquerdo' ? 'Esq' : 'Dir'}</td>
                     <td className="p-2 md:p-1 px-2 truncate border-r border-black/20 dark:border-black/40 text-[10px]">
                         {player.traits ? player.traits.join(', ') : '-'}
                     </td>
                     <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40 text-black/80">{player.rating}</td>
+                    <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40 font-black text-black/70">{player.goals || 0}</td>
+                    <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40 font-black text-black/70">{player.assists || 0}</td>
                     <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40 bg-black/5">
                       <span className={player.energy && player.energy < 70 ? 'text-red-700' : 'text-green-800'}>
                         {player.energy || 100}%
