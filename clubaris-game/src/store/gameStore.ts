@@ -149,7 +149,6 @@ interface GameState {
   simulateRound: (playerHomeScore: number, playerAwayScore: number, aiScores?: Record<string, {homeScore: number, awayScore: number}>) => void;
   startTour: () => void;
   stopTour: () => void;
-  simulateSeason: () => void;
   buyPlayer: (player: Player, cost: number) => Promise<boolean>;
   sellPlayer: (playerId: string, gain: number) => Promise<boolean>;
   clearSave: () => void;
