@@ -185,6 +185,7 @@ export const useGameStore = create<GameState>()(
     playstyle: "posse",
     intensity: "media"
   },
+  lastSimulatedGlobalMatches: [],
   trainingFocus: "equilibrado",
   language: "pt", // Default to Portuguese
   theme: "light",
@@ -567,8 +568,10 @@ export const useGameStore = create<GameState>()(
        }
     }
 
+    const currentTournament = newSeasonData.tournaments[tournamentId];
+
     // Check if tournament was won just now (Final played and won)
-    if (nextMatch.isKnockout && nextMatch.knockoutPhase === 'Final' && nextMatch.played) {
+    if (currentTournament && nextMatch.isKnockout && nextMatch.knockoutPhase === 'Final' && nextMatch.played) {
        let isChampion = false;
        if (nextMatch.homeTeamId === state.playerTeamId && playerHomeScore > playerAwayScore) isChampion = true;
        if (nextMatch.awayTeamId === state.playerTeamId && playerAwayScore > playerHomeScore) isChampion = true;
@@ -584,30 +587,30 @@ export const useGameStore = create<GameState>()(
           // Add trophy
           const year = state.currentDate.getFullYear();
           useGameStore.setState(s => ({
-            trophies: [...s.trophies, { name: tournament.name, year, imageUrl: `/trophies/${tournament.id}.png` }]
+            trophies: [...s.trophies, { name: currentTournament.name, year, imageUrl: `/trophies/${currentTournament.id}.png` }]
           }));
        }
     }
 
     // Check if LEAGUE was won (last round)
-    if (tournament.type === 'LEAGUE' && nextMatch.played) {
+    if (currentTournament && currentTournament.type === 'LEAGUE' && nextMatch.played) {
       // Find max round in this tournament
-      const maxRound = Math.max(...tournament.fixtures.map(f => f.round));
-      if (tournament.currentRound - 1 === maxRound) {
+      const maxRound = Math.max(...currentTournament.fixtures.map((f: any) => f.round));
+      if (currentTournament.currentRound - 1 === maxRound) {
         // Tournament just finished! Check who is first.
         // table is already sorted inside TournamentEngine usually, but let's be sure.
-        const sortedTable = [...tournament.table].sort((a, b) => b.points - a.points || b.goalDifference - a.goalDifference || b.goalsFor - a.goalsFor);
+        const sortedTable = [...currentTournament.table].sort((a, b) => b.points - a.points || b.goalDifference - a.goalDifference || b.goalsFor - a.goalsFor);
         if (sortedTable.length > 0 && sortedTable[0].teamId === state.playerTeamId) {
           // Player won the league!
           useGameStore.getState().addMessage({
              sender: "Diretoria",
              subject: "CAMPEÕES DA LIGA!",
-             body: `Parabéns, ${state.managerName}! Somos os campeões da ${tournament.name}! Uma campanha irretocável que ficará para sempre na nossa memória.`,
+             body: `Parabéns, ${state.managerName}! Somos os campeões da ${currentTournament.name}! Uma campanha irretocável que ficará para sempre na nossa memória.`,
              read: false
           });
           const year = state.currentDate.getFullYear();
           useGameStore.setState(s => ({
-            trophies: [...s.trophies, { name: tournament.name, year, imageUrl: `/trophies/${tournament.id}.png` }]
+            trophies: [...s.trophies, { name: currentTournament.name, year, imageUrl: `/trophies/${currentTournament.id}.png` }]
           }));
         }
       }
