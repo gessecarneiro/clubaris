@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [age, setAge] = useState<number | "">("");
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -59,9 +60,20 @@ export default function Login() {
       return;
     }
 
+    if (!age || Number(age) < 18) {
+      setErrorMsg(language === 'pt' ? "Você deve ter pelo menos 18 anos." : "You must be at least 18 years old.");
+      setIsLoading(false);
+      return;
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email: cleanEmail,
       password,
+      options: {
+        data: {
+          age: Number(age)
+        }
+      }
     });
 
     if (error) {
@@ -163,6 +175,20 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="border-2 border-black p-2 font-mono focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-[12px] font-bold uppercase tracking-wide">{language === 'pt' ? 'Idade' : 'Age'}</label>
+              <input 
+                type="number"
+                value={age}
+                onChange={(e) => setAge(Number(e.target.value) || "")}
+                required
+                min={18}
+                max={99}
+                className="border-2 border-black p-2 font-mono focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="18"
               />
             </div>
 
