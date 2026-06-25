@@ -4,7 +4,7 @@ import type { Player } from "../store/gameStore";
 import { useGameStore } from "../store/gameStore";
 import { fetchClubs, fetchSquad, buyPlayerDb, loanPlayerDb } from "../lib/supabaseServices";
 import { getTeamRelevance, getRelevanceLevel } from "../utils/relevance";
-import { calculateMarketValue, translatePosition } from '../utils/playerUtils';
+import { calculateMarketValue, translatePosition, getFlagEmoji } from '../utils/playerUtils';
 import allLeaguesData from '../data/leagues.json';
 
 export default function VerTimes() {
@@ -351,9 +351,11 @@ export default function VerTimes() {
                     return (
                       <tr key={player.id} className={`border-b border-black/10 dark:border-black/30 hover:brightness-95 transition-all ${rowClass}`}>
                         <td className="p-1 px-2 text-center border-r border-black/20 dark:border-black/40">
-                          {player.position.charAt(0)}
+                          {translatePosition(player.position, language)}
                         </td>
-                        <td className="p-1 px-2 truncate border-r border-black/20 dark:border-black/40">{player.name}</td>
+                        <td className="p-1 px-2 truncate border-r border-black/20 dark:border-black/40">
+                           <span title={player.nationality || ''}>{getFlagEmoji(player.nationality || '')}</span> {player.name}
+                        </td>
                         <td className="p-1 px-2 text-center border-r border-black/20 dark:border-black/40 text-[10px] uppercase">
                           {player.preferredFoot === 'Esquerdo' ? 'E' : 'D'}
                         </td>

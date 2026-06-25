@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useGameStore } from "../store/gameStore";
 import type { Player } from "../store/gameStore";
-import { calculateMarketValue, translatePosition } from '../utils/playerUtils';
+import { calculateMarketValue, translatePosition, getFlagEmoji } from '../utils/playerUtils';
 import teamsData from "../data/teams.json";
 import { supabase } from "../lib/supabase";
 import { motion } from "framer-motion";
@@ -294,7 +294,7 @@ export default function HomeClubHouse() {
                       {translatePosition(player.position, language)}
                     </td>
                     <td className="p-2 md:p-1 px-2 truncate border-r border-black/20 dark:border-black/40">
-                       {player.name} {player.isWorldClass && <span title="Craque Mundial">⭐</span>}
+                       <span title={player.nationality || ''}>{getFlagEmoji(player.nationality || '')}</span> {player.name} {player.isWorldClass && <span title="Craque Mundial">⭐</span>}
                     </td>
                     <td className="p-2 md:p-1 px-2 text-center border-r border-black/20 dark:border-black/40 text-[10px] uppercase">
                       {player.preferredFoot === 'Esquerdo' ? 'E' : 'D'}

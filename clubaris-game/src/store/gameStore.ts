@@ -50,6 +50,7 @@ export interface Player {
 
   // New Contract/Loan properties
   age?: number;
+  nationality?: string;
   preferredFoot?: string;
   traits?: string[];
   isWorldClass?: boolean;
@@ -68,6 +69,8 @@ export interface Player {
   red_cards?: number;
   injury_days?: number; // >0 means injured
   suspension_games?: number; // >0 means suspended
+  averageRating?: number;
+  goalsConceded?: number;
 
   // Training & Evolution
   attr_finishing?: number;
@@ -147,7 +150,7 @@ interface GameState {
   setLanguage: (lang: Language) => void;
   advanceDate: (days: number) => void;
   setSeasonData: (data: SeasonData) => void;
-  simulateRound: (playerHomeScore: number, playerAwayScore: number, aiScores?: Record<string, {homeScore: number, awayScore: number}>) => void;
+  simulateRound: (playerHomeScore?: number, playerAwayScore?: number, aiFinalScores?: Record<string, {homeScore: number, awayScore: number}>, statsUpdate?: Record<string, any>) => void;
   startTour: () => void;
   stopTour: () => void;
   buyPlayer: (player: Player, cost: number) => Promise<boolean>;
@@ -163,7 +166,7 @@ interface GameState {
 
 export const useGameStore = create<GameState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
   user: null as any | null,
   saveId: null as string | null,
   managerName: "",
@@ -454,8 +457,12 @@ export const useGameStore = create<GameState>()(
 
   setSeasonData: (data) => set({ seasonData: data }),
 
-  simulateRound: async (playerHomeScore, playerAwayScore, aiScores) => {
-    const state = useGameStore.getState();
+  simulateRound: (playerHomeScore, playerAwayScore, aiScores, statsUpdate) => {
+    const state = get();
+    
+    // Fallbacks if not provided
+    const pHScore = playerHomeScore ?? 0;
+    const pAScore = playerAwayScore ?? 0;
     if (!state.seasonData || !state.saveId) return;
 
     const newSeasonData = { ...state.seasonData };
@@ -494,12 +501,18 @@ export const useGameStore = create<GameState>()(
         if (!fixture.played && fDate.getTime() <= newDate.getTime()) {
            if (fixture.id === nextMatch.id) {
              fixture.played = true;
-             fixture.homeScore = playerHomeScore;
-             fixture.awayScore = playerAwayScore;
+             fixture.homeScore = pHScore;
+             fixture.awayScore = pAScore;
              
              nextMatch.played = true;
-             nextMatch.homeScore = playerHomeScore;
-             nextMatch.awayScore = playerAwayScore;
+             nextMatch.homeScore = pHScore;
+             nextMatch.awayScore = pAScore;
+             
+             if (state.playerTeamId === nextMatch.homeTeamId) {
+                updateLeagueTable(tournament.table, state.playerTeamId, nextMatch.awayTeamId, pHScore, pAScore);
+             } else {
+                updateLeagueTable(tournament.table, nextMatch.homeTeamId, state.playerTeamId, pHScore, pAScore);
+             }
              lastSimulatedGlobalMatches.push(fixture);
              roundAdvanced = true;
            } else {
@@ -573,8 +586,8 @@ export const useGameStore = create<GameState>()(
     // Check if tournament was won just now (Final played and won)
     if (currentTournament && nextMatch.isKnockout && nextMatch.knockoutPhase === 'Final' && nextMatch.played) {
        let isChampion = false;
-       if (nextMatch.homeTeamId === state.playerTeamId && playerHomeScore > playerAwayScore) isChampion = true;
-       if (nextMatch.awayTeamId === state.playerTeamId && playerAwayScore > playerHomeScore) isChampion = true;
+       if (nextMatch.homeTeamId === state.playerTeamId && pHScore > pAScore) isChampion = true;
+       if (nextMatch.awayTeamId === state.playerTeamId && pAScore > pHScore) isChampion = true;
        // If penalties exist, we'd check them, but simplifying to score for now.
        
        if (isChampion) {
@@ -618,25 +631,60 @@ export const useGameStore = create<GameState>()(
 
     // Reduce player energy after match and apply training
     const newSquad = state.squad.map(p => {
+       const stats = statsUpdate ? statsUpdate[p.id] : null;
+       
+       let newMatches = p.matches_played || 0;
+       let newAvgRating = p.averageRating || 0;
+       let goals = p.goals || 0;
+       let assists = p.assists || 0;
+       let yellow = p.yellow_cards || 0;
+       let red = p.red_cards || 0;
+       let gc = p.goalsConceded || 0;
+
+       if (stats) {
+          let matchRating = 6.0 + (stats.goals || 0) * 1.5 + (stats.assists || 0) * 1.0;
+          if (stats.yellow_cards) matchRating -= 0.5;
+          if (stats.red_cards) matchRating -= 2.0;
+          if (p.position === 'GK' && stats.goalsConceded !== undefined) {
+             gc += stats.goalsConceded;
+             matchRating -= (stats.goalsConceded * 0.5);
+          }
+          if (matchRating > 10) matchRating = 10;
+          if (matchRating < 3) matchRating = 3;
+
+          const oldMatches = newMatches;
+          newMatches += (stats.matches_played || 0);
+          if (stats.matches_played) {
+             newAvgRating = ((newAvgRating * oldMatches) + matchRating) / newMatches;
+          }
+
+          goals += (stats.goals || 0);
+          assists += (stats.assists || 0);
+          yellow += (stats.yellow_cards || 0);
+          red += (stats.red_cards || 0);
+       }
+
        const energyReduced = {
          ...p,
-         energy: Math.max(50, (p.energy || 100) - (Math.floor(Math.random() * 15) + 10)) // lose 10-25 energy
+         energy: Math.max(50, (p.energy || 100) - (Math.floor(Math.random() * 15) + 10)),
+         matches_played: newMatches,
+         averageRating: newAvgRating,
+         goals, assists, yellow_cards: yellow, red_cards: red, goalsConceded: gc
        };
        return simulatePlayerTraining(energyReduced, state.trainingFocus);
     });
 
-    // Update confidence based on result
     let confidenceDelta = 0;
-    if (playerHomeScore > playerAwayScore) {
+    if (pHScore > pAScore) {
        confidenceDelta = 5; // Win
-    } else if (playerHomeScore === playerAwayScore) {
+    } else if (pHScore === pAScore) {
        confidenceDelta = 0; // Draw
     } else {
        confidenceDelta = -5; // Loss
     }
 
     const newBoardConfidence = Math.max(0, Math.min(100, state.boardConfidence + confidenceDelta));
-    const newFanConfidence = Math.max(0, Math.min(100, state.fanConfidence + confidenceDelta + (playerHomeScore > playerAwayScore ? 2 : -2)));
+    const newFanConfidence = Math.max(0, Math.min(100, state.fanConfidence + confidenceDelta + (pHScore > pAScore ? 2 : -2)));
 
     // Sync to Cloud
     import('../lib/supabaseServices').then(({ syncMatchToCloud }) => {

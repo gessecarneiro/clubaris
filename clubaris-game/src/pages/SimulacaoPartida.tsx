@@ -231,6 +231,13 @@ export default function SimulacaoPartida() {
         }
       });
 
+      // Add goals conceded for GK
+      const gk = startingXI.find(p => p.position === 'GK');
+      if (gk) {
+         if (!statsUpdate[gk.id]) statsUpdate[gk.id] = {};
+         statsUpdate[gk.id].goalsConceded = isHome ? score.away : score.home;
+      }
+
       // We should ideally sync this with the database (Supabase) and local store.
       // This will be done properly via gameStore update loop. For now, it will apply on DB.
       for (const [pId, updates] of Object.entries(statsUpdate)) {
@@ -240,9 +247,12 @@ export default function SimulacaoPartida() {
            console.error("Failed to update stats", e);
          }
       }
+      
+      simulateRound(score.home, score.away, aiFinalScores, statsUpdate);
+    } else {
+      simulateRound(score.home, score.away, aiFinalScores);
     }
 
-    simulateRound(score.home, score.away, aiFinalScores);
     setShowGlobalResults(true);
   };
 

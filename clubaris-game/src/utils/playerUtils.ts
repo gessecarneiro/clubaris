@@ -45,3 +45,21 @@ export function translatePosition(pos: string, language: string): string {
         default: return pos;
     }
 }
+
+export function getFlagEmoji(countryName: string): string {
+    const map: Record<string, string> = {
+        'Brasil': '🇧🇷', 'Argentina': '🇦🇷', 'Portugal': '🇵🇹', 'Espanha': '🇪🇸',
+        'France': '🇫🇷', 'England': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'Germany': '🇩🇪', 'Italy': '🇮🇹',
+        'Uruguay': '🇺🇾', 'Colombia': '🇨🇴', 'Chile': '🇨🇱', 'Mexico': '🇲🇽',
+        'USA': '🇺🇸', 'Netherlands': '🇳🇱', 'Belgium': '🇧🇪', 'Croatia': '🇭🇷',
+        'Japan': '🇯🇵', 'South Korea': '🇰🇷', 'Senegal': '🇸🇳', 'Morocco': '🇲🇦',
+        'Nigeria': '🇳🇬', 'Cameroon': '🇨🇲', 'Egypt': '🇪🇬', 'Algeria': '🇩🇿',
+        'Ivory Coast': '🇨🇮', 'Ghana': '🇬🇭', 'Angola': '🇦🇴', 'Cape Verde Islands': '🇨🇻',
+        'Guinea-Bissau': '🇬🇼', 'Mozambique': '🇲🇿', 'Ecuador': '🇪🇨', 'Peru': '🇵🇪',
+        'Venezuela': '🇻🇪', 'Paraguay': '🇵🇾', 'Bolivia': '🇧🇴', 'Switzerland': '🇨🇭',
+        'Denmark': '🇩🇰', 'Sweden': '🇸🇪', 'Norway': '🇳🇴', 'Poland': '🇵🇱',
+        'Serbia': '🇷🇸', 'Russia': '🇷🇺', 'Ukraine': '🇺🇦', 'Turkey': '🇹🇷',
+        'Greece': '🇬🇷', 'Scotland': '🏴󠁧󠁢󠁳󠁣󠁴󠁿', 'Wales': '🏴󠁧󠁢󠁷󠁬󠁳󠁿', 'Ireland': '🇮🇪'
+    };
+    return map[countryName] || '🏳️';
+}
