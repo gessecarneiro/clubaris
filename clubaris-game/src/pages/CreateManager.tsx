@@ -6,6 +6,7 @@ import { sanitizeText } from "../utils/sanitize";
 
 export default function CreateManager() {
   const [managerName, setManagerName] = useState("");
+  const [managerAge, setManagerAge] = useState<number | "">("");
   const [managerStyle, setManagerStyle] = useState<"retranqueiro" | "pressao" | "desenvolvimento" | "posse" | "">("");
   const [avatar, setAvatar] = useState("👨‍💼");
   const navigate = useNavigate();
@@ -13,8 +14,9 @@ export default function CreateManager() {
 
   const handleNext = () => {
     const cleanName = sanitizeText(managerName);
-    if (cleanName && managerStyle && avatar) {
-      setTempManager(cleanName, managerStyle, avatar);
+    const age = Number(managerAge);
+    if (cleanName && managerStyle && avatar && age > 0) {
+      setTempManager(cleanName, age, managerStyle, avatar);
       navigate("/novo-jogo");
     }
   };
@@ -82,6 +84,19 @@ export default function CreateManager() {
                 maxLength={20}
               />
             </div>
+
+            <div>
+              <label className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Idade</label>
+              <input 
+                type="number" 
+                value={managerAge}
+                onChange={e => setManagerAge(Number(e.target.value) || "")}
+                placeholder="Ex: 45"
+                min={18}
+                max={99}
+                className="w-full bg-gray-800 border-2 border-gray-600 rounded-lg px-4 py-3 text-white font-bold focus:border-yellow-500 focus:outline-none transition-colors"
+              />
+            </div>
             
             <div>
               <label className="block text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Seu Avatar</label>
@@ -125,7 +140,7 @@ export default function CreateManager() {
         <div className="flex justify-end pt-4 border-t border-gray-800">
            <button 
              onClick={handleNext}
-             disabled={!managerName || !managerStyle}
+             disabled={!managerName || !managerStyle || !managerAge || managerAge < 18}
              className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-black px-10 py-4 rounded-lg uppercase tracking-widest shadow-lg shadow-green-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 active:scale-95"
            >
              Avançar <span className="material-symbols-outlined">arrow_forward</span>

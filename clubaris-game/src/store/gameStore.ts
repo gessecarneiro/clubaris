@@ -97,6 +97,7 @@ interface GameState {
   user: any | null;
   saveId: string | null;
   managerName: string;
+  managerAge: number;
   managerStyle: "retranqueiro" | "pressao" | "desenvolvimento" | "posse" | "";
   managerAvatar: string;
   teamName: string; // for display
@@ -134,7 +135,7 @@ interface GameState {
   // Actions
   setUser: (user: any | null) => void;
   unlockAchievement: (id: string) => void;
-  setTempManager: (name: string, style: any, avatar: string) => void;
+  setTempManager: (name: string, age: number, style: any, avatar: string) => void;
   setSetup: (saveId: string, teamId: string, teamName: string, squad: Player[], seasonYear: number) => void;
   loadSave: (saveData: any, squadData: Player[]) => void;
   updateStartingXI: (newXI: Player[]) => void;
@@ -164,6 +165,7 @@ export const useGameStore = create<GameState>()(
   user: null as any | null,
   saveId: null as string | null,
   managerName: "",
+  managerAge: 35,
   managerStyle: "",
   managerAvatar: "👨‍💼",
   teamName: "",
@@ -206,10 +208,11 @@ export const useGameStore = create<GameState>()(
     return { unlockedAchievements: [...state.unlockedAchievements, id] };
   }),
 
-  setTempManager: (name, style, avatar) => set({ 
+  setTempManager: (name, age, style, avatar) => set({ 
     managerName: name, 
-    managerStyle: style, 
-    managerAvatar: avatar 
+    managerAge: age,
+    managerStyle: style,
+    managerAvatar: avatar
   }),
 
   generateNews: (type, title, content) => {
