@@ -24,13 +24,15 @@ type AIMatchStatus = {
 type GoalScorer = { time: number; name: string; isHome: boolean };
 
 export default function SimulacaoPartida() {
-  const { teamName, playerTeamId, startingXI, tactic, language, seasonData, simulateRound } = useGameStore();
+  const { teamName, playerTeamId, startingXI, tactic, language, seasonData, simulateRound, lastSimulatedGlobalMatches } = useGameStore();
   const t = useTranslation();
   const navigate = useNavigate();
 
   const [matchTime, setMatchTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [matchFinished, setMatchFinished] = useState(false);
+  const [showGlobalResults, setShowGlobalResults] = useState(false);
+  const [selectedLeagueFilter, setSelectedLeagueFilter] = useState('all');
   const [simSpeed, setSimSpeed] = useState(100);
 
   const [score, setScore] = useState({ home: 0, away: 0 });
@@ -241,8 +243,86 @@ export default function SimulacaoPartida() {
     }
 
     simulateRound(score.home, score.away, aiFinalScores);
+    setShowGlobalResults(true);
+  };
+
+  const handleReturnToClub = () => {
     navigate('/clubhouse');
   };
+
+  if (showGlobalResults) {
+    const globalMatches = lastSimulatedGlobalMatches || [];
+    
+    // Group matches by tournament
+    const matchesByLeague: Record<string, any[]> = {};
+    globalMatches.forEach(m => {
+       if (!matchesByLeague[m.tournamentId]) matchesByLeague[m.tournamentId] = [];
+       matchesByLeague[m.tournamentId].push(m);
+    });
+
+    const leagues = Object.keys(matchesByLeague);
+
+    return (
+      <main className="mt-20 pb-20 px-4 max-w-4xl mx-auto flex flex-col gap-4">
+         <div className="bg-white dark:bg-gray-800 border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,0.5)] p-6">
+            <h2 className="text-2xl font-black uppercase text-center mb-6 dark:text-white border-b-4 border-black pb-4">
+              🗞️ Resumo da Semana pelo Mundo
+            </h2>
+            
+            <div className="mb-4">
+               <label className="font-bold text-sm uppercase mr-2 dark:text-gray-300">Filtrar por Liga:</label>
+               <select 
+                 className="border-2 border-black p-2 font-bold bg-gray-100 dark:bg-gray-900 dark:text-white"
+                 value={selectedLeagueFilter}
+                 onChange={e => setSelectedLeagueFilter(e.target.value)}
+               >
+                 <option value="all">Todas as Ligas Simuladas</option>
+                 {leagues.map(l => {
+                    const tourName = seasonData?.tournaments[l]?.name || l;
+                    return <option key={l} value={l}>{tourName}</option>;
+                 })}
+               </select>
+            </div>
+
+            <div className="flex flex-col gap-8 max-h-[60vh] overflow-y-auto pr-2">
+               {leagues.filter(l => selectedLeagueFilter === 'all' || selectedLeagueFilter === l).map(leagueId => (
+                 <div key={leagueId}>
+                    <h3 className="font-black uppercase bg-green-800 text-white p-2 mb-2">
+                      {seasonData?.tournaments[leagueId]?.name || leagueId}
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                       {matchesByLeague[leagueId].map(m => {
+                          const hTeam = teamsData.find(t => t.id === m.homeTeamId)?.name || 'Casa';
+                          const aTeam = teamsData.find(t => t.id === m.awayTeamId)?.name || 'Fora';
+                          const isPlayerMatch = (m.homeTeamId === playerTeamId || m.awayTeamId === playerTeamId);
+                          return (
+                            <div key={m.id} className={`flex justify-between items-center text-sm font-bold p-2 border-2 ${isPlayerMatch ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/30' : 'border-gray-300 dark:border-gray-700'} rounded`}>
+                               <span className="truncate w-2/5 text-right dark:text-gray-200">{hTeam}</span>
+                               <span className="w-1/5 text-center bg-gray-200 dark:bg-gray-900 px-2 py-1 rounded dark:text-white border border-gray-400">
+                                  {m.homeScore} - {m.awayScore}
+                               </span>
+                               <span className="truncate w-2/5 text-left dark:text-gray-200">{aTeam}</span>
+                            </div>
+                          );
+                       })}
+                    </div>
+                 </div>
+               ))}
+               
+               {globalMatches.length === 0 && (
+                 <p className="text-center text-gray-500 font-bold uppercase">Nenhuma outra partida importante ocorreu nesta semana.</p>
+               )}
+            </div>
+
+            <div className="mt-8 flex justify-center">
+               <button onClick={handleReturnToClub} className="bg-blue-700 hover:bg-blue-600 text-white font-black text-xl px-12 py-4 uppercase border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none transition-all">
+                  Voltar ao Clube
+               </button>
+            </div>
+         </div>
+      </main>
+    );
+  }
 
   return (
     <main className="mt-20 pb-20 px-4 max-w-6xl mx-auto flex flex-col gap-4">

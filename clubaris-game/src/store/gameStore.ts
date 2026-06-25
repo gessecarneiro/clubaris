@@ -117,14 +117,15 @@ interface GameState {
   // Confidence
   boardConfidence: number; // 0 to 100
   fanConfidence: number; // 0 to 100
+  isTourRunning: boolean;
+  hasSeenTutorial: boolean;
+  lastSimulatedGlobalMatches: any[];
+  seasonData: SeasonData | null;
 
   // Season Data
   currentDate: Date;
-  seasonData: SeasonData | null;
 
   // Missing properties from old implementation to make other components happy
-  hasSeenTutorial: boolean;
-  isTourRunning: boolean;
   trophies: any[];
   badgeUrl: string;
   teamColor1: string;
@@ -464,69 +465,8 @@ export const useGameStore = create<GameState>()(
     const tournamentId = nextMatch.tournamentId;
     const currentRound = nextMatch.round;
 
-    // Simulate all matches in this tournament for this round
-    const tournament = newSeasonData.tournaments[tournamentId];
-    if (tournament) {
-      tournament.fixtures.forEach(fixture => {
-        if (fixture.round === currentRound && !fixture.played) {
-           if (fixture.id === nextMatch.id) {
-             fixture.played = true;
-             fixture.homeScore = playerHomeScore;
-             fixture.awayScore = playerAwayScore;
-             
-             // Also update the schedule reference
-             nextMatch.played = true;
-             nextMatch.homeScore = playerHomeScore;
-             nextMatch.awayScore = playerAwayScore;
-           } else {
-             // Use pre-simulated scores if provided
-             if (aiScores && aiScores[fixture.id]) {
-               fixture.played = true;
-               fixture.homeScore = aiScores[fixture.id].homeScore;
-               fixture.awayScore = aiScores[fixture.id].awayScore;
-             } else {
-               // AI vs AI using real ratings
-               const homeTeam = teamsData.find(t => t.id === fixture.homeTeamId);
-               const awayTeam = teamsData.find(t => t.id === fixture.awayTeamId);
-               const homeRating = homeTeam ? homeTeam.rating : 75;
-               const awayRating = awayTeam ? awayTeam.rating : 75;
-               
-               const { homeScore, awayScore } = simulateAIMatch(homeRating, awayRating);
-               fixture.played = true;
-               fixture.homeScore = homeScore;
-               fixture.awayScore = awayScore;
-             }
-           }
-           
-           // Update table
-           if (tournament.type === 'LEAGUE') {
-             tournament.table = updateLeagueTable(
-               tournament.table, 
-               fixture.homeTeamId, 
-               fixture.awayTeamId, 
-               fixture.homeScore!, 
-               fixture.awayScore!
-             );
-           }
-        }
-      });
-
-      // Resolve knockout phase if applicable
-      if (tournament.type === 'KNOCKOUT') {
-         const nextFixtures = resolveKnockoutPhase(tournament.fixtures, currentRound, tournament.id);
-         if (nextFixtures) {
-            tournament.fixtures.push(...nextFixtures);
-            const playerFix = nextFixtures.filter((f: any) => f.homeTeamId === state.playerTeamId || f.awayTeamId === state.playerTeamId);
-            newSeasonData.playerSchedule.push(...playerFix);
-            newSeasonData.playerSchedule.sort((a, b) => a.date.getTime() - b.date.getTime());
-         }
-      }
-
-      tournament.currentRound += 1;
-    }
-
-    // Advance date to next match or by max 7 days
-    const nextUnplayed = newSeasonData.playerSchedule.find(f => !f.played);
+    // First, figure out the new Date
+    const nextUnplayed = newSeasonData.playerSchedule.find(f => !f.played && f.id !== nextMatch.id);
     let newDate = new Date(state.currentDate);
     
     if (nextUnplayed) {
@@ -541,6 +481,73 @@ export const useGameStore = create<GameState>()(
     } else {
       newDate.setDate(newDate.getDate() + 7);
     }
+
+    const lastSimulatedGlobalMatches: any[] = [];
+
+    // Simulate all matches across all tournaments that are up to newDate
+    Object.values(newSeasonData.tournaments).forEach((tournament: any) => {
+      let roundAdvanced = false;
+      tournament.fixtures.forEach((fixture: any) => {
+        // Fix dates comparing
+        const fDate = new Date(fixture.date);
+        if (!fixture.played && fDate.getTime() <= newDate.getTime()) {
+           if (fixture.id === nextMatch.id) {
+             fixture.played = true;
+             fixture.homeScore = playerHomeScore;
+             fixture.awayScore = playerAwayScore;
+             
+             nextMatch.played = true;
+             nextMatch.homeScore = playerHomeScore;
+             nextMatch.awayScore = playerAwayScore;
+             lastSimulatedGlobalMatches.push(fixture);
+             roundAdvanced = true;
+           } else {
+             if (aiScores && aiScores[fixture.id]) {
+               fixture.played = true;
+               fixture.homeScore = aiScores[fixture.id].homeScore;
+               fixture.awayScore = aiScores[fixture.id].awayScore;
+               lastSimulatedGlobalMatches.push(fixture);
+               roundAdvanced = true;
+             } else {
+               const homeTeam = teamsData.find(t => t.id === fixture.homeTeamId);
+               const awayTeam = teamsData.find(t => t.id === fixture.awayTeamId);
+               const homeRating = homeTeam ? homeTeam.rating : 75;
+               const awayRating = awayTeam ? awayTeam.rating : 75;
+               
+               const { homeScore, awayScore } = simulateAIMatch(homeRating, awayRating);
+               fixture.played = true;
+               fixture.homeScore = homeScore;
+               fixture.awayScore = awayScore;
+               lastSimulatedGlobalMatches.push(fixture);
+               roundAdvanced = true;
+             }
+           }
+           
+           if (tournament.type === 'LEAGUE') {
+             tournament.table = updateLeagueTable(
+               tournament.table, 
+               fixture.homeTeamId, 
+               fixture.awayTeamId, 
+               fixture.homeScore, 
+               fixture.awayScore
+             );
+           }
+        }
+      });
+
+      if (roundAdvanced) {
+        if (tournament.type === 'KNOCKOUT') {
+           const nextFixtures = resolveKnockoutPhase(tournament.fixtures, tournament.currentRound, tournament.id);
+           if (nextFixtures) {
+              tournament.fixtures.push(...nextFixtures);
+              const playerFix = nextFixtures.filter((f: any) => f.homeTeamId === state.playerTeamId || f.awayTeamId === state.playerTeamId);
+              newSeasonData.playerSchedule.push(...playerFix);
+              newSeasonData.playerSchedule.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
+           }
+        }
+        tournament.currentRound += 1;
+      }
+    });
 
     // Check for intelligent messages for next match
     if (nextUnplayed && nextUnplayed.isKnockout && !nextUnplayed.played) {
@@ -645,7 +652,8 @@ export const useGameStore = create<GameState>()(
       currentDate: newDate,
       squad: newSquad,
       boardConfidence: newBoardConfidence,
-      fanConfidence: newFanConfidence
+      fanConfidence: newFanConfidence,
+      lastSimulatedGlobalMatches
     });
   },
 
