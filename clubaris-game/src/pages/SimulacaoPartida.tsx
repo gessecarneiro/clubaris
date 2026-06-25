@@ -8,6 +8,7 @@ import { simulateDetailedMatch } from "../engine/MatchEngine";
 import type { MatchResult, MatchEvent } from "../engine/MatchEngine";
 import { simulateAIMatch } from "../engine/TournamentEngine";
 import { supabase } from "../lib/supabase";
+import { soundEngine } from '../utils/SoundEngine';
 
 type AIMatchStatus = {
   fixtureId: string;
@@ -115,7 +116,17 @@ export default function SimulacaoPartida() {
     const result = simulateDetailedMatch(homeSquad, homeTactic, awaySquad, awayTactic);
     setMatchResult(result);
     setIsPlaying(true);
+    soundEngine.playWhistle();
   };
+
+  useEffect(() => {
+    if (isPlaying && !matchFinished) {
+       soundEngine.startCrowdAmbient();
+    } else {
+       soundEngine.stopCrowdAmbient();
+    }
+    return () => soundEngine.stopCrowdAmbient();
+  }, [isPlaying, matchFinished]);
 
   useEffect(() => {
     let interval: number;
@@ -147,6 +158,7 @@ export default function SimulacaoPartida() {
         icon = '⚽';
         text = `GOL! ${ev.player.name} (${ev.team === 'home' ? (isHome ? teamName : opponentName) : (!isHome ? teamName : opponentName)})`;
         if (ev.assist) text += ` - Ast: ${ev.assist.name}`;
+        soundEngine.playGoalCheer();
       } else if (ev.type === 'yellow_card') {
         icon = '🟨';
         text = `Cartão Amarelo para ${ev.player.name}`;
@@ -159,12 +171,15 @@ export default function SimulacaoPartida() {
       } else if (ev.type === 'miss') {
         icon = '💨';
         text = `Pra fora! ${ev.player.name} mandou longe.`;
+        soundEngine.playMissGroan();
       } else if (ev.type === 'save') {
         icon = '🧤';
         text = `Defesa! O goleiro impediu o gol de ${ev.player.name}.`;
+        soundEngine.playMissGroan();
       } else if (ev.type === 'woodwork') {
         icon = '🥅';
         text = `Na trave! Quase gol de ${ev.player.name}!`;
+        soundEngine.playMissGroan();
       }
 
       setEventsLog(old => [{ time: matchTime, text: `${icon} ${text}`, type: ev.type }, ...old]);
@@ -193,6 +208,10 @@ export default function SimulacaoPartida() {
     });
 
     if (matchTime >= 90) {
+      if (!matchFinished) {
+         soundEngine.playFinalWhistle();
+         soundEngine.stopCrowdAmbient();
+      }
       setIsPlaying(false);
       setMatchFinished(true);
     }
