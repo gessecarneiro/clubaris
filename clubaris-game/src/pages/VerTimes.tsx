@@ -134,9 +134,10 @@ export default function VerTimes() {
          const newBalance = balance + generatedOffer!;
          // We remove player from current team in DB. For now, since buyPlayerDb requires a target team, we can mock it by setting target team to a generic ID or just use supabase.
          // Actually, supabaseServices doesn't have a direct "sell to generic" function yet, let's use a workaround or update gameStore.
-         useGameStore.getState().buyPlayer(offerPlayer, -generatedOffer!); // Negative cost = gain money
-         // In real DB we would update player's team_id to 'free_agent' or some other club.
-         useGameStore.getState().unlockAchievement("first_sale");
+         if (offerPlayer) {
+          useGameStore.getState().sellPlayer(offerPlayer.id, generatedOffer!);
+          useGameStore.getState().unlockAchievement("first_sale");
+        }
          alert(language === "pt" ? `Jogador vendido por ${formatCurrency(generatedOffer!)}!` : `Player sold for ${formatCurrency(generatedOffer!)}!`);
          setSelectedTeamSquad(prev => prev.filter(p => p.id !== offerPlayer.id));
        } finally {

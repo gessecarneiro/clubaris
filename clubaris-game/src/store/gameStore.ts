@@ -149,7 +149,9 @@ interface GameState {
   simulateRound: (playerHomeScore: number, playerAwayScore: number, aiScores?: Record<string, {homeScore: number, awayScore: number}>) => void;
   startTour: () => void;
   stopTour: () => void;
+  simulateSeason: () => void;
   buyPlayer: (player: Player, cost: number) => Promise<boolean>;
+  sellPlayer: (playerId: string, gain: number) => Promise<boolean>;
   clearSave: () => void;
   setTrainingFocus: (focus: "ataque" | "defesa" | "fisico" | "goleiro" | "equilibrado") => void;
   setTheme: (theme: Theme) => void;
@@ -667,6 +669,18 @@ export const useGameStore = create<GameState>()(
       });
     }
     return success;
+  },
+
+  sellPlayer: async (playerId: string, gain: number) => {
+    const state = useGameStore.getState();
+    if (state.saveId && state.playerTeamId) {
+      set({
+        balance: state.balance + gain,
+        squad: state.squad.filter(p => p.id !== playerId)
+      });
+      return true;
+    }
+    return false;
   },
 
   clearSave: () => {

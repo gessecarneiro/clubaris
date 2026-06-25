@@ -8,9 +8,19 @@ import { supabase } from "../lib/supabase";
 import { motion } from "framer-motion";
 
 export default function HomeClubHouse() {
-  const { teamName, squad, seasonData, playerTeamId, language, balance, boardConfidence, fanConfidence, badgeUrl } = useGameStore();
+  const { teamName, squad, seasonData, playerTeamId, language, balance, boardConfidence, fanConfidence, badgeUrl, sellPlayer } = useGameStore();
 
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(squad.length > 0 ? squad[0] : null);
+
+  const handleSellPlayer = async () => {
+    if (!selectedPlayer) return;
+    const value = calculateMarketValue(selectedPlayer);
+    const offer = Math.floor(value * (Math.random() * 0.4 + 0.8));
+    if (window.confirm(language === 'pt' ? `O clube recebeu uma proposta de $${(offer / 1000000).toFixed(1)}M por ${selectedPlayer.name}. Aceitar?` : `Received offer of $${(offer / 1000000).toFixed(1)}M for ${selectedPlayer.name}. Accept?`)) {
+        await sellPlayer(selectedPlayer.id, offer);
+        setSelectedPlayer(null);
+    }
+  };
 
   let nextMatch = null;
   let oppTeam = null;
@@ -199,10 +209,15 @@ export default function HomeClubHouse() {
 
         {/* Selected Player Details */}
         {selectedPlayer && (
-          <div className="bg-white dark:bg-gray-800 border-2 border-green-800 dark:border-green-600 mt-auto">
+          <div className="bg-white dark:bg-gray-800 border-2 border-green-800 dark:border-green-600 mt-4">
             <div className="bg-green-800 dark:bg-green-900 text-white p-1 px-2 flex justify-between items-center font-bold text-[12px]">
               <span className="truncate uppercase">{selectedPlayer.name}</span>
-              <span>OVR: {selectedPlayer.rating}</span>
+              <div className="flex items-center gap-2">
+                <span>OVR: {selectedPlayer.rating}</span>
+                <button onClick={handleSellPlayer} className="hover:text-red-300 flex items-center justify-center transition-colors" title={language === 'pt' ? 'Vender Jogador' : 'Sell Player'}>
+                  <span className="material-symbols-outlined text-[16px]">sell</span>
+                </button>
+              </div>
             </div>
             <div className="p-3 flex gap-3">
               <div className="w-16 h-16 bg-gray-100 dark:bg-gray-900 border border-black dark:border-gray-700 flex items-center justify-center overflow-hidden">
